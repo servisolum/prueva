@@ -1,26 +1,1563 @@
-<!DOCTYPE html>
+
+
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>solum</title>
-</head>
-<body>
-<div style="position: relative; width: 100%; height: 0; padding-top: 81.1127%;
- padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
- border-radius: 8px; will-change: transform;">
-  <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-    src="https://www.canva.com/design/DAG2LrIN21E/MV1h1jmr25wCVTs22jfb_Q/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-  </iframe>
-</div>
-</body>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directorio de Negocios</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #db3717;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .category-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+        .business-card {
+            transition: all 0.2s ease;
+        }
+        .business-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .orange-gradient {
+            background: linear-gradient(135deg, #db3717 0%, #ff6b47 100%);
+        }
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+        }
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .safe-area-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        .swipe-indicator {
+            width: 40px;
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            margin: 8px auto;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="bg-gray-50 min-h-full pb-20"><!-- Header Móvil -->
+  <div class="mobile-header bg-white shadow-lg safe-area-top"><!-- Franja Naranja Superior -->
+   <div class="orange-gradient h-2 w-full"></div><!-- Logo y Título -->
+   <div class="px-4 py-3">
+    <div class="flex items-center justify-between">
+     <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-lg font-bold" style="background-color: #db3717;">
+       🏢
+      </div>
+      <div>
+       <h1 id="company-name" class="text-lg font-bold" style="color: #151a2b;">Mi Empresa</h1>
+       <p id="city-subtitle" class="text-xs text-gray-600">Mi Ciudad</p>
+      </div>
+     </div><button id="menu-btn" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">☰</span> </button>
+    </div>
+   </div><!-- Barra de Búsqueda -->
+   <div class="px-4 pb-3">
+    <div class="relative"><input type="text" id="search-input" placeholder="🔍 Buscar negocios..." class="w-full px-4 py-3 pr-12 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;"> <button id="search-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-3 py-1 rounded-lg" style="background-color: #db3717;"> 🔍 </button>
+    </div>
+   </div>
+  </div><!-- Menú Lateral Móvil -->
+  <div id="mobile-menu" class="fixed inset-0 z-50 hidden">
+   <div class="modal-backdrop absolute inset-0" onclick="closeMobileMenu()"></div>
+   <div class="absolute right-0 top-0 h-full w-80 bg-white shadow-xl transform translate-x-full transition-transform duration-300" id="menu-panel">
+    <div class="safe-area-top"><!-- Header del Menú -->
+     <div class="orange-gradient p-4 text-white">
+      <div class="flex items-center justify-between">
+       <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-xl">
+         🏢
+        </div>
+        <div>
+         <h2 class="font-bold">Menú Principal</h2>
+         <p class="text-sm opacity-90">Directorio de Negocios</p>
+        </div>
+       </div><button onclick="closeMobileMenu()" class="touch-target flex items-center justify-center"> <span class="text-white text-xl">✕</span> </button>
+      </div>
+     </div><!-- Opciones del Menú -->
+     <div class="p-4 space-y-2"><button id="about-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"> <span class="text-2xl">👥</span> <span class="font-medium" id="about-text">Quiénes Somos</span> </button> <button id="services-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"> <span class="text-2xl">🛠️</span> <span class="font-medium" id="services-text">Servicios que Prestamos</span> </button> <button id="contract-service-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl text-white transition-colors" style="background-color: #db3717;"> <span class="text-2xl">💬</span> <span class="font-medium">Contratar Servicio</span> </button>
+      <div class="border-t border-gray-200 my-4"></div><button id="admin-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl text-white transition-colors" style="background-color: #151a2b;"> <span class="text-2xl">🔐</span> <span class="font-medium">Administrador</span> </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="px-4 py-4"><!-- Categorías -->
+   <div class="mb-6">
+    <h2 class="text-xl font-bold mb-4" style="color: #151a2b;">Categorías</h2>
+    <div class="grid grid-cols-3 gap-3" id="categories-grid"><!-- Categorías se generarán dinámicamente -->
+    </div>
+   </div><!-- Filtros Activos -->
+   <div id="active-filters" class="mb-4 hidden">
+    <div class="flex flex-wrap items-center gap-2"><span class="text-xs font-medium text-gray-600">Filtros:</span>
+     <div id="filter-tags" class="flex flex-wrap gap-1"></div><button id="clear-filters" class="text-xs px-3 py-1 rounded-full border hover:bg-gray-50" style="border-color: #db3717; color: #db3717;"> ✕ Limpiar </button>
+    </div>
+   </div><!-- Contador de Negocios -->
+   <div class="mb-4">
+    <p id="business-count" class="text-lg font-medium" style="color: #151a2b;">Cargando negocios...</p>
+   </div><!-- Grid de Negocios -->
+   <div id="business-grid" class="space-y-4"><!-- Los negocios se mostrarán aquí -->
+   </div><!-- Estado Vacío -->
+   <div id="empty-state" class="text-center py-12 hidden">
+    <div class="text-5xl mb-4">
+     🏪
+    </div>
+    <h3 class="text-xl font-bold mb-3" style="color: #151a2b;">¡Sé el primero!</h3>
+    <p class="text-gray-600 mb-6 text-sm">No hay negocios publicados aún. Publica el tuyo y comienza a crecer.</p><button id="empty-add-btn" class="px-6 py-3 rounded-xl font-medium text-white transition-all" style="background-color: #db3717;"> ➕ Publicar Primer Negocio </button>
+   </div><!-- Sin Resultados -->
+   <div id="no-results-state" class="text-center py-12 hidden">
+    <div class="text-5xl mb-4">
+     🔍
+    </div>
+    <h3 class="text-xl font-bold mb-3" style="color: #151a2b;">Sin resultados</h3>
+    <p class="text-gray-600 text-sm">No encontramos negocios que coincidan con tu búsqueda.</p>
+   </div>
+  </div><!-- Navegación Inferior Móvil -->
+  <div class="mobile-nav bg-white border-t border-gray-200 safe-area-bottom">
+   <div class="flex justify-around items-center py-2"><button id="home-nav" class="flex flex-col items-center p-2 text-center" style="color: #db3717;"> <span class="text-xl mb-1">🏠</span> <span class="text-xs font-medium">Inicio</span> </button> <button id="add-nav" class="flex flex-col items-center p-2 text-center" style="color: #151a2b;"> <span class="text-xl mb-1">➕</span> <span class="text-xs font-medium">Publicar</span> </button> <button id="search-nav" class="flex flex-col items-center p-2 text-center text-gray-500"> <span class="text-xl mb-1">🔍</span> <span class="text-xs font-medium">Buscar</span> </button> <button id="profile-nav" class="flex flex-col items-center p-2 text-center text-gray-500"> <span class="text-xl mb-1">👤</span> <span class="text-xs font-medium">Perfil</span> </button>
+   </div>
+  </div><!-- Modal Publicar Negocio -->
+  <div id="add-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">📝 Publicar Negocio</h2><button id="close-modal" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <form id="business-form">
+      <div class="space-y-4">
+       <div><label for="business-name" class="block text-sm font-medium mb-2" style="color: #151a2b;">Nombre del Negocio *</label> <input type="text" id="business-name" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Ej: Restaurante El Buen Sabor">
+       </div>
+       <div><label for="business-category" class="block text-sm font-medium mb-2" style="color: #151a2b;">Categoría *</label> <select id="business-category" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;"> <option value="">Seleccionar categoría</option> </select>
+       </div>
+       <div><label for="business-description" class="block text-sm font-medium mb-2" style="color: #151a2b;">Descripción</label> <textarea id="business-description" rows="3" class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Describe tu negocio..."></textarea>
+       </div>
+       <div><label for="business-website" class="block text-sm font-medium mb-2" style="color: #151a2b;">Sitio Web</label> <input type="url" id="business-website" class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="https://www.minegocio.com">
+       </div>
+      </div>
+      <div class="flex gap-3 mt-8"><button type="button" id="cancel-btn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-xl font-medium transition-colors"> Cancelar </button> <button type="submit" id="submit-btn" class="flex-1 text-white py-3 px-4 rounded-xl font-medium transition-colors" style="background-color: #db3717;"> Publicar Negocio </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Modal Información -->
+  <div id="info-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[80vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-4">
+      <h2 id="info-modal-title" class="text-xl font-bold" style="color: #151a2b;"></h2><button id="close-info-modal" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <div id="info-modal-content" class="text-gray-600"><!-- Contenido dinámico -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Página de Perfil del Negocio -->
+  <div id="business-profile-page" class="fixed inset-0 bg-gray-50 hidden z-50 overflow-y-auto"><!-- Header del Perfil -->
+   <div class="mobile-header bg-white shadow-lg safe-area-top">
+    <div class="orange-gradient h-2 w-full"></div>
+    <div class="px-4 py-3">
+     <div class="flex items-center justify-between"><button id="back-to-directory" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">←</span> </button>
+      <div class="text-center">
+       <h1 class="text-lg font-bold" style="color: #151a2b;">Perfil del Negocio</h1>
+      </div>
+      <div class="w-10"></div><!-- Spacer -->
+     </div>
+    </div>
+   </div><!-- Contenido del Perfil -->
+   <div class="px-4 py-4 pb-20"><!-- Información Principal -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <div class="text-center mb-6">
+      <div class="w-24 h-24 bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center mb-4 text-gray-400 text-xs text-center mx-auto">
+       📷<br>
+       Logo<br>
+       Empresa
+      </div>
+      <h1 id="profile-business-name" class="text-2xl font-bold mb-2" style="color: #151a2b;"></h1>
+      <div id="profile-business-category" class="inline-block px-4 py-2 rounded-full text-white font-medium" style="background-color: #db3717;"></div>
+     </div>
+     <div id="profile-description" class="text-gray-700 text-center mb-4"></div>
+     <div id="profile-website" class="flex items-center justify-center space-x-2 p-3 bg-gray-50 rounded-xl hidden"><span class="text-xl">🌐</span> <span class="font-medium text-gray-800">Sitio Web</span>
+     </div>
+    </div><!-- Botones de Contacto -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4 text-center" style="color: #151a2b;">Conecta con Nosotros</h2>
+     <div class="grid grid-cols-2 gap-3"><button id="whatsapp-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #25D366; color: white;"> <span class="text-2xl mb-1">💬</span> <span class="font-medium text-sm">WhatsApp</span> </button> <button id="phone-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #db3717; color: white;"> <span class="text-2xl mb-1">📞</span> <span class="font-medium text-sm">Llamar</span> </button> <button id="instagram-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #E4405F; color: white;"> <span class="text-2xl mb-1">📷</span> <span class="font-medium text-sm">Instagram</span> </button> <button id="location-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #151a2b; color: white;"> <span class="text-2xl mb-1">📍</span> <span class="font-medium text-sm">Ubicación</span> </button>
+     </div>
+    </div><!-- Galería de Imágenes -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+     <h2 class="text-lg font-bold mb-4 text-center" style="color: #151a2b;">Galería de Imágenes</h2>
+     <div class="relative">
+      <div id="image-gallery" class="w-full h-48 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
+       <div id="gallery-slide" class="w-full h-full flex items-center justify-center text-gray-400 text-4xl transition-all duration-1000">
+        🖼️
+       </div>
+      </div>
+      <div class="flex justify-center mt-3 space-x-2" id="gallery-dots"><!-- Dots se generarán dinámicamente -->
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal de Login Administrador -->
+  <div id="admin-login-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[80vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">🔐 Acceso Administrador</h2><button id="close-admin-login" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <form id="admin-login-form">
+      <div class="mb-6"><label for="admin-password" class="block text-sm font-medium mb-2" style="color: #151a2b;">Contraseña de Administrador</label> <input type="password" id="admin-password" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Ingrese la contraseña">
+      </div>
+      <div class="flex gap-3"><button type="button" id="cancel-admin-login" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-xl font-medium transition-colors"> Cancelar </button> <button type="submit" class="flex-1 text-white py-3 px-4 rounded-xl font-medium transition-colors" style="background-color: #db3717;"> Ingresar </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Página de Administrador -->
+  <div id="admin-page" class="fixed inset-0 bg-gray-50 hidden z-50 overflow-y-auto"><!-- Header Admin -->
+   <div class="mobile-header bg-white shadow-lg safe-area-top">
+    <div class="orange-gradient h-2 w-full"></div>
+    <div class="px-4 py-3">
+     <div class="flex items-center justify-between"><button id="back-to-main" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">←</span> </button>
+      <div class="text-center">
+       <h1 class="text-lg font-bold" style="color: #151a2b;">Panel Admin</h1>
+      </div><button id="logout-admin" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #db3717;"> <span class="text-white text-lg">🚪</span> </button>
+     </div>
+    </div>
+   </div><!-- Contenido Admin -->
+   <div class="px-4 py-4 pb-20"><!-- Estadísticas -->
+    <div class="grid grid-cols-3 gap-3 mb-6">
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #db3717;" id="total-businesses">
+       0
+      </div>
+      <div class="text-xs text-gray-600">
+       Negocios
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #151a2b;" id="total-categories">
+       14
+      </div>
+      <div class="text-xs text-gray-600">
+       Categorías
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #db3717;" id="recent-businesses">
+       0
+      </div>
+      <div class="text-xs text-gray-600">
+       Recientes
+      </div>
+     </div>
+    </div><!-- Gestión de Negocios -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4" style="color: #151a2b;">📋 Gestión de Negocios</h2>
+     <div class="space-y-3"><button id="admin-add-business" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+       <div class="text-2xl mb-1">
+        ➕
+       </div>
+       <div class="font-medium">
+        Publicar Negocio
+       </div></button> <button id="manage-businesses" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #151a2b; color: #151a2b;">
+       <div class="text-2xl mb-1">
+        📊
+       </div>
+       <div class="font-medium">
+        Gestionar Negocios
+       </div></button>
+     </div>
+    </div><!-- Gestión de Categorías -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4" style="color: #151a2b;">🏷️ Gestión de Categorías</h2><button id="manage-categories" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+      <div class="text-2xl mb-1">
+       🏷️
+      </div>
+      <div class="font-medium">
+       Modificar Categorías
+      </div></button>
+    </div><!-- Gestión de Contenido -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+     <h2 class="text-lg font-bold mb-4" style="color: #151a2b;">📝 Gestión de Contenido</h2>
+     <div class="space-y-3"><button id="edit-company-info" class="w-full p-3 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+       <div class="flex items-center space-x-3"><span class="text-xl">🏢</span> <span class="font-medium">Información de Empresa</span>
+       </div></button> <button id="edit-about-content" class="w-full p-3 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #151a2b; color: #151a2b;">
+       <div class="flex items-center space-x-3"><span class="text-xl">👥</span> <span class="font-medium">Quiénes Somos</span>
+       </div></button> <button id="edit-services-content" class="w-full p-3 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+       <div class="flex items-center space-x-3"><span class="text-xl">🛠️</span> <span class="font-medium">Servicios que Prestamos</span>
+       </div></button>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal Editar Contenido -->
+  <div id="edit-content-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 id="edit-content-title" class="text-xl font-bold" style="color: #151a2b;">Editar Contenido</h2><button id="close-edit-content" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <form id="edit-content-form">
+      <div id="edit-content-fields" class="space-y-4"><!-- Campos dinámicos -->
+      </div>
+      <div class="flex gap-3 mt-8"><button type="button" id="cancel-edit-content" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-xl font-medium transition-colors"> Cancelar </button> <button type="submit" class="flex-1 text-white py-3 px-4 rounded-xl font-medium transition-colors" style="background-color: #db3717;"> Guardar Cambios </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Modal Gestión de Negocios -->
+  <div id="business-manager-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">📊 Gestión de Negocios</h2><button id="close-business-manager" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <div class="mb-4">
+      <p class="text-gray-600 text-sm">Selecciona un negocio para editarlo</p>
+     </div><!-- Lista de Negocios -->
+     <div id="admin-businesses-list" class="space-y-3"><!-- Los negocios se mostrarán aquí -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal Editor de Negocio -->
+  <div id="business-editor-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[95vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 id="business-editor-title" class="text-lg font-bold" style="color: #151a2b;">✏️ Editor de Negocio</h2><button id="close-business-editor" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div><!-- Información Básica -->
+     <div class="bg-gray-50 rounded-2xl p-4 mb-4">
+      <h3 class="text-md font-bold mb-3" style="color: #151a2b;">📝 Información Básica</h3>
+      <form id="edit-business-form">
+       <div class="space-y-3">
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Nombre del Negocio</label> <input type="text" id="edit-business-name" required class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;">
+        </div>
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Categoría</label> <select id="edit-business-category" required class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;"> <option value="">Seleccionar categoría</option> </select>
+        </div>
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Descripción</label> <textarea id="edit-business-description" rows="2" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;"></textarea>
+        </div>
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Sitio Web</label> <input type="url" id="edit-business-website" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;">
+        </div>
+       </div>
+       <div class="flex justify-end mt-3"><button type="submit" class="px-4 py-2 rounded-xl font-medium text-white transition-all text-sm" style="background-color: #db3717;"> 💾 Guardar </button>
+       </div>
+      </form>
+     </div><!-- Información de Contacto -->
+     <div class="bg-gray-50 rounded-2xl p-4 mb-4">
+      <h3 class="text-md font-bold mb-3" style="color: #151a2b;">📞 Información de Contacto</h3>
+      <div class="space-y-3">
+       <div class="grid grid-cols-2 gap-3">
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Teléfono</label> <input type="tel" id="edit-business-phone" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="+52 999 123 4567">
+        </div>
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">WhatsApp</label> <input type="tel" id="edit-business-whatsapp" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="+52 999 123 4567">
+        </div>
+       </div>
+       <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Email</label> <input type="email" id="edit-business-email" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="contacto@negocio.com">
+       </div>
+       <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Instagram</label> <input type="text" id="edit-business-instagram" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="@mi_negocio">
+       </div>
+       <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Dirección</label> <textarea id="edit-business-address" rows="2" class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Calle, número, colonia, ciudad"></textarea>
+       </div>
+      </div>
+      <div class="flex justify-end mt-3"><button id="save-contact-btn" onclick="handleSaveContact()" class="px-4 py-2 rounded-xl font-medium text-white transition-all text-sm" style="background-color: #db3717;"> 💾 Guardar Contacto </button>
+      </div>
+     </div><!-- Zona de Peligro -->
+     <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-4">
+      <h3 class="text-md font-bold mb-2 text-red-700">⚠️ Zona de Peligro</h3>
+      <p class="text-red-600 mb-3 text-sm">Esta acción no se puede deshacer.</p><button id="delete-business-btn" onclick="handleDeleteBusiness()" class="w-full px-4 py-2 rounded-xl font-medium text-white transition-all text-sm" style="background-color: #dc2626;"> 🗑️ Eliminar Negocio </button>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal Gestión de Categorías -->
+  <div id="category-manager-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">🏷️ Gestión de Categorías</h2><button id="close-category-manager" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div><!-- Agregar Nueva Categoría -->
+     <div class="bg-gray-50 rounded-2xl p-4 mb-4">
+      <h3 class="text-md font-bold mb-3" style="color: #151a2b;">➕ Agregar Nueva Categoría</h3>
+      <form id="add-category-form">
+       <div class="space-y-3">
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Nombre</label> <input type="text" id="new-category-name" required class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Ej: Farmacia">
+        </div>
+        <div><label class="block text-sm font-medium mb-1" style="color: #151a2b;">Icono (Emoji)</label> <input type="text" id="new-category-icon" required class="w-full px-3 py-2 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="💊" maxlength="2">
+        </div><button type="submit" class="w-full py-2 px-4 rounded-xl font-medium text-white transition-all text-sm" style="background-color: #db3717;"> Agregar </button>
+       </div>
+      </form>
+     </div><!-- Lista de Categorías Existentes -->
+     <div>
+      <h3 class="text-md font-bold mb-3" style="color: #151a2b;">📋 Categorías Existentes</h3>
+      <div id="categories-list" class="space-y-2 max-h-64 overflow-y-auto"><!-- Categorías se generarán dinámicamente -->
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+        // Configuración
+        const defaultConfig = {
+            company_name: "Mi Empresa",
+            city_name: "Mi Ciudad",
+            about_text: "Quiénes Somos",
+            services_text: "Servicios que Prestamos",
+            primary_color: "#151a2b",
+            secondary_color: "#db3717"
+        };
+
+        // Categorías de negocios
+        let categories = [
+            { name: "Hoteles", icon: "🏨", color: "#db3717" },
+            { name: "Restaurantes", icon: "🍽️", color: "#151a2b" },
+            { name: "Heladerías", icon: "🍦", color: "#db3717" },
+            { name: "Tiendas", icon: "🛍️", color: "#151a2b" },
+            { name: "Servicios", icon: "🔧", color: "#db3717" },
+            { name: "Salud", icon: "🏥", color: "#151a2b" },
+            { name: "Educación", icon: "📚", color: "#db3717" },
+            { name: "Entretenimiento", icon: "🎭", color: "#151a2b" },
+            { name: "Transporte", icon: "🚗", color: "#db3717" },
+            { name: "Belleza", icon: "💄", color: "#151a2b" },
+            { name: "Deportes", icon: "⚽", color: "#db3717" },
+            { name: "Tecnología", icon: "💻", color: "#151a2b" },
+            { name: "Holístico", icon: "🧘", color: "#db3717" },
+            { name: "Ropa y Calzado", icon: "👕", color: "#151a2b" }
+        ];
+
+        // Variables globales
+        let allBusinesses = [];
+        let filteredBusinesses = [];
+        let activeFilters = {
+            search: '',
+            category: ''
+        };
+        let currentBusiness = null;
+        let galleryInterval = null;
+        let currentSlide = 0;
+        let isAdminLoggedIn = false;
+        let currentEditType = '';
+        let currentEditingBusiness = null;
+
+        // Handler para Data SDK
+        const dataHandler = {
+            onDataChanged(data) {
+                allBusinesses = data;
+                applyFilters();
+                updateBusinessCount();
+            }
+        };
+
+        // Inicialización
+        async function initializeApp() {
+            // Inicializar Data SDK
+            const initResult = await window.dataSdk.init(dataHandler);
+            if (!initResult.isOk) {
+                console.error("Error al inicializar Data SDK");
+                return;
+            }
+
+            // Inicializar Element SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    render: async (config) => {
+                        document.getElementById('company-name').textContent = config.company_name || defaultConfig.company_name;
+                        document.getElementById('city-subtitle').textContent = config.city_name || defaultConfig.city_name;
+                        document.getElementById('about-text').textContent = config.about_text || defaultConfig.about_text;
+                        document.getElementById('services-text').textContent = config.services_text || defaultConfig.services_text;
+                    },
+                    mapToCapabilities: (config) => ({
+                        recolorables: [
+                            {
+                                get: () => config.primary_color || defaultConfig.primary_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ primary_color: value });
+                                    }
+                                }
+                            },
+                            {
+                                get: () => config.secondary_color || defaultConfig.secondary_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ secondary_color: value });
+                                    }
+                                }
+                            }
+                        ],
+                        borderables: [],
+                        fontEditable: undefined,
+                        fontSizeable: undefined
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["company_name", config.company_name || defaultConfig.company_name],
+                        ["city_name", config.city_name || defaultConfig.city_name],
+                        ["about_text", config.about_text || defaultConfig.about_text],
+                        ["services_text", config.services_text || defaultConfig.services_text]
+                    ])
+                });
+            }
+
+            renderCategories();
+            populateCategorySelect();
+            setupEventListeners();
+        }
+
+        // Renderizar categorías
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = categories.map((category, index) => `
+                <div class="category-card bg-white rounded-2xl p-3 text-center shadow-md border-2 border-transparent hover:border-current" 
+                     style="color: ${category.color};" 
+                     onclick="filterByCategory('${category.name}')">
+                    <div class="text-2xl mb-1">${category.icon}</div>
+                    <h3 class="font-semibold text-xs">${category.name}</h3>
+                </div>
+            `).join('');
+        }
+
+        // Poblar select de categorías
+        function populateCategorySelect() {
+            const selects = ['business-category', 'edit-business-category'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Seleccionar categoría</option>';
+                    categories.forEach(category => {
+                        const option = document.createElement('option');
+                        option.value = category.name;
+                        option.textContent = `${category.icon} ${category.name}`;
+                        select.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Menú móvil
+            document.getElementById('menu-btn').addEventListener('click', openMobileMenu);
+
+            // Navegación inferior
+            document.getElementById('home-nav').addEventListener('click', () => setActiveNav('home'));
+            document.getElementById('add-nav').addEventListener('click', () => {
+                setActiveNav('add');
+                openAddModal();
+            });
+            document.getElementById('search-nav').addEventListener('click', () => {
+                setActiveNav('search');
+                document.getElementById('search-input').focus();
+            });
+            document.getElementById('profile-nav').addEventListener('click', () => setActiveNav('profile'));
+
+            // Búsqueda
+            document.getElementById('search-input').addEventListener('input', handleSearch);
+            document.getElementById('search-btn').addEventListener('click', handleSearch);
+
+            // Botones de menú móvil
+            document.getElementById('about-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                showInfoModal('Quiénes Somos', 'Somos una empresa dedicada a conectar negocios locales con la comunidad. Nuestro objetivo es promover el comercio local y facilitar que las personas descubran los mejores servicios de su ciudad.');
+            });
+            document.getElementById('services-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                showInfoModal('Nuestros Servicios', 'Ofrecemos una plataforma completa para que los negocios locales puedan: • Publicar su información de contacto • Mostrar sus servicios y productos • Conectar con clientes potenciales • Aumentar su visibilidad en la comunidad');
+            });
+
+            // Botón contratar servicio
+            document.getElementById('contract-service-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                const message = encodeURIComponent('Hola! Me interesa contratar sus servicios para publicar mi negocio en el directorio.');
+                window.open(`https://wa.me/19752224?text=${message}`, '_blank', 'noopener,noreferrer');
+            });
+
+            // Modales
+            document.getElementById('empty-add-btn').addEventListener('click', openAddModal);
+            document.getElementById('close-modal').addEventListener('click', closeAddModal);
+            document.getElementById('cancel-btn').addEventListener('click', closeAddModal);
+            document.getElementById('close-info-modal').addEventListener('click', closeInfoModal);
+
+            // Formulario
+            document.getElementById('business-form').addEventListener('submit', handleFormSubmit);
+
+            // Filtros
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+
+            // Perfil de negocio
+            document.getElementById('back-to-directory').addEventListener('click', closeBusinessProfile);
+
+            // Botones de redes sociales
+            document.getElementById('instagram-btn').addEventListener('click', () => openSocialMedia('instagram'));
+            document.getElementById('whatsapp-btn').addEventListener('click', () => openSocialMedia('whatsapp'));
+            document.getElementById('phone-btn').addEventListener('click', () => openSocialMedia('phone'));
+            document.getElementById('location-btn').addEventListener('click', () => openSocialMedia('location'));
+
+            // Panel de administrador
+            document.getElementById('admin-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                openAdminLogin();
+            });
+            document.getElementById('close-admin-login').addEventListener('click', closeAdminLogin);
+            document.getElementById('cancel-admin-login').addEventListener('click', closeAdminLogin);
+            document.getElementById('admin-login-form').addEventListener('submit', handleAdminLogin);
+            document.getElementById('back-to-main').addEventListener('click', closeAdminPanel);
+            document.getElementById('logout-admin').addEventListener('click', closeAdminPanel);
+            document.getElementById('admin-add-business').addEventListener('click', () => {
+                closeAdminPanel();
+                openAddModal();
+            });
+            document.getElementById('edit-company-info').addEventListener('click', () => openEditContent('company'));
+            document.getElementById('edit-about-content').addEventListener('click', () => openEditContent('about'));
+            document.getElementById('edit-services-content').addEventListener('click', () => openEditContent('services'));
+            document.getElementById('manage-categories').addEventListener('click', openCategoryManager);
+            document.getElementById('manage-businesses').addEventListener('click', openBusinessManager);
+            document.getElementById('close-edit-content').addEventListener('click', closeEditContent);
+            document.getElementById('cancel-edit-content').addEventListener('click', closeEditContent);
+            document.getElementById('edit-content-form').addEventListener('submit', handleEditContent);
+            document.getElementById('close-business-manager').addEventListener('click', closeBusinessManager);
+            document.getElementById('close-business-editor').addEventListener('click', closeBusinessEditor);
+            document.getElementById('edit-business-form').addEventListener('submit', handleEditBusiness);
+
+            // Gestión de categorías
+            document.getElementById('close-category-manager').addEventListener('click', closeCategoryManager);
+            document.getElementById('add-category-form').addEventListener('submit', handleAddCategory);
+
+            // Cerrar modales al hacer clic fuera
+            setupModalCloseHandlers();
+        }
+
+        function setupModalCloseHandlers() {
+            const modals = [
+                'add-modal', 'info-modal', 'admin-login-modal', 
+                'edit-content-modal', 'business-manager-modal', 
+                'business-editor-modal', 'category-manager-modal'
+            ];
+            
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Funciones de menú móvil
+        function openMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('menu-panel');
+            menu.classList.remove('hidden');
+            setTimeout(() => {
+                panel.style.transform = 'translateX(0)';
+            }, 10);
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('menu-panel');
+            panel.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                menu.classList.add('hidden');
+            }, 300);
+        }
+
+        // Funciones de navegación
+        function setActiveNav(activeTab) {
+            const navButtons = ['home-nav', 'add-nav', 'search-nav', 'profile-nav'];
+            navButtons.forEach(buttonId => {
+                const button = document.getElementById(buttonId);
+                if (buttonId === activeTab + '-nav') {
+                    button.style.color = '#db3717';
+                } else {
+                    button.style.color = '#6b7280';
+                }
+            });
+        }
+
+        // Funciones de búsqueda y filtros
+        function handleSearch() {
+            activeFilters.search = document.getElementById('search-input').value.toLowerCase().trim();
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        function filterByCategory(categoryName) {
+            activeFilters.category = activeFilters.category === categoryName ? '' : categoryName;
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        function applyFilters() {
+            filteredBusinesses = allBusinesses.filter(business => {
+                const matchesSearch = !activeFilters.search || 
+                    business.nombre.toLowerCase().includes(activeFilters.search) ||
+                    business.descripcion.toLowerCase().includes(activeFilters.search) ||
+                    business.categoria.toLowerCase().includes(activeFilters.search);
+                
+                const matchesCategory = !activeFilters.category || business.categoria === activeFilters.category;
+                
+                return matchesSearch && matchesCategory;
+            });
+
+            renderBusinesses();
+        }
+
+        function updateActiveFilters() {
+            const activeFiltersDiv = document.getElementById('active-filters');
+            const filterTags = document.getElementById('filter-tags');
+            
+            const hasFilters = activeFilters.search || activeFilters.category;
+            
+            if (hasFilters) {
+                activeFiltersDiv.classList.remove('hidden');
+                let tags = [];
+                
+                if (activeFilters.search) {
+                    tags.push(`<span class="px-2 py-1 rounded-full text-xs text-white" style="background-color: #151a2b;">🔍 "${activeFilters.search}"</span>`);
+                }
+                
+                if (activeFilters.category) {
+                    const category = categories.find(c => c.name === activeFilters.category);
+                    tags.push(`<span class="px-2 py-1 rounded-full text-xs text-white" style="background-color: #db3717;">${category.icon} ${category.name}</span>`);
+                }
+                
+                filterTags.innerHTML = tags.join('');
+            } else {
+                activeFiltersDiv.classList.add('hidden');
+            }
+        }
+
+        function clearAllFilters() {
+            activeFilters.search = '';
+            activeFilters.category = '';
+            document.getElementById('search-input').value = '';
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        // Renderizar negocios
+        function renderBusinesses() {
+            const grid = document.getElementById('business-grid');
+            const emptyState = document.getElementById('empty-state');
+            const noResultsState = document.getElementById('no-results-state');
+
+            if (allBusinesses.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                noResultsState.classList.add('hidden');
+                return;
+            }
+
+            if (filteredBusinesses.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.add('hidden');
+                noResultsState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            noResultsState.classList.add('hidden');
+
+            grid.innerHTML = filteredBusinesses.map(business => {
+                const category = categories.find(c => c.name === business.categoria);
+                return `
+                    <div class="business-card bg-white rounded-2xl shadow-md p-4 border-l-4" style="border-color: ${category ? category.color : '#db3717'};">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <div class="w-12 h-12 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400 text-xs text-center flex-shrink-0">
+                                📷
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-lg font-bold truncate" style="color: #151a2b;">${escapeHtml(business.nombre)}</h3>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-lg">${category ? category.icon : '📋'}</span>
+                                    <span class="px-2 py-1 rounded-full text-xs text-white font-medium" style="background-color: ${category ? category.color : '#db3717'};">
+                                        ${escapeHtml(business.categoria)}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${business.descripcion ? `<p class="text-gray-600 text-sm mb-3 line-clamp-2">${escapeHtml(business.descripcion)}</p>` : ''}
+                        
+                        ${business.sitioWeb ? `
+                            <div class="mb-3">
+                                <a href="${escapeHtml(business.sitioWeb)}" target="_blank" rel="noopener noreferrer" 
+                                   class="flex items-center space-x-2 text-sm hover:underline" style="color: #db3717;">
+                                    <span class="text-base">🌐</span>
+                                    <span>Visitar sitio web</span>
+                                </a>
+                            </div>
+                        ` : ''}
+                        
+                        <button onclick="viewBusinessProfile('${business.__backendId}')" 
+                                class="w-full py-3 px-4 rounded-xl font-medium text-white transition-all" 
+                                style="background-color: #db3717;">
+                            👁️ Ver Perfil Completo
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Funciones de modal
+        function openAddModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('business-form').reset();
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showInfoModal(title, content) {
+            document.getElementById('info-modal-title').textContent = title;
+            document.getElementById('info-modal-content').innerHTML = content.replace(/•/g, '<br>•');
+            const modal = document.getElementById('info-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeInfoModal() {
+            const modal = document.getElementById('info-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Manejo de formulario
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            if (allBusinesses.length >= 999) {
+                showToast('❌ Límite máximo de 999 negocios alcanzado', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            submitBtn.disabled = true;
+
+            const businessData = {
+                id: generateId(),
+                nombre: document.getElementById('business-name').value.trim(),
+                categoria: document.getElementById('business-category').value,
+                descripcion: document.getElementById('business-description').value.trim(),
+                direccion: '',
+                telefono: '',
+                email: '',
+                sitioWeb: document.getElementById('business-website').value.trim(),
+                fechaCreacion: new Date().toISOString()
+            };
+
+            const result = await window.dataSdk.create(businessData);
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+
+            if (result.isOk) {
+                closeAddModal();
+                showToast('✅ Negocio publicado exitosamente', 'success');
+            } else {
+                showToast('❌ Error al publicar el negocio', 'error');
+            }
+        }
+
+        // Funciones auxiliares
+        function updateBusinessCount() {
+            const count = allBusinesses.length;
+            const countElement = document.getElementById('business-count');
+            if (count === 0) {
+                countElement.textContent = 'No hay negocios publicados';
+            } else if (count === 1) {
+                countElement.textContent = '1 negocio publicado';
+            } else {
+                countElement.textContent = `${count} negocios publicados`;
+            }
+        }
+
+        function generateId() {
+            return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 left-4 right-4 px-4 py-3 rounded-xl text-white font-medium z-50 text-center ${
+                type === 'success' ? 'bg-green-600' : 
+                type === 'error' ? 'bg-red-600' : 'bg-blue-600'
+            }`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Funciones de perfil de negocio
+        function viewBusinessProfile(businessId) {
+            const business = allBusinesses.find(b => b.__backendId === businessId);
+            if (!business) return;
+
+            currentBusiness = business;
+            
+            document.getElementById('profile-business-name').textContent = business.nombre;
+            
+            const category = categories.find(c => c.name === business.categoria);
+            const categoryElement = document.getElementById('profile-business-category');
+            categoryElement.textContent = `${category ? category.icon : '📋'} ${business.categoria}`;
+            categoryElement.style.backgroundColor = category ? category.color : '#db3717';
+            
+            document.getElementById('profile-description').textContent = business.descripcion || 'Sin descripción disponible.';
+            
+            // Mostrar/ocultar información opcional
+            const websiteElement = document.getElementById('profile-website');
+            
+            if (business.sitioWeb) {
+                websiteElement.classList.remove('hidden');
+            } else {
+                websiteElement.classList.add('hidden');
+            }
+            
+            // Mostrar página de perfil
+            document.getElementById('business-profile-page').classList.remove('hidden');
+            
+            // Iniciar galería de imágenes
+            startImageGallery();
+        }
+
+        function closeBusinessProfile() {
+            document.getElementById('business-profile-page').classList.add('hidden');
+            currentBusiness = null;
+            stopImageGallery();
+        }
+
+        function openSocialMedia(platform) {
+            if (!currentBusiness) return;
+            
+            switch (platform) {
+                case 'instagram':
+                    showToast('🔗 Abriendo Instagram...', 'info');
+                    break;
+                case 'whatsapp':
+                    const message = encodeURIComponent(`Hola! Vi tu negocio "${currentBusiness.nombre}" en el directorio de Localízate Mérida.`);
+                    window.open(`https://wa.me/19752224?text=${message}`, '_blank', 'noopener,noreferrer');
+                    break;
+                case 'phone':
+                    showToast('📞 Función de llamada no disponible', 'info');
+                    break;
+                case 'location':
+                    showToast('📍 Función de ubicación no disponible', 'info');
+                    break;
+            }
+        }
+
+        function startImageGallery() {
+            // Imágenes de ejemplo para la galería
+            const galleryImages = [
+                { emoji: '🏪', text: 'Fachada del Local' },
+                { emoji: '🛍️', text: 'Productos y Servicios' },
+                { emoji: '👥', text: 'Nuestro Equipo' },
+                { emoji: '🎯', text: 'Ambiente Interior' },
+                { emoji: '⭐', text: 'Experiencia Cliente' }
+            ];
+            
+            currentSlide = 0;
+            
+            // Crear dots para la galería
+            const dotsContainer = document.getElementById('gallery-dots');
+            dotsContainer.innerHTML = galleryImages.map((_, index) => 
+                `<div class="w-2 h-2 rounded-full cursor-pointer transition-all ${index === 0 ? 'bg-orange-500' : 'bg-gray-300'}" 
+                     onclick="goToSlide(${index})"></div>`
+            ).join('');
+            
+            // Función para cambiar slide
+            function updateSlide() {
+                const slideElement = document.getElementById('gallery-slide');
+                const currentImage = galleryImages[currentSlide];
+                
+                slideElement.innerHTML = `
+                    <div class="text-center">
+                        <div class="text-6xl mb-3">${currentImage.emoji}</div>
+                        <p class="text-lg font-medium text-gray-600">${currentImage.text}</p>
+                    </div>
+                `;
+                
+                // Actualizar dots
+                const dots = dotsContainer.children;
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = `w-2 h-2 rounded-full cursor-pointer transition-all ${
+                        i === currentSlide ? 'bg-orange-500' : 'bg-gray-300'
+                    }`;
+                }
+            }
+            
+            // Función global para cambiar slide manualmente
+            window.goToSlide = function(index) {
+                currentSlide = index;
+                updateSlide();
+            };
+            
+            updateSlide();
+            
+            // Auto-cambio cada 3 segundos
+            galleryInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % galleryImages.length;
+                updateSlide();
+            }, 3000);
+        }
+
+        function stopImageGallery() {
+            if (galleryInterval) {
+                clearInterval(galleryInterval);
+                galleryInterval = null;
+            }
+        }
+
+        // Funciones de administrador
+        function openAdminLogin() {
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('admin-password').focus();
+        }
+
+        function closeAdminLogin() {
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('admin-password').value = '';
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === '19752224') {
+                isAdminLoggedIn = true;
+                closeAdminLogin();
+                openAdminPanel();
+                showToast('✅ Acceso concedido', 'success');
+            } else {
+                showToast('❌ Contraseña incorrecta', 'error');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+        function openAdminPanel() {
+            document.getElementById('admin-page').classList.remove('hidden');
+            updateAdminStats();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-page').classList.add('hidden');
+            isAdminLoggedIn = false;
+        }
+
+        function updateAdminStats() {
+            document.getElementById('total-businesses').textContent = allBusinesses.length;
+            document.getElementById('total-categories').textContent = categories.length;
+            
+            // Negocios recientes (últimos 7 días)
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const recentCount = allBusinesses.filter(business => 
+                new Date(business.fechaCreacion) > weekAgo
+            ).length;
+            document.getElementById('recent-businesses').textContent = recentCount;
+        }
+
+        function openEditContent(type) {
+            currentEditType = type;
+            const modal = document.getElementById('edit-content-modal');
+            const title = document.getElementById('edit-content-title');
+            const fields = document.getElementById('edit-content-fields');
+            
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            
+            switch (type) {
+                case 'company':
+                    title.textContent = '🏢 Editar Información de Empresa';
+                    fields.innerHTML = `
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Nombre de la Empresa</label>
+                            <input type="text" id="edit-company-name" value="${config.company_name || defaultConfig.company_name}" 
+                                   class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                   style="border-color: #db3717; --tw-ring-color: #db3717;">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Nombre de la Ciudad</label>
+                            <input type="text" id="edit-city-name" value="${config.city_name || defaultConfig.city_name}" 
+                                   class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                   style="border-color: #db3717; --tw-ring-color: #db3717;">
+                        </div>
+                    `;
+                    break;
+                case 'about':
+                    title.textContent = '👥 Editar Contenido Quiénes Somos';
+                    fields.innerHTML = `
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Texto del Botón</label>
+                            <input type="text" id="edit-about-text" value="${config.about_text || defaultConfig.about_text}" 
+                                   class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                   style="border-color: #db3717; --tw-ring-color: #db3717;">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Contenido del Modal</label>
+                            <textarea id="edit-about-content" rows="4" 
+                                      class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                      style="border-color: #db3717; --tw-ring-color: #db3717;"
+                                      placeholder="Contenido que aparecerá en el modal...">Somos una empresa dedicada a conectar negocios locales con la comunidad. Nuestro objetivo es promover el comercio local y facilitar que las personas descubran los mejores servicios de su ciudad.</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'services':
+                    title.textContent = '🛠️ Editar Contenido Servicios';
+                    fields.innerHTML = `
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Texto del Botón</label>
+                            <input type="text" id="edit-services-text" value="${config.services_text || defaultConfig.services_text}" 
+                                   class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                   style="border-color: #db3717; --tw-ring-color: #db3717;">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2" style="color: #151a2b;">Contenido del Modal</label>
+                            <textarea id="edit-services-content" rows="4" 
+                                      class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                                      style="border-color: #db3717; --tw-ring-color: #db3717;"
+                                      placeholder="Contenido que aparecerá en el modal...">Ofrecemos una plataforma completa para que los negocios locales puedan: • Publicar su información de contacto • Mostrar sus servicios y productos • Conectar con clientes potenciales • Aumentar su visibilidad en la comunidad</textarea>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEditContent() {
+            const modal = document.getElementById('edit-content-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentEditType = '';
+        }
+
+        async function handleEditContent(e) {
+            e.preventDefault();
+            
+            if (!window.elementSdk) {
+                showToast('❌ Error: SDK no disponible', 'error');
+                return;
+            }
+            
+            let updateData = {};
+            
+            switch (currentEditType) {
+                case 'company':
+                    updateData = {
+                        company_name: document.getElementById('edit-company-name').value.trim(),
+                        city_name: document.getElementById('edit-city-name').value.trim()
+                    };
+                    break;
+                case 'about':
+                    updateData = {
+                        about_text: document.getElementById('edit-about-text').value.trim()
+                    };
+                    localStorage.setItem('aboutContent', document.getElementById('edit-about-content').value.trim());
+                    break;
+                case 'services':
+                    updateData = {
+                        services_text: document.getElementById('edit-services-text').value.trim()
+                    };
+                    localStorage.setItem('servicesContent', document.getElementById('edit-services-content').value.trim());
+                    break;
+            }
+            
+            try {
+                await window.elementSdk.setConfig(updateData);
+                closeEditContent();
+                showToast('✅ Contenido actualizado exitosamente', 'success');
+            } catch (error) {
+                showToast('❌ Error al actualizar contenido', 'error');
+            }
+        }
+
+        // Funciones de gestión de categorías
+        function openCategoryManager() {
+            const modal = document.getElementById('category-manager-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            renderCategoriesList();
+        }
+
+        function closeCategoryManager() {
+            const modal = document.getElementById('category-manager-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('add-category-form').reset();
+        }
+
+        function renderCategoriesList() {
+            const list = document.getElementById('categories-list');
+            list.innerHTML = categories.map((category, index) => `
+                <div class="flex items-center justify-between p-3 bg-white rounded-xl border-2" style="border-color: ${category.color};">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xl">${category.icon}</span>
+                        <span class="font-medium" style="color: ${category.color};">${category.name}</span>
+                    </div>
+                    <button onclick="deleteCategory(${index})" 
+                            class="text-red-500 hover:text-red-700 px-2 py-1 rounded-lg hover:bg-red-50 transition-colors text-sm">
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function handleAddCategory(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('new-category-name').value.trim();
+            const icon = document.getElementById('new-category-icon').value.trim();
+            
+            if (!name || !icon) {
+                showToast('❌ Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            // Verificar si la categoría ya existe
+            if (categories.some(cat => cat.name.toLowerCase() === name.toLowerCase())) {
+                showToast('❌ Esta categoría ya existe', 'error');
+                return;
+            }
+            
+            // Alternar colores para nuevas categorías
+            const color = categories.length % 2 === 0 ? '#db3717' : '#151a2b';
+            
+            // Agregar nueva categoría
+            categories.push({
+                name: name,
+                icon: icon,
+                color: color
+            });
+            
+            // Actualizar interfaz
+            renderCategories();
+            populateCategorySelect();
+            renderCategoriesList();
+            
+            // Limpiar formulario
+            document.getElementById('add-category-form').reset();
+            
+            showToast('✅ Categoría agregada exitosamente', 'success');
+        }
+
+        function deleteCategory(index) {
+            const category = categories[index];
+            
+            // Verificar si hay negocios usando esta categoría
+            const businessesUsingCategory = allBusinesses.filter(business => business.categoria === category.name);
+            
+            if (businessesUsingCategory.length > 0) {
+                showToast(`❌ No se puede eliminar. Hay ${businessesUsingCategory.length} negocio(s) usando esta categoría`, 'error');
+                return;
+            }
+            
+            // Confirmar eliminación inline
+            const confirmBtn = event.target;
+            const originalText = confirmBtn.textContent;
+            
+            if (confirmBtn.textContent === originalText) {
+                confirmBtn.textContent = '⚠️ ¿Confirmar?';
+                confirmBtn.style.backgroundColor = '#dc2626';
+                confirmBtn.style.color = 'white';
+                
+                setTimeout(() => {
+                    if (confirmBtn.textContent !== originalText) {
+                        confirmBtn.textContent = originalText;
+                        confirmBtn.style.backgroundColor = '';
+                        confirmBtn.style.color = '';
+                    }
+                }, 3000);
+                return;
+            }
+            
+            // Eliminar categoría
+            categories.splice(index, 1);
+            
+            // Actualizar interfaz
+            renderCategories();
+            populateCategorySelect();
+            renderCategoriesList();
+            
+            showToast('✅ Categoría eliminada exitosamente', 'success');
+        }
+
+        // Funciones de gestión de negocios
+        function openBusinessManager() {
+            const modal = document.getElementById('business-manager-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            renderBusinessesList();
+        }
+
+        function closeBusinessManager() {
+            const modal = document.getElementById('business-manager-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderBusinessesList() {
+            const list = document.getElementById('admin-businesses-list');
+            
+            if (allBusinesses.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-5xl mb-4">🏪</div>
+                        <h3 class="text-lg font-bold mb-2" style="color: #151a2b;">No hay negocios</h3>
+                        <p class="text-gray-600 text-sm">Aún no se han agregado negocios al directorio.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = allBusinesses.map(business => {
+                const category = categories.find(c => c.name === business.categoria);
+                return `
+                    <div class="bg-white rounded-2xl shadow-md p-4 border-l-4 hover:shadow-lg transition-shadow cursor-pointer" 
+                         style="border-color: ${category ? category.color : '#db3717'};"
+                         onclick="openBusinessEditor('${business.__backendId}')">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <div class="w-10 h-10 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400 text-xs text-center">
+                                📷
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-md truncate" style="color: #151a2b;">${escapeHtml(business.nombre)}</h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm">${category ? category.icon : '📋'}</span>
+                                    <span class="text-xs text-gray-600 truncate">${escapeHtml(business.categoria)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 text-xs mb-2 line-clamp-2">
+                            ${business.descripcion ? escapeHtml(business.descripcion) : 'Sin descripción'}
+                        </p>
+                        
+                        <div class="flex justify-between items-center text-xs text-gray-500">
+                            <span>Creado: ${new Date(business.fechaCreacion).toLocaleDateString()}</span>
+                            <span class="px-2 py-1 rounded-full text-white text-xs" style="background-color: ${category ? category.color : '#db3717'};">
+                                ✏️ Editar
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openBusinessEditor(businessId) {
+            const business = allBusinesses.find(b => b.__backendId === businessId);
+            if (!business) return;
+
+            currentEditingBusiness = business;
+            
+            // Llenar formulario con datos actuales
+            document.getElementById('edit-business-name').value = business.nombre || '';
+            document.getElementById('edit-business-category').value = business.categoria || '';
+            document.getElementById('edit-business-description').value = business.descripcion || '';
+            document.getElementById('edit-business-website').value = business.sitioWeb || '';
+            document.getElementById('edit-business-phone').value = business.telefono || '';
+            document.getElementById('edit-business-whatsapp').value = business.whatsapp || '';
+            document.getElementById('edit-business-email').value = business.email || '';
+            document.getElementById('edit-business-instagram').value = business.instagram || '';
+            document.getElementById('edit-business-address').value = business.direccion || '';
+            
+            // Poblar select de categorías
+            populateCategorySelect();
+            document.getElementById('edit-business-category').value = business.categoria || '';
+            
+            // Actualizar título
+            document.getElementById('business-editor-title').textContent = `✏️ ${business.nombre}`;
+            
+            // Mostrar modal
+            const modal = document.getElementById('business-editor-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeBusinessEditor() {
+            const modal = document.getElementById('business-editor-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentEditingBusiness = null;
+        }
+
+        async function handleEditBusiness(e) {
+            e.preventDefault();
+            
+            if (!currentEditingBusiness) return;
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            submitBtn.disabled = true;
+
+            const updatedBusiness = {
+                ...currentEditingBusiness,
+                nombre: document.getElementById('edit-business-name').value.trim(),
+                categoria: document.getElementById('edit-business-category').value,
+                descripcion: document.getElementById('edit-business-description').value.trim(),
+                sitioWeb: document.getElementById('edit-business-website').value.trim()
+            };
+
+            const result = await window.dataSdk.update(updatedBusiness);
+            
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+
+            if (result.isOk) {
+                showToast('✅ Información básica actualizada', 'success');
+                renderBusinessesList();
+            } else {
+                showToast('❌ Error al actualizar la información', 'error');
+            }
+        }
+
+        async function handleSaveContact() {
+            if (!currentEditingBusiness) return;
+
+            const saveBtn = document.getElementById('save-contact-btn');
+            const originalText = saveBtn.textContent;
+            saveBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            saveBtn.disabled = true;
+
+            const updatedBusiness = {
+                ...currentEditingBusiness,
+                telefono: document.getElementById('edit-business-phone').value.trim(),
+                whatsapp: document.getElementById('edit-business-whatsapp').value.trim(),
+                email: document.getElementById('edit-business-email').value.trim(),
+                instagram: document.getElementById('edit-business-instagram').value.trim(),
+                direccion: document.getElementById('edit-business-address').value.trim()
+            };
+
+            const result = await window.dataSdk.update(updatedBusiness);
+            
+            saveBtn.textContent = originalText;
+            saveBtn.disabled = false;
+
+            if (result.isOk) {
+                showToast('✅ Información de contacto actualizada', 'success');
+                currentEditingBusiness = updatedBusiness;
+            } else {
+                showToast('❌ Error al actualizar información de contacto', 'error');
+            }
+        }
+
+        async function handleDeleteBusiness() {
+            if (!currentEditingBusiness) return;
+
+            const deleteBtn = document.getElementById('delete-business-btn');
+            const originalText = deleteBtn.textContent;
+            
+            if (deleteBtn.textContent === originalText) {
+                deleteBtn.textContent = '⚠️ ¿Confirmar Eliminación?';
+                deleteBtn.style.backgroundColor = '#dc2626';
+                
+                setTimeout(() => {
+                    if (deleteBtn.textContent !== originalText) {
+                        deleteBtn.textContent = originalText;
+                        deleteBtn.style.backgroundColor = '#dc2626';
+                    }
+                }, 3000);
+                return;
+            }
+
+            deleteBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            deleteBtn.disabled = true;
+
+            const result = await window.dataSdk.delete(currentEditingBusiness);
+            
+            if (result.isOk) {
+                showToast('✅ Negocio eliminado exitosamente', 'success');
+                closeBusinessEditor();
+                renderBusinessesList();
+            } else {
+                showToast('❌ Error al eliminar el negocio', 'error');
+                deleteBtn.textContent = originalText;
+                deleteBtn.disabled = false;
+            }
+        }
+
+        // Hacer funciones globales
+        window.deleteCategory = deleteCategory;
+        window.openBusinessEditor = openBusinessEditor;
+        window.handleSaveContact = handleSaveContact;
+        window.handleDeleteBusiness = handleDeleteBusiness;
+        window.viewBusinessProfile = viewBusinessProfile;
+        window.closeMobileMenu = closeMobileMenu;
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990b2a75b000b356',t:'MTc2MDgyMzMzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
-                      
-
-
-
 
 
 
