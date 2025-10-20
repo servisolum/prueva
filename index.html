@@ -350,44 +350,91 @@
 
         .business-card {
             background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border-left: 4px solid #db3717;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.15);
+        }
+
+        .business-logo {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .business-logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #db3717;
+            box-shadow: 0 4px 10px rgba(219, 55, 23, 0.2);
         }
 
         .business-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         .business-name {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             color: #151a2b;
-            margin: 0;
+            margin: 0 0 8px 0;
         }
 
         .business-category {
             background: #db3717;
             color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
+            padding: 6px 15px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            display: inline-block;
         }
 
         .business-info {
             color: #666;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
         }
 
         .business-description {
             color: #333;
-            line-height: 1.5;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .business-actions {
+            text-align: center;
+        }
+
+        .view-profile-btn {
+            background: linear-gradient(135deg, #db3717, #ff4d2e);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .view-profile-btn:hover {
+            background: linear-gradient(135deg, #c12e15, #db3717);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(219, 55, 23, 0.3);
         }
 
         /* Página de Administrador */
@@ -1034,6 +1081,177 @@
             }
         }
 
+        /* Página de Perfil del Negocio */
+        .business-profile {
+            display: none;
+        }
+
+        .profile-hero {
+            background: white;
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 3px solid #db3717;
+        }
+
+        .profile-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #db3717;
+            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.3);
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .profile-name {
+            font-size: 36px;
+            font-weight: bold;
+            color: #151a2b;
+            margin: 0 0 10px 0;
+        }
+
+        .profile-category {
+            background: #db3717;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .profile-description {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-content {
+            padding: 40px 0;
+            background: #f5f5f5;
+        }
+
+        .contact-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #151a2b;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .instagram-btn {
+            background: linear-gradient(135deg, #E4405F, #C13584);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        .phone-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+        }
+
+        .location-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .gallery-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #151a2b;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: none;
+        }
+
+        .gallery-image.active {
+            display: block;
+        }
+
+        .gallery-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: #db3717;
+            transform: scale(1.2);
+        }
+
         /* Dark Mode Support */
         @media (prefers-color-scheme: dark) {
             .modal-content {
@@ -1096,6 +1314,65 @@
    <div class="admin-panel">
     <div class="container">
      <div style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;"><button class="admin-btn" onclick="goToAdminPage()">Administrador</button> <span style="color: #db3717; font-size: 24px; font-weight: bold;">Hecho por: Solum</span>
+     </div>
+    </div>
+   </div>
+  </div><!-- Página de Perfil del Negocio -->
+  <div id="businessProfile" class="business-profile"><!-- Franja naranja superior -->
+   <div class="top-banner"></div><!-- Logo de la empresa -->
+   <div class="logo-section">
+    <div class="container">
+     <div class="company-logo">
+      <svg viewbox="0 0 24 24"><path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2M12 4.14L20 8.23V10C20 15.25 16.87 19.17 12 20.84C7.13 19.17 4 15.25 4 10V8.23L12 4.14Z" />
+      </svg>
+     </div>
+     <h1 class="company-name" id="profileCompanyName">Mi Empresa</h1>
+    </div>
+   </div><!-- Barra de menú -->
+   <div class="menu-bar">
+    <div class="container">
+     <div class="menu-content">
+      <div class="search-container"><input type="text" class="search-input" placeholder="Buscar negocios en tu ciudad..." readonly> <button class="search-btn">
+        <svg width="20" height="20" fill="white" viewbox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+        </svg></button>
+      </div>
+      <div class="menu-buttons"><button class="menu-btn" onclick="goToMainPage()">← Volver al Inicio</button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Perfil del Negocio -->
+   <div class="profile-hero">
+    <div class="container"><img id="profileLogo" class="profile-logo" src="" alt="Logo del negocio" onerror="this.src=''; this.alt='Logo no disponible'; this.style.display='none';">
+     <h1 id="profileBusinessName" class="profile-name">Nombre del Negocio</h1><span id="profileBusinessCategory" class="profile-category">Categoría</span>
+     <p id="profileBusinessDescription" class="profile-description">Descripción del negocio</p>
+    </div>
+   </div><!-- Contenido del Perfil -->
+   <div class="profile-content">
+    <div class="container"><!-- Sección de Contacto -->
+     <div class="contact-section">
+      <h3 class="contact-title">Contáctanos</h3>
+      <div class="contact-buttons"><a id="instagramLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn instagram-btn">
+        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg> Instagram </a> <a id="whatsappLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn">
+        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+        </svg> WhatsApp </a> <a id="phoneLink" href="#" class="contact-btn phone-btn">
+        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+        </svg> Teléfono </a> <a id="locationLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn location-btn">
+        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+        </svg> Ubicación </a>
+      </div>
+      <div style="text-align: center; color: #666; font-size: 14px;">
+       📍 <span id="profileBusinessAddress">Dirección del negocio</span>
+      </div>
+     </div><!-- Galería de Imágenes -->
+     <div class="gallery-section">
+      <h3 class="gallery-title">Galería de Imágenes</h3>
+      <div class="gallery-container">
+       <div id="galleryImages"><!-- Las imágenes se cargan dinámicamente -->
+       </div>
+      </div>
+      <div class="gallery-indicators" id="galleryIndicators"><!-- Los indicadores se generan dinámicamente -->
+      </div>
      </div>
     </div>
    </div>
@@ -1189,7 +1466,17 @@
                 category: "hoteles",
                 address: "Av. Principal 123",
                 phone: "555-0123",
-                description: "Hotel de lujo en el centro de la ciudad con todas las comodidades."
+                description: "Hotel de lujo en el centro de la ciudad con todas las comodidades.",
+                logo: "https://via.placeholder.com/80x80/db3717/ffffff?text=HP",
+                instagram: "https://instagram.com/hotelplaza",
+                whatsapp: "555-0123",
+                location: "https://maps.google.com/?q=Av.+Principal+123",
+                gallery: [
+                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Hotel+1",
+                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Hotel+2",
+                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Hotel+3",
+                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Hotel+4"
+                ]
             },
             {
                 id: 2,
@@ -1197,7 +1484,17 @@
                 category: "restaurantes",
                 address: "Calle Gastronómica 456",
                 phone: "555-0456",
-                description: "Comida tradicional con los mejores ingredientes locales."
+                description: "Comida tradicional con los mejores ingredientes locales.",
+                logo: "https://via.placeholder.com/80x80/28a745/ffffff?text=RS",
+                instagram: "https://instagram.com/buensabor",
+                whatsapp: "555-0456",
+                location: "https://maps.google.com/?q=Calle+Gastronómica+456",
+                gallery: [
+                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Rest+1",
+                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Rest+2",
+                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Rest+3",
+                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Rest+4"
+                ]
             },
             {
                 id: 3,
@@ -1205,7 +1502,17 @@
                 category: "heladerias",
                 address: "Plaza de los Sabores 789",
                 phone: "555-0789",
-                description: "Helados artesanales con sabores únicos y naturales."
+                description: "Helados artesanales con sabores únicos y naturales.",
+                logo: "https://via.placeholder.com/80x80/ff4d2e/ffffff?text=DT",
+                instagram: "https://instagram.com/dulcetentacion",
+                whatsapp: "555-0789",
+                location: "https://maps.google.com/?q=Plaza+de+los+Sabores+789",
+                gallery: [
+                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Helado+1",
+                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Helado+2",
+                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Helado+3",
+                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Helado+4"
+                ]
             }
         ];
 
@@ -1273,6 +1580,11 @@
             resultsContainer.innerHTML = businessList.length > 0 
                 ? businessList.map(business => `
                     <div class="business-card">
+                        <div class="business-logo">
+                            <img src="${business.logo || 'https://via.placeholder.com/80x80/db3717/ffffff?text=' + business.name.charAt(0)}" 
+                                 alt="Logo de ${business.name}" 
+                                 onerror="this.src='https://via.placeholder.com/80x80/db3717/ffffff?text=${business.name.charAt(0)}'; this.alt='Logo no disponible';">
+                        </div>
                         <div class="business-header">
                             <h4 class="business-name">${business.name}</h4>
                             <span class="business-category">${categories.find(c => c.id === business.category)?.name || business.category}</span>
@@ -1281,6 +1593,11 @@
                             📍 ${business.address} | 📞 ${business.phone}
                         </div>
                         <div class="business-description">${business.description}</div>
+                        <div class="business-actions">
+                            <button class="view-profile-btn" onclick="viewBusinessProfile(${business.id})">
+                                Ver Perfil Completo
+                            </button>
+                        </div>
                     </div>
                 `).join('')
                 : '<p style="text-align: center; color: #666; padding: 40px;">No se encontraron negocios que coincidan con tu búsqueda.</p>';
@@ -1317,6 +1634,26 @@
                         <label class="form-label">Descripción</label>
                         <textarea class="form-textarea" name="description" required></textarea>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">URL del Logo (opcional)</label>
+                        <input type="url" class="form-input" name="logo" placeholder="https://ejemplo.com/logo.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Instagram (opcional)</label>
+                        <input type="url" class="form-input" name="instagram" placeholder="https://instagram.com/usuario">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp (número)</label>
+                        <input type="tel" class="form-input" name="whatsapp" placeholder="555-0123">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URL de Ubicación (opcional)</label>
+                        <input type="url" class="form-input" name="location" placeholder="https://maps.google.com/?q=direccion">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">URLs de Galería (separadas por comas)</label>
+                        <textarea class="form-textarea" name="gallery" placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg"></textarea>
+                    </div>
                     <button type="submit" class="submit-btn">Agregar Negocio</button>
                 </form>
             `;
@@ -1326,13 +1663,27 @@
         function addBusiness(event) {
             event.preventDefault();
             const formData = new FormData(event.target);
+            
+            // Procesar galería de imágenes
+            const galleryText = formData.get('gallery') || '';
+            const galleryUrls = galleryText.split(',').map(url => url.trim()).filter(url => url);
+            
             const newBusiness = {
                 id: Date.now(),
                 name: formData.get('name'),
                 category: formData.get('category'),
                 address: formData.get('address'),
                 phone: formData.get('phone'),
-                description: formData.get('description')
+                description: formData.get('description'),
+                logo: formData.get('logo') || '',
+                instagram: formData.get('instagram') || '',
+                whatsapp: formData.get('whatsapp') || formData.get('phone'),
+                location: formData.get('location') || '',
+                gallery: galleryUrls.length > 0 ? galleryUrls : [
+                    `https://via.placeholder.com/400x300/db3717/ffffff?text=${encodeURIComponent(formData.get('name'))}+1`,
+                    `https://via.placeholder.com/400x300/151a2b/ffffff?text=${encodeURIComponent(formData.get('name'))}+2`,
+                    `https://via.placeholder.com/400x300/ff4d2e/ffffff?text=${encodeURIComponent(formData.get('name'))}+3`
+                ]
             };
 
             businesses.push(newBusiness);
@@ -1493,15 +1844,16 @@
 
         // Funciones de navegación
         function goToAdminPage() {
+            // Limpiar slideshow si está activo
+            if (galleryInterval) {
+                clearInterval(galleryInterval);
+            }
+
             document.getElementById('mainPage').style.display = 'none';
             document.getElementById('adminPage').style.display = 'block';
+            document.getElementById('businessProfile').style.display = 'none';
             updateAdminStats();
             loadBusinessTable();
-        }
-
-        function goToMainPage() {
-            document.getElementById('adminPage').style.display = 'none';
-            document.getElementById('mainPage').style.display = 'block';
         }
 
         function updateAdminStats() {
@@ -1668,10 +2020,115 @@
             window.elementSdk.init(element);
         }
 
+        // Funciones para el perfil del negocio
+        let currentGalleryIndex = 0;
+        let galleryInterval;
+
+        function viewBusinessProfile(businessId) {
+            const business = businesses.find(b => b.id === businessId);
+            if (!business) return;
+
+            // Ocultar página principal y mostrar perfil
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('businessProfile').style.display = 'block';
+
+            // Actualizar información del perfil
+            document.getElementById('profileCompanyName').textContent = document.getElementById('companyName').textContent;
+            document.getElementById('profileLogo').src = business.logo || `https://via.placeholder.com/150x150/db3717/ffffff?text=${business.name.charAt(0)}`;
+            document.getElementById('profileBusinessName').textContent = business.name;
+            document.getElementById('profileBusinessCategory').textContent = categories.find(c => c.id === business.category)?.name || business.category;
+            document.getElementById('profileBusinessDescription').textContent = business.description;
+            document.getElementById('profileBusinessAddress').textContent = business.address;
+
+            // Configurar enlaces de contacto
+            document.getElementById('instagramLink').href = business.instagram || '#';
+            document.getElementById('whatsappLink').href = business.whatsapp ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}` : '#';
+            document.getElementById('phoneLink').href = `tel:${business.phone}`;
+            document.getElementById('locationLink').href = business.location || '#';
+
+            // Configurar galería
+            setupGallery(business.gallery || []);
+
+            // Scroll al inicio
+            window.scrollTo(0, 0);
+        }
+
+        function setupGallery(images) {
+            const galleryContainer = document.getElementById('galleryImages');
+            const indicatorsContainer = document.getElementById('galleryIndicators');
+
+            if (!images || images.length === 0) {
+                galleryContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No hay imágenes disponibles</p>';
+                indicatorsContainer.innerHTML = '';
+                return;
+            }
+
+            // Crear imágenes
+            galleryContainer.innerHTML = images.map((img, index) => `
+                <img src="${img}" 
+                     alt="Imagen ${index + 1}" 
+                     class="gallery-image ${index === 0 ? 'active' : ''}"
+                     onerror="this.src='https://via.placeholder.com/400x300/db3717/ffffff?text=Imagen+${index + 1}'; this.alt='Imagen no disponible';">
+            `).join('');
+
+            // Crear indicadores
+            indicatorsContainer.innerHTML = images.map((_, index) => `
+                <div class="gallery-dot ${index === 0 ? 'active' : ''}" onclick="showGalleryImage(${index})"></div>
+            `).join('');
+
+            // Inicializar slideshow automático
+            currentGalleryIndex = 0;
+            startGallerySlideshow(images.length);
+        }
+
+        function showGalleryImage(index) {
+            const images = document.querySelectorAll('.gallery-image');
+            const dots = document.querySelectorAll('.gallery-dot');
+
+            // Remover clase active de todos
+            images.forEach(img => img.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Agregar clase active al seleccionado
+            if (images[index]) images[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+
+            currentGalleryIndex = index;
+        }
+
+        function startGallerySlideshow(totalImages) {
+            // Limpiar intervalo anterior si existe
+            if (galleryInterval) {
+                clearInterval(galleryInterval);
+            }
+
+            // Solo iniciar slideshow si hay más de una imagen
+            if (totalImages <= 1) return;
+
+            galleryInterval = setInterval(() => {
+                currentGalleryIndex = (currentGalleryIndex + 1) % totalImages;
+                showGalleryImage(currentGalleryIndex);
+            }, 4000); // Cambiar cada 4 segundos
+        }
+
+        function goToMainPage() {
+            // Limpiar slideshow
+            if (galleryInterval) {
+                clearInterval(galleryInterval);
+            }
+
+            // Mostrar página principal y ocultar otras
+            document.getElementById('mainPage').style.display = 'block';
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('businessProfile').style.display = 'none';
+
+            // Scroll al inicio
+            window.scrollTo(0, 0);
+        }
+
         // Inicializar la aplicación
         init();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991ace9a70fe25b2',t:'MTc2MDk4NzM0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991afca6278e7425',t:'MTc2MDk4OTIyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
