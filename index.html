@@ -1,5 +1,6 @@
 
 
+
 <!doctype html>
 <html lang="es">
  <head>
@@ -391,8 +392,357 @@
             line-height: 1.5;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Página de Administrador */
+        .admin-header {
+            background: #151a2b;
+            padding: 20px 0;
+            border-bottom: 3px solid #db3717;
+        }
+
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .back-btn {
+            background: #db3717;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #c12e15;
+            transform: translateY(-2px);
+        }
+
+        .admin-page-title {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .admin-content {
+            padding: 40px 0;
+            background: #f5f5f5;
+            min-height: 70vh;
+        }
+
+        .section-subtitle {
+            color: #151a2b;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        /* Estadísticas */
+        .stats-section {
+            margin-bottom: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #db3717;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #db3717;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Gestión de Negocios */
+        .management-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .business-table-container {
+            overflow-x: auto;
+        }
+
+        .business-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .business-table th {
+            background: #151a2b;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #db3717;
+        }
+
+        .business-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: middle;
+        }
+
+        .business-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #218838;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Extra Small Devices (phones, 320px and up) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .top-banner {
+                height: 60px;
+            }
+
+            .company-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .company-logo svg {
+                width: 40px;
+                height: 40px;
+            }
+
+            .company-name {
+                font-size: 20px;
+            }
+
+            .logo-section {
+                padding: 20px 0;
+            }
+
+            .menu-bar {
+                padding: 10px 0;
+            }
+
+            .menu-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-container {
+                min-width: 100%;
+            }
+
+            .search-input {
+                padding: 10px 40px 10px 12px;
+                font-size: 14px;
+            }
+
+            .menu-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .menu-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .categories-section {
+                padding: 25px 0;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .category-card {
+                padding: 15px;
+            }
+
+            .category-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .category-name {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .category-count {
+                font-size: 12px;
+            }
+
+            .admin-panel {
+                padding: 20px 0;
+            }
+
+            .admin-panel > .container > div {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .admin-btn {
+                padding: 12px 25px;
+                font-size: 14px;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                width: 95%;
+                padding: 20px;
+                max-height: 90%;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+
+            .form-input, .form-select, .form-textarea {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .business-card {
+                padding: 15px;
+                margin-bottom: 12px;
+            }
+
+            .business-name {
+                font-size: 16px;
+            }
+
+            .business-category {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+
+            .business-info {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .business-description {
+                font-size: 14px;
+            }
+        }
+
+        /* Small Devices (landscape phones, 481px and up) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .top-banner {
+                height: 70px;
+            }
+
+            .company-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .company-logo svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .company-name {
+                font-size: 24px;
+            }
+
+            .logo-section {
+                padding: 25px 0;
+            }
+
             .menu-content {
                 flex-direction: column;
                 gap: 15px;
@@ -402,19 +752,305 @@
                 min-width: 100%;
             }
 
-            .categories-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            .menu-buttons {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
                 gap: 15px;
             }
 
-            .admin-buttons {
+            .menu-btn {
+                flex: 1;
+                min-width: 150px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .categories-section {
+                padding: 30px 0;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+            }
+
+            .category-card {
+                padding: 20px;
+            }
+
+            .category-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .category-name {
+                font-size: 16px;
+            }
+
+            .admin-panel > .container > div {
                 flex-direction: column;
-                align-items: center;
+                gap: 20px;
+            }
+
+            .admin-btn {
+                width: auto;
+                min-width: 150px;
             }
 
             .modal-content {
-                margin: 10% auto;
-                width: 95%;
+                margin: 8% auto;
+                width: 90%;
+                padding: 25px;
+            }
+
+            .business-table-container {
+                overflow-x: auto;
+            }
+
+            .business-table {
+                min-width: 600px;
+                font-size: 13px;
+            }
+
+            .business-table th,
+            .business-table td {
+                padding: 8px 6px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .edit-btn, .delete-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Medium Devices (tablets, 769px and up) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .menu-content {
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .search-container {
+                flex: 1;
+                min-width: 300px;
+                max-width: 400px;
+            }
+
+            .menu-buttons {
+                flex-shrink: 0;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+
+            .admin-panel > .container > div {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .section-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .business-table {
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 80%;
+                max-width: 600px;
+            }
+        }
+
+        /* Large Devices (desktops, 1025px and up) */
+        @media (min-width: 1025px) and (max-width: 1440px) {
+            .container {
+                max-width: 1200px;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .business-table {
+                font-size: 15px;
+            }
+        }
+
+        /* Extra Large Devices (large desktops, 1441px and up) */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1400px;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .company-name {
+                font-size: 32px;
+            }
+
+            .company-logo {
+                width: 140px;
+                height: 140px;
+            }
+
+            .company-logo svg {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        /* Landscape Orientation Adjustments */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .logo-section {
+                padding: 15px 0;
+            }
+
+            .company-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .company-logo svg {
+                width: 30px;
+                height: 30px;
+            }
+
+            .company-name {
+                font-size: 18px;
+            }
+
+            .categories-section {
+                padding: 20px 0;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .category-card {
+                padding: 12px;
+            }
+
+            .category-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            .category-name {
+                font-size: 13px;
+            }
+
+            .category-count {
+                font-size: 11px;
+            }
+
+            .admin-panel {
+                padding: 15px 0;
+            }
+        }
+
+        /* High DPI Displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .company-logo svg,
+            .search-btn svg {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .top-banner,
+            .menu-bar,
+            .admin-panel,
+            .modal {
+                display: none !important;
+            }
+
+            .container {
+                max-width: none;
+                padding: 0;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+
+            .category-card {
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+
+            .business-card {
+                border: 1px solid #ccc;
+                break-inside: avoid;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Accessibility - Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .modal-content {
+                background: #2a2a2a;
+                color: #ffffff;
+            }
+
+            .form-input, .form-select, .form-textarea {
+                background: #3a3a3a;
+                color: #ffffff;
+                border-color: #555;
+            }
+
+            .form-label {
+                color: #ffffff;
             }
         }
     </style>
@@ -444,24 +1080,89 @@
      </div>
     </div>
    </div>
-  </div><!-- Categorías -->
-  <div class="categories-section">
+  </div><!-- Página Principal -->
+  <div id="mainPage"><!-- Categorías -->
+   <div class="categories-section">
+    <div class="container">
+     <h2 class="section-title">Categorías de Negocios</h2>
+     <div class="categories-grid" id="categoriesGrid"><!-- Las categorías se generan dinámicamente -->
+     </div>
+    </div>
+   </div><!-- Lista de negocios -->
    <div class="container">
-    <h2 class="section-title">Categorías de Negocios</h2>
-    <div class="categories-grid" id="categoriesGrid"><!-- Las categorías se generan dinámicamente -->
+    <div class="business-list" id="businessList">
+     <h3 style="color: #151a2b; font-size: 24px; margin-bottom: 20px;">Resultados de Búsqueda</h3>
+     <div id="businessResults"></div>
+    </div>
+   </div><!-- Panel de administración -->
+   <div class="admin-panel">
+    <div class="container">
+     <div style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;"><button class="admin-btn" onclick="goToAdminPage()">Administrador</button> <span style="color: #db3717; font-size: 24px; font-weight: bold;">Hecho por: Solum</span>
+     </div>
     </div>
    </div>
-  </div><!-- Lista de negocios -->
-  <div class="container">
-   <div class="business-list" id="businessList">
-    <h3 style="color: #151a2b; font-size: 24px; margin-bottom: 20px;">Resultados de Búsqueda</h3>
-    <div id="businessResults"></div>
+  </div><!-- Página de Administrador -->
+  <div id="adminPage" style="display: none;">
+   <div class="admin-header">
+    <div class="container">
+     <div class="admin-nav"><button class="back-btn" onclick="goToMainPage()">
+       <svg width="20" height="20" fill="white" viewbox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+       </svg> Volver al Inicio </button>
+      <h2 class="admin-page-title">Panel de Administrador</h2>
+     </div>
+    </div>
    </div>
-  </div><!-- Panel de administración -->
-  <div class="admin-panel">
-   <div class="container">
-    <h3 class="admin-title">Panel de Administración</h3>
-    <div class="admin-buttons"><button class="admin-btn" onclick="showAddBusinessModal()">Agregar Nuevo Negocio</button> <button class="admin-btn" onclick="showManageBusinesses()">Gestionar Negocios</button> <button class="admin-btn" onclick="showSettings()">Configuración</button>
+   <div class="admin-content">
+    <div class="container"><!-- Estadísticas -->
+     <div class="stats-section">
+      <h3 class="section-subtitle">Estadísticas del Sistema</h3>
+      <div class="stats-grid">
+       <div class="stat-card">
+        <div class="stat-number" id="totalBusinesses">
+         0
+        </div>
+        <div class="stat-label">
+         Total de Negocios
+        </div>
+       </div>
+       <div class="stat-card">
+        <div class="stat-number" id="totalCategories">
+         8
+        </div>
+        <div class="stat-label">
+         Categorías Disponibles
+        </div>
+       </div>
+       <div class="stat-card">
+        <div class="stat-number" id="activeBusinesses">
+         0
+        </div>
+        <div class="stat-label">
+         Negocios Activos
+        </div>
+       </div>
+      </div>
+     </div><!-- Gestión de Negocios -->
+     <div class="management-section">
+      <div class="section-header">
+       <h3 class="section-subtitle">Gestión de Negocios</h3><button class="admin-btn" onclick="showAddBusinessModal()">+ Agregar Negocio</button>
+      </div>
+      <div class="business-table-container">
+       <table class="business-table">
+        <thead>
+         <tr>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Acciones</th>
+         </tr>
+        </thead>
+        <tbody id="businessTableBody"><!-- Los negocios se cargan dinámicamente -->
+        </tbody>
+       </table>
+      </div>
+     </div>
     </div>
    </div>
   </div><!-- Modal -->
@@ -675,7 +1376,15 @@
             saveBusinessesToStorage();
             updateCategoryCounts();
             renderCategories();
-            showManageBusinesses(); // Refresh the modal
+            
+            // Si estamos en la página de administrador, actualizar la tabla
+            if (document.getElementById('adminPage').style.display !== 'none') {
+                updateAdminStats();
+                loadBusinessTable();
+            } else {
+                showManageBusinesses(); // Refresh the modal si estamos en la página principal
+            }
+            
             showSuccessMessage('Negocio eliminado exitosamente');
         }
 
@@ -784,6 +1493,128 @@
             }, 3000);
         }
 
+        // Funciones de navegación
+        function goToAdminPage() {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('adminPage').style.display = 'block';
+            updateAdminStats();
+            loadBusinessTable();
+        }
+
+        function goToMainPage() {
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('mainPage').style.display = 'block';
+        }
+
+        function updateAdminStats() {
+            document.getElementById('totalBusinesses').textContent = businesses.length;
+            document.getElementById('activeBusinesses').textContent = businesses.length;
+        }
+
+        function loadBusinessTable() {
+            const tbody = document.getElementById('businessTableBody');
+            tbody.innerHTML = businesses.length > 0 
+                ? businesses.map(business => `
+                    <tr>
+                        <td><strong>${business.name}</strong></td>
+                        <td>
+                            <span style="background: #db3717; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+                                ${categories.find(c => c.id === business.category)?.name || business.category}
+                            </span>
+                        </td>
+                        <td>${business.address}</td>
+                        <td>${business.phone}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="edit-btn" onclick="editBusiness(${business.id})">Editar</button>
+                                <button class="delete-btn" onclick="confirmDeleteBusiness(${business.id})">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('')
+                : '<tr><td colspan="5" style="text-align: center; color: #666; padding: 40px;">No hay negocios registrados</td></tr>';
+        }
+
+        function editBusiness(id) {
+            const business = businesses.find(b => b.id === id);
+            if (!business) return;
+
+            document.getElementById('modalTitle').textContent = 'Editar Negocio';
+            document.getElementById('modalBody').innerHTML = `
+                <form onsubmit="updateBusiness(event, ${id})">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Negocio</label>
+                        <input type="text" class="form-input" name="name" value="${business.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Categoría</label>
+                        <select class="form-select" name="category" required>
+                            ${categories.map(cat => `<option value="${cat.id}" ${cat.id === business.category ? 'selected' : ''}>${cat.name}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" class="form-input" name="address" value="${business.address}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel" class="form-input" name="phone" value="${business.phone}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-textarea" name="description" required>${business.description}</textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Actualizar Negocio</button>
+                </form>
+            `;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function updateBusiness(event, id) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const businessIndex = businesses.findIndex(b => b.id === id);
+            
+            if (businessIndex !== -1) {
+                businesses[businessIndex] = {
+                    ...businesses[businessIndex],
+                    name: formData.get('name'),
+                    category: formData.get('category'),
+                    address: formData.get('address'),
+                    phone: formData.get('phone'),
+                    description: formData.get('description')
+                };
+
+                saveBusinessesToStorage();
+                updateCategoryCounts();
+                renderCategories();
+                updateAdminStats();
+                loadBusinessTable();
+                closeModal();
+                showSuccessMessage('¡Negocio actualizado exitosamente!');
+            }
+        }
+
+        function confirmDeleteBusiness(id) {
+            const business = businesses.find(b => b.id === id);
+            if (!business) return;
+
+            document.getElementById('modalTitle').textContent = 'Confirmar Eliminación';
+            document.getElementById('modalBody').innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 48px; color: #dc3545; margin-bottom: 20px;">⚠️</div>
+                    <h4 style="color: #151a2b; margin-bottom: 15px;">¿Estás seguro de que deseas eliminar este negocio?</h4>
+                    <p style="color: #666; margin-bottom: 25px;"><strong>${business.name}</strong></p>
+                    <p style="color: #dc3545; font-size: 14px; margin-bottom: 30px;">Esta acción no se puede deshacer.</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="closeModal()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">Cancelar</button>
+                        <button onclick="deleteBusiness(${id}); closeModal();" style="background: #dc3545; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">Eliminar</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modal').style.display = 'block';
+        }
+
         function saveBusinessesToStorage() {
             localStorage.setItem('localBusinesses', JSON.stringify(businesses));
         }
@@ -842,7 +1673,6 @@
         // Inicializar la aplicación
         init();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991a933937a85322',t:'MTc2MDk4NDkwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991ace9a70fe25b2',t:'MTc2MDk4NzM0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
 
