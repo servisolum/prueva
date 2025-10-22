@@ -4,2131 +4,1180 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Directorio de Negocios Locales</title>
+  <title>Directorio de Negocios</title>
   <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
         body {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            height: 100%;
         }
-
-        html {
-            height: 100%;
-        }
-
-        /* Franja naranja superior */
-        .top-banner {
-            background: linear-gradient(135deg, #db3717, #ff4d2e);
-            height: 80px;
-            width: 100%;
-            box-shadow: 0 2px 10px rgba(219, 55, 23, 0.3);
-        }
-
-        /* Contenedor principal */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Logo de la empresa */
-        .logo-section {
-            text-align: center;
-            padding: 30px 0;
-            background: white;
-            margin-bottom: 0;
-        }
-
-        .company-logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #151a2b, #2a3142);
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #db3717;
             border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(21, 26, 43, 0.3);
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
         }
-
-        .company-logo svg {
-            width: 60px;
-            height: 60px;
-            fill: #db3717;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        .company-name {
-            font-size: 28px;
-            font-weight: bold;
-            color: #151a2b;
-            margin: 0;
-        }
-
-        /* Barra de menú */
-        .menu-bar {
-            background: #151a2b;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .menu-content {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .search-container {
-            flex: 1;
-            min-width: 300px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            outline: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #db3717;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .search-btn:hover {
-            background: #c12e15;
-        }
-
-        .menu-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .menu-btn {
-            background: #db3717;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .menu-btn:hover {
-            background: #c12e15;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(219, 55, 23, 0.3);
-        }
-
-        /* Categorías */
-        .categories-section {
-            padding: 40px 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-            color: #151a2b;
-            margin-bottom: 40px;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
         .category-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
+            transition: all 0.2s ease;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #f0f0f0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
         .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.15);
-            border-color: #db3717;
+            transform: scale(1.05);
         }
-
-        .category-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #db3717, #ff4d2e);
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
-        .category-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #151a2b;
-            margin-bottom: 8px;
-        }
-
-        .category-count {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Panel de administración */
-        .admin-panel {
-            background: #151a2b;
-            color: white;
-            padding: 30px 0;
-            margin-top: 40px;
-        }
-
-        .admin-title {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: #db3717;
-        }
-
-        .admin-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .admin-btn {
-            background: #db3717;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .admin-btn:hover {
-            background: #c12e15;
-            transform: translateY(-2px);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80%;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #151a2b;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-            padding: 5px;
-        }
-
-        .close-btn:hover {
-            color: #db3717;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #151a2b;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: #db3717;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .submit-btn {
-            background: #db3717;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background: #c12e15;
-        }
-
-        /* Lista de negocios */
-        .business-list {
-            display: none;
-            margin-top: 30px;
-        }
-
         .business-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #db3717;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.2s ease;
         }
-
         .business-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.15);
-        }
-
-        .business-logo {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .business-logo img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #db3717;
-            box-shadow: 0 4px 10px rgba(219, 55, 23, 0.2);
-        }
-
-        .business-header {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .business-name {
-            font-size: 22px;
-            font-weight: bold;
-            color: #151a2b;
-            margin: 0 0 8px 0;
-        }
-
-        .business-category {
-            background: #db3717;
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .business-info {
-            color: #666;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .business-description {
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .business-actions {
-            text-align: center;
-        }
-
-        .view-profile-btn {
-            background: linear-gradient(135deg, #db3717, #ff4d2e);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .view-profile-btn:hover {
-            background: linear-gradient(135deg, #c12e15, #db3717);
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(219, 55, 23, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
-        /* Página de Administrador */
-        .admin-header {
-            background: #151a2b;
-            padding: 20px 0;
-            border-bottom: 3px solid #db3717;
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
         }
-
-        .admin-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
+        .orange-gradient {
+            background: linear-gradient(135deg, #db3717 0%, #ff6b47 100%);
         }
-
-        .back-btn {
-            background: #db3717;
-            color: white;
-            border: none;
-            padding: 12px 20px;
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+        }
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .safe-area-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        .swipe-indicator {
+            width: 40px;
+            height: 4px;
+            background-color: #e5e7eb;
+            border-radius: 2px;
+            margin: 8px auto;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 12px 24px;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: #c12e15;
-            transform: translateY(-2px);
-        }
-
-        .admin-page-title {
             color: white;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        .admin-content {
-            padding: 40px 0;
-            background: #f5f5f5;
-            min-height: 70vh;
+        .toast.show {
+            opacity: 1;
         }
-
-        .section-subtitle {
-            color: #151a2b;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 25px;
+        .toast.success {
+            background-color: #10b981;
         }
-
-        /* Estadísticas */
-        .stats-section {
-            margin-bottom: 40px;
+        .toast.error {
+            background-color: #ef4444;
         }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #db3717;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #db3717;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: #666;
-            font-weight: 600;
-        }
-
-        /* Gestión de Negocios */
-        .management-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .business-table-container {
-            overflow-x: auto;
-        }
-
-        .business-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .business-table th {
-            background: #151a2b;
-            color: white;
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #db3717;
-        }
-
-        .business-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            vertical-align: middle;
-        }
-
-        .business-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .edit-btn, .delete-btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .edit-btn {
-            background: #28a745;
-            color: white;
-        }
-
-        .edit-btn:hover {
-            background: #218838;
-        }
-
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background: #c82333;
-        }
-
-        /* Responsive Design - Mobile First Approach */
-        
-        /* Extra Small Devices (phones, 320px and up) */
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 10px;
-            }
-
-            .top-banner {
-                height: 60px;
-            }
-
-            .company-logo {
-                width: 80px;
-                height: 80px;
-            }
-
-            .company-logo svg {
-                width: 40px;
-                height: 40px;
-            }
-
-            .company-name {
-                font-size: 20px;
-            }
-
-            .logo-section {
-                padding: 20px 0;
-            }
-
-            .menu-bar {
-                padding: 10px 0;
-            }
-
-            .menu-content {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .search-container {
-                min-width: 100%;
-            }
-
-            .search-input {
-                padding: 10px 40px 10px 12px;
-                font-size: 14px;
-            }
-
-            .menu-buttons {
-                flex-direction: column;
-                width: 100%;
-                gap: 10px;
-            }
-
-            .menu-btn {
-                padding: 10px 20px;
-                font-size: 14px;
-                width: 100%;
-            }
-
-            .section-title {
-                font-size: 24px;
-                margin-bottom: 25px;
-            }
-
-            .categories-section {
-                padding: 25px 0;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .category-card {
-                padding: 15px;
-            }
-
-            .category-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 20px;
-                margin-bottom: 10px;
-            }
-
-            .category-name {
-                font-size: 14px;
-                margin-bottom: 5px;
-            }
-
-            .category-count {
-                font-size: 12px;
-            }
-
-            .admin-panel {
-                padding: 20px 0;
-            }
-
-            .admin-panel > .container > div {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .admin-btn {
-                padding: 12px 25px;
-                font-size: 14px;
-                width: 100%;
-                max-width: 200px;
-            }
-
-            .modal-content {
-                margin: 5% auto;
-                width: 95%;
-                padding: 20px;
-                max-height: 90%;
-            }
-
-            .modal-title {
-                font-size: 20px;
-            }
-
-            .form-input, .form-select, .form-textarea {
-                padding: 10px;
-                font-size: 14px;
-            }
-
-            .business-card {
-                padding: 15px;
-                margin-bottom: 12px;
-            }
-
-            .business-name {
-                font-size: 16px;
-            }
-
-            .business-category {
-                font-size: 10px;
-                padding: 3px 8px;
-            }
-
-            .business-info {
-                font-size: 13px;
-                margin-bottom: 8px;
-            }
-
-            .business-description {
-                font-size: 14px;
-            }
-        }
-
-        /* Small Devices (landscape phones, 481px and up) */
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-
-            .top-banner {
-                height: 70px;
-            }
-
-            .company-logo {
-                width: 100px;
-                height: 100px;
-            }
-
-            .company-logo svg {
-                width: 50px;
-                height: 50px;
-            }
-
-            .company-name {
-                font-size: 24px;
-            }
-
-            .logo-section {
-                padding: 25px 0;
-            }
-
-            .menu-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .search-container {
-                min-width: 100%;
-            }
-
-            .menu-buttons {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-
-            .menu-btn {
-                flex: 1;
-                min-width: 150px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .categories-section {
-                padding: 30px 0;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 18px;
-            }
-
-            .category-card {
-                padding: 20px;
-            }
-
-            .category-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-            }
-
-            .category-name {
-                font-size: 16px;
-            }
-
-            .admin-panel > .container > div {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .admin-btn {
-                width: auto;
-                min-width: 150px;
-            }
-
-            .modal-content {
-                margin: 8% auto;
-                width: 90%;
-                padding: 25px;
-            }
-
-            .business-table-container {
-                overflow-x: auto;
-            }
-
-            .business-table {
-                min-width: 600px;
-                font-size: 13px;
-            }
-
-            .business-table th,
-            .business-table td {
-                padding: 8px 6px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .edit-btn, .delete-btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-        }
-
-        /* Medium Devices (tablets, 769px and up) */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .container {
-                padding: 0 20px;
-            }
-
-            .menu-content {
-                flex-wrap: wrap;
-                justify-content: space-between;
-            }
-
-            .search-container {
-                flex: 1;
-                min-width: 300px;
-                max-width: 400px;
-            }
-
-            .menu-buttons {
-                flex-shrink: 0;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 20px;
-            }
-
-            .admin-panel > .container > div {
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .section-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .business-table {
-                font-size: 14px;
-            }
-
-            .modal-content {
-                width: 80%;
-                max-width: 600px;
-            }
-        }
-
-        /* Large Devices (desktops, 1025px and up) */
-        @media (min-width: 1025px) and (max-width: 1440px) {
-            .container {
-                max-width: 1200px;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 25px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .business-table {
-                font-size: 15px;
-            }
-        }
-
-        /* Extra Large Devices (large desktops, 1441px and up) */
-        @media (min-width: 1441px) {
-            .container {
-                max-width: 1400px;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
-
-            .section-title {
-                font-size: 36px;
-            }
-
-            .company-name {
-                font-size: 32px;
-            }
-
-            .company-logo {
-                width: 140px;
-                height: 140px;
-            }
-
-            .company-logo svg {
-                width: 70px;
-                height: 70px;
-            }
-        }
-
-        /* Landscape Orientation Adjustments */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .logo-section {
-                padding: 15px 0;
-            }
-
-            .company-logo {
-                width: 60px;
-                height: 60px;
-            }
-
-            .company-logo svg {
-                width: 30px;
-                height: 30px;
-            }
-
-            .company-name {
-                font-size: 18px;
-            }
-
-            .categories-section {
-                padding: 20px 0;
-            }
-
-            .section-title {
-                font-size: 20px;
-                margin-bottom: 20px;
-            }
-
-            .category-card {
-                padding: 12px;
-            }
-
-            .category-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
-                margin-bottom: 8px;
-            }
-
-            .category-name {
-                font-size: 13px;
-            }
-
-            .category-count {
-                font-size: 11px;
-            }
-
-            .admin-panel {
-                padding: 15px 0;
-            }
-        }
-
-        /* High DPI Displays */
-        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-            .company-logo svg,
-            .search-btn svg {
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            .top-banner,
-            .menu-bar,
-            .admin-panel,
-            .modal {
-                display: none !important;
-            }
-
-            .container {
-                max-width: none;
-                padding: 0;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-            }
-
-            .category-card {
-                border: 1px solid #ccc;
-                break-inside: avoid;
-            }
-
-            .business-card {
-                border: 1px solid #ccc;
-                break-inside: avoid;
-                margin-bottom: 10px;
-            }
-        }
-
-        /* Accessibility - Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Página de Perfil del Negocio */
-        .business-profile {
-            display: none;
-        }
-
-        .profile-hero {
-            background: white;
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 3px solid #db3717;
-        }
-
-        .profile-logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid #db3717;
-            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.3);
-            margin: 0 auto 20px;
-            display: block;
-        }
-
-        .profile-name {
-            font-size: 36px;
-            font-weight: bold;
-            color: #151a2b;
-            margin: 0 0 10px 0;
-        }
-
-        .profile-category {
-            background: #db3717;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        .profile-description {
-            font-size: 18px;
-            color: #666;
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .profile-content {
-            padding: 40px 0;
-            background: #f5f5f5;
-        }
-
-        .contact-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .contact-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #151a2b;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .contact-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: white;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-        }
-
-        .instagram-btn {
-            background: linear-gradient(135deg, #E4405F, #C13584);
-        }
-
-        .whatsapp-btn {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-        }
-
-        .phone-btn {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-        }
-
-        .location-btn {
-            background: linear-gradient(135deg, #28a745, #20c997);
-        }
-
-        .gallery-section {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .gallery-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #151a2b;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .gallery-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            display: none;
-        }
-
-        .gallery-image.active {
-            display: block;
-        }
-
-        .gallery-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .gallery-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-dot.active {
-            background: #db3717;
-            transform: scale(1.2);
-        }
-
-        /* Dark Mode Support */
-        @media (prefers-color-scheme: dark) {
-            .modal-content {
-                background: #2a2a2a;
-                color: #ffffff;
-            }
-
-            .form-input, .form-select, .form-textarea {
-                background: #3a3a3a;
-                color: #ffffff;
-                border-color: #555;
-            }
-
-            .form-label {
-                color: #ffffff;
-            }
+        .toast.info {
+            background-color: #3b82f6;
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body><!-- Franja naranja superior -->
-  <div class="top-banner"></div><!-- Logo de la empresa -->
-  <div class="logo-section">
-   <div class="container">
-    <div class="company-logo">
-     <svg viewbox="0 0 24 24"><path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2M12 4.14L20 8.23V10C20 15.25 16.87 19.17 12 20.84C7.13 19.17 4 15.25 4 10V8.23L12 4.14Z" />
-     </svg>
+ <body class="bg-gray-50 min-h-full"><!-- Header Móvil -->
+  <div class="mobile-header bg-white shadow-lg safe-area-top"><!-- Franja Naranja Superior -->
+   <div class="orange-gradient h-2 w-full"></div><!-- Logo y Título -->
+   <div class="px-4 py-3">
+    <div class="flex items-center justify-between">
+     <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-lg font-bold" style="background-color: #db3717;">
+       🏢
+      </div>
+      <div>
+       <h1 id="company-name" class="text-lg font-bold" style="color: #151a2b;">Mi Empresa</h1>
+       <p id="city-subtitle" class="text-xs text-gray-600">Mi Ciudad</p>
+      </div>
+     </div><button id="menu-btn" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">☰</span> </button>
     </div>
-    <h1 class="company-name" id="companyName">Mi Empresa</h1>
-   </div>
-  </div><!-- Barra de menú -->
-  <div class="menu-bar">
-   <div class="container">
-    <div class="menu-content">
-     <div class="search-container"><input type="text" class="search-input" id="searchInput" placeholder="Buscar negocios en tu ciudad..."> <button class="search-btn" onclick="searchBusinesses()">
-       <svg width="20" height="20" fill="white" viewbox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-       </svg></button>
-     </div>
-     <div class="menu-buttons"><button class="menu-btn" onclick="showAboutUs()">¿Quiénes Somos?</button> <button class="menu-btn" onclick="showServices()">Servicios que Prestamos</button>
-     </div>
+   </div><!-- Barra de Búsqueda -->
+   <div class="px-4 pb-3">
+    <div class="relative"><input type="text" id="search-input" placeholder="🔍 Buscar negocios..." class="w-full px-4 py-3 pr-12 border-2 rounded-xl focus:outline-none focus:ring-2 text-sm" style="border-color: #db3717; --tw-ring-color: #db3717;"> <button id="search-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-3 py-1 rounded-lg" style="background-color: #db3717;"> 🔍 </button>
     </div>
    </div>
-  </div><!-- Página Principal -->
-  <div id="mainPage"><!-- Categorías -->
-   <div class="categories-section">
-    <div class="container">
-     <h2 class="section-title">Categorías de Negocios</h2>
-     <div class="categories-grid" id="categoriesGrid"><!-- Las categorías se generan dinámicamente -->
+  </div><!-- Menú Lateral Móvil -->
+  <div id="mobile-menu" class="fixed inset-0 z-50 hidden">
+   <div class="modal-backdrop absolute inset-0" onclick="closeMobileMenu()"></div>
+   <div class="absolute right-0 top-0 h-full w-80 bg-white shadow-xl transform translate-x-full transition-transform duration-300" id="menu-panel">
+    <div class="safe-area-top"><!-- Header del Menú -->
+     <div class="orange-gradient p-4 text-white">
+      <div class="flex items-center justify-between">
+       <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-xl">
+         🏢
+        </div>
+        <div>
+         <h2 class="font-bold">Menú Principal</h2>
+         <p class="text-sm opacity-90">Directorio de Negocios</p>
+        </div>
+       </div><button onclick="closeMobileMenu()" class="touch-target flex items-center justify-center"> <span class="text-white text-xl">✕</span> </button>
+      </div>
+     </div><!-- Opciones del Menú -->
+     <div class="p-4 space-y-2"><button id="about-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"> <span class="text-2xl">👥</span> <span class="font-medium" id="about-text">Quiénes Somos</span> </button> <button id="services-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"> <span class="text-2xl">🛠️</span> <span class="font-medium" id="services-text">Servicios que Prestamos</span> </button> <button id="contract-service-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl text-white transition-colors" style="background-color: #db3717;"> <span class="text-2xl">💬</span> <span class="font-medium">Contratar Servicio</span> </button>
+      <div class="border-t border-gray-200 my-4"></div><button id="admin-btn-mobile" class="w-full flex items-center space-x-3 p-3 rounded-xl text-white transition-colors" style="background-color: #151a2b;"> <span class="text-2xl">🔐</span> <span class="font-medium">Administrador</span> </button>
      </div>
     </div>
-   </div><!-- Lista de negocios -->
-   <div class="container">
-    <div class="business-list" id="businessList">
-     <h3 style="color: #151a2b; font-size: 24px; margin-bottom: 20px;">Resultados de Búsqueda</h3>
-     <div id="businessResults"></div>
+   </div>
+  </div>
+  <div class="px-4 py-4"><!-- Estado de Conexión -->
+   <div id="connection-status" class="mb-4 p-3 rounded-xl text-center text-sm font-medium hidden"><!-- Se mostrará dinámicamente -->
+   </div><!-- Categorías -->
+   <div class="mb-6">
+    <h2 class="text-xl font-bold mb-4" style="color: #151a2b;">Categorías</h2>
+    <div class="grid grid-cols-3 gap-3" id="categories-grid"><!-- Categorías se generarán dinámicamente -->
     </div>
-   </div><!-- Panel de administración -->
-   <div class="admin-panel">
-    <div class="container">
-     <div style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;"><button class="admin-btn" onclick="goToAdminPage()">Administrador</button> <span style="color: #db3717; font-size: 24px; font-weight: bold;">Hecho por: Solum</span>
+   </div><!-- Filtros Activos -->
+   <div id="active-filters" class="mb-4 hidden">
+    <div class="flex flex-wrap items-center gap-2"><span class="text-xs font-medium text-gray-600">Filtros:</span>
+     <div id="filter-tags" class="flex flex-wrap gap-1"></div><button id="clear-filters" class="text-xs px-3 py-1 rounded-full border hover:bg-gray-50" style="border-color: #db3717; color: #db3717;"> ✕ Limpiar </button>
+    </div>
+   </div><!-- Contador de Negocios -->
+   <div class="mb-4">
+    <p id="business-count" class="text-lg font-medium" style="color: #151a2b;">Cargando negocios...</p>
+   </div><!-- Grid de Negocios -->
+   <div id="business-grid" class="space-y-4"><!-- Los negocios se mostrarán aquí -->
+   </div><!-- Estado Vacío -->
+   <div id="empty-state" class="text-center py-12 hidden">
+    <div class="text-5xl mb-4">
+     🏪
+    </div>
+    <h3 class="text-xl font-bold mb-3" style="color: #151a2b;">¡Sé el primero!</h3>
+    <p class="text-gray-600 mb-6 text-sm">No hay negocios publicados aún. Publica el tuyo y comienza a crecer.</p><button id="empty-add-btn" class="px-6 py-3 rounded-xl font-medium text-white transition-all" style="background-color: #db3717;"> ➕ Publicar Primer Negocio </button>
+   </div><!-- Sin Resultados -->
+   <div id="no-results-state" class="text-center py-12 hidden">
+    <div class="text-5xl mb-4">
+     🔍
+    </div>
+    <h3 class="text-xl font-bold mb-3" style="color: #151a2b;">Sin resultados</h3>
+    <p class="text-gray-600 text-sm">No encontramos negocios que coincidan con tu búsqueda.</p>
+   </div>
+  </div><!-- Pie de Página -->
+  <footer class="mt-8" style="background-color: #151a2b;">
+   <div class="px-4 py-6 text-center">
+    <div class="flex items-center justify-between">
+     <p class="text-white text-sm font-medium">Hecho por SOLUM</p><button id="scroll-to-top" class="w-10 h-10 rounded-lg flex items-center justify-center text-white transition-all hover:bg-white hover:bg-opacity-20" style="background-color: rgba(255,255,255,0.1);"> <span class="text-lg">↑</span> </button>
+    </div>
+   </div>
+  </footer><!-- Modal Publicar Negocio -->
+  <div id="add-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">📝 Publicar Negocio</h2><button id="close-modal" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <form id="business-form">
+      <div class="space-y-4">
+       <div><label for="business-name" class="block text-sm font-medium mb-2" style="color: #151a2b;">Nombre del Negocio *</label> <input type="text" id="business-name" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Ej: Restaurante El Buen Sabor">
+       </div>
+       <div><label for="business-category" class="block text-sm font-medium mb-2" style="color: #151a2b;">Categoría *</label> <select id="business-category" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;"> <option value="">Seleccionar categoría</option> </select>
+       </div>
+       <div><label for="business-description" class="block text-sm font-medium mb-2" style="color: #151a2b;">Descripción</label> <textarea id="business-description" rows="4" class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Describe tu negocio..."></textarea>
+       </div>
+       <div><label for="business-logo" class="block text-sm font-medium mb-2" style="color: #151a2b;">Logo de la Empresa</label> <input type="url" id="business-logo" class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="https://ejemplo.com/mi-logo.jpg">
+        <p class="text-xs text-gray-500 mt-1">💡 Pega aquí la URL de tu logo (debe ser una imagen pública en internet)</p>
+       </div>
+       <div><label for="business-website" class="block text-sm font-medium mb-2" style="color: #151a2b;">Sitio Web</label> <input type="url" id="business-website" class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="https://www.minegocio.com">
+       </div>
+       <div><label class="block text-sm font-medium mb-2" style="color: #151a2b;">Galería de Imágenes</label>
+        <div id="gallery-inputs" class="space-y-2">
+         <div class="flex items-center space-x-2"><input type="url" class="gallery-url flex-1 px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="https://ejemplo.com/imagen1.jpg"> <button type="button" onclick="removeGalleryInput(this)" class="px-3 py-3 rounded-xl text-white" style="background-color: #ef4444;"> 🗑️ </button>
+         </div>
+        </div><button type="button" id="add-gallery-btn" class="mt-2 w-full py-2 px-4 border-2 border-dashed rounded-xl hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;"> ➕ Agregar Imagen </button>
+        <p class="text-xs text-gray-500 mt-1">💡 Agrega URLs de imágenes públicas para mostrar en la galería del perfil</p>
+       </div>
+      </div>
+      <div class="flex gap-4 mt-8"><button type="button" id="cancel-btn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-xl font-medium transition-colors"> Cancelar </button> <button type="submit" id="submit-btn" class="flex-1 text-white py-3 px-4 rounded-xl font-medium transition-colors" style="background-color: #db3717;"> Publicar Negocio </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Modal Información -->
+  <div id="info-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[80vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-4">
+      <h2 id="info-modal-title" class="text-xl font-bold" style="color: #151a2b;"></h2><button id="close-info-modal" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <div id="info-modal-content" class="text-gray-600"><!-- Contenido dinámico -->
      </div>
     </div>
    </div>
   </div><!-- Página de Perfil del Negocio -->
-  <div id="businessProfile" class="business-profile"><!-- Franja naranja superior -->
-   <div class="top-banner"></div><!-- Logo de la empresa -->
-   <div class="logo-section">
-    <div class="container">
-     <div class="company-logo">
-      <svg viewbox="0 0 24 24"><path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2M12 4.14L20 8.23V10C20 15.25 16.87 19.17 12 20.84C7.13 19.17 4 15.25 4 10V8.23L12 4.14Z" />
-      </svg>
-     </div>
-     <h1 class="company-name" id="profileCompanyName">Mi Empresa</h1>
-    </div>
-   </div><!-- Barra de menú -->
-   <div class="menu-bar">
-    <div class="container">
-     <div class="menu-content">
-      <div class="search-container"><input type="text" class="search-input" placeholder="Buscar negocios en tu ciudad..." readonly> <button class="search-btn">
-        <svg width="20" height="20" fill="white" viewbox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-        </svg></button>
+  <div id="business-profile-page" class="fixed inset-0 bg-gray-50 hidden z-50 overflow-y-auto"><!-- Header del Perfil -->
+   <div class="mobile-header bg-white shadow-lg safe-area-top">
+    <div class="orange-gradient h-2 w-full"></div>
+    <div class="px-4 py-3">
+     <div class="flex items-center justify-between"><button id="back-to-directory" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">←</span> </button>
+      <div class="text-center">
+       <h1 class="text-lg font-bold" style="color: #151a2b;">Perfil del Negocio</h1>
       </div>
-      <div class="menu-buttons"><button class="menu-btn" onclick="goToMainPage()">← Volver al Inicio</button>
-      </div>
+      <div class="w-10"></div><!-- Spacer -->
      </div>
-    </div>
-   </div><!-- Perfil del Negocio -->
-   <div class="profile-hero">
-    <div class="container"><img id="profileLogo" class="profile-logo" src="" alt="Logo del negocio" onerror="this.src=''; this.alt='Logo no disponible'; this.style.display='none';">
-     <h1 id="profileBusinessName" class="profile-name">Nombre del Negocio</h1><span id="profileBusinessCategory" class="profile-category">Categoría</span>
-     <p id="profileBusinessDescription" class="profile-description">Descripción del negocio</p>
     </div>
    </div><!-- Contenido del Perfil -->
-   <div class="profile-content">
-    <div class="container"><!-- Sección de Contacto -->
-     <div class="contact-section">
-      <h3 class="contact-title">Contáctanos</h3>
-      <div class="contact-buttons"><a id="instagramLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn instagram-btn">
-        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-        </svg> Instagram </a> <a id="whatsappLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn">
-        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
-        </svg> WhatsApp </a> <a id="phoneLink" href="#" class="contact-btn phone-btn">
-        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-        </svg> Teléfono </a> <a id="locationLink" href="#" target="_blank" rel="noopener noreferrer" class="contact-btn location-btn">
-        <svg width="24" height="24" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-        </svg> Ubicación </a>
+   <div class="px-4 py-4"><!-- Información Principal -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <div class="text-center mb-6">
+      <div id="profile-logo-container" class="w-24 h-24 bg-gray-100 border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center mb-4 text-gray-400 text-xs text-center mx-auto overflow-hidden">
+       📷<br>
+       Logo<br>
+       Empresa
       </div>
-      <div style="text-align: center; color: #666; font-size: 14px;">
-       📍 <span id="profileBusinessAddress">Dirección del negocio</span>
-      </div>
-     </div><!-- Galería de Imágenes -->
-     <div class="gallery-section">
-      <h3 class="gallery-title">Galería de Imágenes</h3>
-      <div class="gallery-container">
-       <div id="galleryImages"><!-- Las imágenes se cargan dinámicamente -->
+      <h1 id="profile-business-name" class="text-2xl font-bold mb-2" style="color: #151a2b;"></h1>
+      <div id="profile-business-category" class="inline-block px-4 py-2 rounded-full text-white font-medium" style="background-color: #db3717;"></div>
+     </div>
+     <div id="profile-description" class="text-gray-700 text-center"></div>
+    </div><!-- Botones de Contacto -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4 text-center" style="color: #151a2b;">Conecta con Nosotros</h2>
+     <div class="grid grid-cols-2 gap-3"><button id="whatsapp-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #25D366; color: white;">
+       <svg class="w-6 h-6 mb-1" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+       </svg><span class="font-medium text-sm">WhatsApp</span> </button> <button id="phone-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #db3717; color: white;"> <span class="text-2xl mb-1">📞</span> <span class="font-medium text-sm">Llamar</span> </button> <button id="instagram-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #E4405F; color: white;">
+       <svg class="w-6 h-6 mb-1" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+       </svg><span class="font-medium text-sm">Instagram</span> </button> <button id="location-btn" class="flex flex-col items-center p-4 rounded-xl transition-all" style="background-color: #151a2b; color: white;">
+       <svg class="w-6 h-6 mb-1" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+       </svg><span class="font-medium text-sm">Ubicación</span> </button>
+     </div>
+    </div><!-- Galería de Imágenes -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+     <h2 class="text-lg font-bold mb-4 text-center" style="color: #151a2b;">Galería de Imágenes</h2>
+     <div class="relative">
+      <div id="image-gallery" class="w-full h-48 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
+       <div id="gallery-slide" class="w-full h-full flex items-center justify-center text-gray-400 text-4xl transition-all duration-1000">
+        🖼️
        </div>
       </div>
-      <div class="gallery-indicators" id="galleryIndicators"><!-- Los indicadores se generan dinámicamente -->
+      <div class="flex justify-center mt-3 space-x-2" id="gallery-dots"><!-- Dots se generarán dinámicamente -->
       </div>
      </div>
+    </div>
+   </div>
+  </div><!-- Modal de Login Administrador -->
+  <div id="admin-login-modal" class="fixed inset-0 modal-backdrop hidden items-end justify-center z-50">
+   <div class="bg-white rounded-t-3xl shadow-xl w-full max-h-[80vh] overflow-y-auto">
+    <div class="swipe-indicator"></div>
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold" style="color: #151a2b;">🔐 Acceso Administrador</h2><button id="close-admin-login" class="touch-target flex items-center justify-center text-gray-500"> <span class="text-2xl">✕</span> </button>
+     </div>
+     <form id="admin-login-form">
+      <div class="mb-6"><label for="admin-password" class="block text-sm font-medium mb-2" style="color: #151a2b;">Contraseña de Administrador</label> <input type="password" id="admin-password" required class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2" style="border-color: #db3717; --tw-ring-color: #db3717;" placeholder="Ingrese la contraseña">
+      </div>
+      <div class="flex gap-3"><button type="button" id="cancel-admin-login" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-xl font-medium transition-colors"> Cancelar </button> <button type="submit" class="flex-1 text-white py-3 px-4 rounded-xl font-medium transition-colors" style="background-color: #db3717;"> Ingresar </button>
+      </div>
+     </form>
     </div>
    </div>
   </div><!-- Página de Administrador -->
-  <div id="adminPage" style="display: none;">
-   <div class="admin-header">
-    <div class="container">
-     <div class="admin-nav"><button class="back-btn" onclick="goToMainPage()">
-       <svg width="20" height="20" fill="white" viewbox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
-       </svg> Volver al Inicio </button>
-      <h2 class="admin-page-title">Panel de Administrador</h2>
+  <div id="admin-page" class="fixed inset-0 bg-gray-50 hidden z-50 overflow-y-auto"><!-- Header Admin -->
+   <div class="mobile-header bg-white shadow-lg safe-area-top">
+    <div class="orange-gradient h-2 w-full"></div>
+    <div class="px-4 py-3">
+     <div class="flex items-center justify-between"><button id="back-to-main" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #151a2b;"> <span class="text-white text-lg">←</span> </button>
+      <div class="text-center">
+       <h1 class="text-lg font-bold" style="color: #151a2b;">Panel Admin</h1>
+      </div><button id="logout-admin" class="touch-target flex items-center justify-center rounded-lg" style="background-color: #db3717;"> <span class="text-white text-lg">🚪</span> </button>
      </div>
     </div>
-   </div>
-   <div class="admin-content">
-    <div class="container"><!-- Estadísticas -->
-     <div class="stats-section">
-      <h3 class="section-subtitle">Estadísticas del Sistema</h3>
-      <div class="stats-grid">
-       <div class="stat-card">
-        <div class="stat-number" id="totalBusinesses">
-         0
-        </div>
-        <div class="stat-label">
-         Total de Negocios
-        </div>
-       </div>
-       <div class="stat-card">
-        <div class="stat-number" id="totalCategories">
-         8
-        </div>
-        <div class="stat-label">
-         Categorías Disponibles
-        </div>
-       </div>
-       <div class="stat-card">
-        <div class="stat-number" id="activeBusinesses">
-         0
-        </div>
-        <div class="stat-label">
-         Negocios Activos
-        </div>
-       </div>
+   </div><!-- Contenido Admin -->
+   <div class="px-4 py-4"><!-- Estadísticas -->
+    <div class="grid grid-cols-3 gap-3 mb-6">
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #db3717;" id="total-businesses">
+       0
       </div>
-     </div><!-- Gestión de Negocios -->
-     <div class="management-section">
-      <div class="section-header">
-       <h3 class="section-subtitle">Gestión de Negocios</h3><button class="admin-btn" onclick="showAddBusinessModal()">+ Agregar Negocio</button>
-      </div>
-      <div class="business-table-container">
-       <table class="business-table">
-        <thead>
-         <tr>
-          <th>Nombre</th>
-          <th>Categoría</th>
-          <th>Dirección</th>
-          <th>Teléfono</th>
-          <th>Acciones</th>
-         </tr>
-        </thead>
-        <tbody id="businessTableBody"><!-- Los negocios se cargan dinámicamente -->
-        </tbody>
-       </table>
+      <div class="text-xs text-gray-600">
+       Negocios
       </div>
      </div>
-    </div>
-   </div>
-  </div><!-- Modal -->
-  <div class="modal" id="modal">
-   <div class="modal-content">
-    <div class="modal-header">
-     <h3 class="modal-title" id="modalTitle">Título del Modal</h3><button class="close-btn" onclick="closeModal()">×</button>
-    </div>
-    <div id="modalBody"><!-- Contenido del modal se genera dinámicamente -->
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #151a2b;" id="total-categories">
+       14
+      </div>
+      <div class="text-xs text-gray-600">
+       Categorías
+      </div>
+     </div>
+     <div class="bg-white rounded-2xl p-4 text-center shadow-lg">
+      <div class="text-2xl font-bold mb-1" style="color: #db3717;" id="recent-businesses">
+       0
+      </div>
+      <div class="text-xs text-gray-600">
+       Recientes
+      </div>
+     </div>
+    </div><!-- Gestión de Negocios -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4" style="color: #151a2b;">📋 Gestión de Negocios</h2>
+     <div class="space-y-3"><button id="admin-add-business" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+       <div class="text-2xl mb-1">
+        ➕
+       </div>
+       <div class="font-medium">
+        Publicar Negocio
+       </div></button> <button id="manage-businesses" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #151a2b; color: #151a2b;">
+       <div class="text-2xl mb-1">
+        📊
+       </div>
+       <div class="font-medium">
+        Gestionar Negocios
+       </div></button>
+     </div>
+    </div><!-- Gestión de Categorías -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-4">
+     <h2 class="text-lg font-bold mb-4" style="color: #151a2b;">🏷️ Gestión de Categorías</h2><button id="manage-categories" class="w-full p-4 rounded-xl border-2 border-dashed hover:bg-gray-50 transition-colors" style="border-color: #db3717; color: #db3717;">
+      <div class="text-2xl mb-1">
+       🏷️
+      </div>
+      <div class="font-medium">
+       Modificar Categorías
+      </div></button>
     </div>
    </div>
   </div>
   <script>
-        // Configuración por defecto
+        // Configuración
         const defaultConfig = {
             company_name: "Mi Empresa",
             city_name: "Mi Ciudad",
-            search_placeholder: "Buscar negocios en tu ciudad..."
+            about_text: "Quiénes Somos",
+            services_text: "Servicios que Prestamos"
         };
 
-        // Datos de ejemplo
-        let businesses = [
-            {
-                id: 1,
-                name: "Hotel Plaza Central",
-                category: "hoteles",
-                address: "Av. Principal 123",
-                phone: "555-0123",
-                description: "Hotel de lujo en el centro de la ciudad con todas las comodidades.",
-                logo: "https://via.placeholder.com/80x80/db3717/ffffff?text=HP",
-                instagram: "https://instagram.com/hotelplaza",
-                whatsapp: "555-0123",
-                location: "https://maps.google.com/?q=Av.+Principal+123",
-                gallery: [
-                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Hotel+1",
-                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Hotel+2",
-                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Hotel+3",
-                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Hotel+4"
-                ]
-            },
-            {
-                id: 2,
-                name: "Restaurante El Buen Sabor",
-                category: "restaurantes",
-                address: "Calle Gastronómica 456",
-                phone: "555-0456",
-                description: "Comida tradicional con los mejores ingredientes locales.",
-                logo: "https://via.placeholder.com/80x80/28a745/ffffff?text=RS",
-                instagram: "https://instagram.com/buensabor",
-                whatsapp: "555-0456",
-                location: "https://maps.google.com/?q=Calle+Gastronómica+456",
-                gallery: [
-                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Rest+1",
-                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Rest+2",
-                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Rest+3",
-                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Rest+4"
-                ]
-            },
-            {
-                id: 3,
-                name: "Heladería Dulce Tentación",
-                category: "heladerias",
-                address: "Plaza de los Sabores 789",
-                phone: "555-0789",
-                description: "Helados artesanales con sabores únicos y naturales.",
-                logo: "https://via.placeholder.com/80x80/ff4d2e/ffffff?text=DT",
-                instagram: "https://instagram.com/dulcetentacion",
-                whatsapp: "555-0789",
-                location: "https://maps.google.com/?q=Plaza+de+los+Sabores+789",
-                gallery: [
-                    "https://via.placeholder.com/400x300/ff4d2e/ffffff?text=Helado+1",
-                    "https://via.placeholder.com/400x300/db3717/ffffff?text=Helado+2",
-                    "https://via.placeholder.com/400x300/28a745/ffffff?text=Helado+3",
-                    "https://via.placeholder.com/400x300/151a2b/ffffff?text=Helado+4"
-                ]
-            }
+        // Categorías de negocios
+        let categories = [
+            { name: "Hoteles", icon: "🏨", color: "#db3717" },
+            { name: "Restaurantes", icon: "🍽️", color: "#151a2b" },
+            { name: "Heladerías", icon: "🍦", color: "#db3717" },
+            { name: "Tiendas", icon: "🛍️", color: "#151a2b" },
+            { name: "Servicios", icon: "🔧", color: "#db3717" },
+            { name: "Salud", icon: "🏥", color: "#151a2b" },
+            { name: "Educación", icon: "📚", color: "#db3717" },
+            { name: "Entretenimiento", icon: "🎭", color: "#151a2b" },
+            { name: "Transporte", icon: "🚗", color: "#db3717" },
+            { name: "Belleza", icon: "💄", color: "#151a2b" },
+            { name: "Deportes", icon: "⚽", color: "#db3717" },
+            { name: "Tecnología", icon: "💻", color: "#151a2b" },
+            { name: "Holístico", icon: "🧘", color: "#db3717" },
+            { name: "Ropa y Calzado", icon: "👕", color: "#151a2b" }
         ];
 
-        const categories = [
-            { id: 'hoteles', name: 'Hoteles', icon: '🏨', count: 0 },
-            { id: 'restaurantes', name: 'Restaurantes', icon: '🍽️', count: 0 },
-            { id: 'heladerias', name: 'Heladerías', icon: '🍦', count: 0 },
-            { id: 'tiendas', name: 'Tiendas', icon: '🛍️', count: 0 },
-            { id: 'servicios', name: 'Servicios', icon: '🔧', count: 0 },
-            { id: 'entretenimiento', name: 'Entretenimiento', icon: '🎭', count: 0 },
-            { id: 'salud', name: 'Salud', icon: '🏥', count: 0 },
-            { id: 'educacion', name: 'Educación', icon: '📚', count: 0 }
-        ];
+        // Variables globales
+        let allBusinesses = [];
+        let filteredBusinesses = [];
+        let activeFilters = {
+            search: '',
+            category: ''
+        };
+        let currentBusiness = null;
+        let galleryInterval = null;
+        let currentSlide = 0;
+        let isAdminLoggedIn = false;
+        let isDataSdkConnected = false;
+
+        // Data Handler para el SDK
+        const dataHandler = {
+            onDataChanged(data) {
+                allBusinesses = data || [];
+                applyFilters();
+                updateBusinessCount();
+                updateAdminStats();
+            }
+        };
 
         // Inicialización
-        function init() {
-            updateCategoryCounts();
-            renderCategories();
-            loadBusinessesFromStorage();
-        }
-
-        function updateCategoryCounts() {
-            categories.forEach(category => {
-                category.count = businesses.filter(b => b.category === category.id).length;
-            });
-        }
-
-        function renderCategories() {
-            const grid = document.getElementById('categoriesGrid');
-            grid.innerHTML = categories.map(category => `
-                <div class="category-card" onclick="filterByCategory('${category.id}')">
-                    <div class="category-icon">${category.icon}</div>
-                    <div class="category-name">${category.name}</div>
-                    <div class="category-count">${category.count} negocios</div>
-                </div>
-            `).join('');
-        }
-
-        function filterByCategory(categoryId) {
-            const filtered = businesses.filter(b => b.category === categoryId);
-            const categoryName = categories.find(c => c.id === categoryId)?.name || 'Categoría';
-            showBusinessResults(filtered, `Negocios en ${categoryName}`);
-        }
-
-        function searchBusinesses() {
-            const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (!query) {
-                document.getElementById('businessList').style.display = 'none';
-                return;
-            }
-
-            const filtered = businesses.filter(b => 
-                b.name.toLowerCase().includes(query) ||
-                b.description.toLowerCase().includes(query) ||
-                b.address.toLowerCase().includes(query)
-            );
-
-            showBusinessResults(filtered, `Resultados para "${query}"`);
-        }
-
-        function showBusinessResults(businessList, title) {
-            const resultsContainer = document.getElementById('businessResults');
-            const listContainer = document.getElementById('businessList');
-            
-            resultsContainer.innerHTML = businessList.length > 0 
-                ? businessList.map(business => `
-                    <div class="business-card">
-                        <div class="business-logo">
-                            <img src="${business.logo || 'https://via.placeholder.com/80x80/db3717/ffffff?text=' + business.name.charAt(0)}" 
-                                 alt="Logo de ${business.name}" 
-                                 onerror="this.src='https://via.placeholder.com/80x80/db3717/ffffff?text=${business.name.charAt(0)}'; this.alt='Logo no disponible';">
-                        </div>
-                        <div class="business-header">
-                            <h4 class="business-name">${business.name}</h4>
-                            <span class="business-category">${categories.find(c => c.id === business.category)?.name || business.category}</span>
-                        </div>
-                        <div class="business-info">
-                            📍 ${business.address} | 📞 ${business.phone}
-                        </div>
-                        <div class="business-description">${business.description}</div>
-                        <div class="business-actions">
-                            <button class="view-profile-btn" onclick="viewBusinessProfile(${business.id})">
-                                Ver Perfil Completo
-                            </button>
-                        </div>
-                    </div>
-                `).join('')
-                : '<p style="text-align: center; color: #666; padding: 40px;">No se encontraron negocios que coincidan con tu búsqueda.</p>';
-
-            listContainer.querySelector('h3').textContent = title;
-            listContainer.style.display = 'block';
-            listContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function showAddBusinessModal() {
-            document.getElementById('modalTitle').textContent = 'Agregar Nuevo Negocio';
-            document.getElementById('modalBody').innerHTML = `
-                <form onsubmit="addBusiness(event)">
-                    <div class="form-group">
-                        <label class="form-label">Nombre del Negocio</label>
-                        <input type="text" class="form-input" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Categoría</label>
-                        <select class="form-select" name="category" required>
-                            <option value="">Seleccionar categoría</option>
-                            ${categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Dirección</label>
-                        <input type="text" class="form-input" name="address" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-input" name="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Descripción</label>
-                        <textarea class="form-textarea" name="description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">URL del Logo (opcional)</label>
-                        <input type="url" class="form-input" name="logo" placeholder="https://ejemplo.com/logo.jpg">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Instagram (opcional)</label>
-                        <input type="url" class="form-input" name="instagram" placeholder="https://instagram.com/usuario">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">WhatsApp (número)</label>
-                        <input type="tel" class="form-input" name="whatsapp" placeholder="555-0123">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">URL de Ubicación (opcional)</label>
-                        <input type="url" class="form-input" name="location" placeholder="https://maps.google.com/?q=direccion">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">URLs de Galería (separadas por comas)</label>
-                        <textarea class="form-textarea" name="gallery" placeholder="https://ejemplo.com/img1.jpg, https://ejemplo.com/img2.jpg"></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Agregar Negocio</button>
-                </form>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function addBusiness(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            
-            // Procesar galería de imágenes
-            const galleryText = formData.get('gallery') || '';
-            const galleryUrls = galleryText.split(',').map(url => url.trim()).filter(url => url);
-            
-            const newBusiness = {
-                id: Date.now(),
-                name: formData.get('name'),
-                category: formData.get('category'),
-                address: formData.get('address'),
-                phone: formData.get('phone'),
-                description: formData.get('description'),
-                logo: formData.get('logo') || '',
-                instagram: formData.get('instagram') || '',
-                whatsapp: formData.get('whatsapp') || formData.get('phone'),
-                location: formData.get('location') || '',
-                gallery: galleryUrls.length > 0 ? galleryUrls : [
-                    `https://via.placeholder.com/400x300/db3717/ffffff?text=${encodeURIComponent(formData.get('name'))}+1`,
-                    `https://via.placeholder.com/400x300/151a2b/ffffff?text=${encodeURIComponent(formData.get('name'))}+2`,
-                    `https://via.placeholder.com/400x300/ff4d2e/ffffff?text=${encodeURIComponent(formData.get('name'))}+3`
-                ]
-            };
-
-            businesses.push(newBusiness);
-            saveBusinessesToStorage();
-            updateCategoryCounts();
-            renderCategories();
-            closeModal();
-            
-            // Mostrar mensaje de éxito
-            showSuccessMessage('¡Negocio agregado exitosamente!');
-        }
-
-        function showManageBusinesses() {
-            document.getElementById('modalTitle').textContent = 'Gestionar Negocios';
-            document.getElementById('modalBody').innerHTML = `
-                <div style="max-height: 400px; overflow-y: auto;">
-                    ${businesses.length > 0 
-                        ? businesses.map(business => `
-                            <div class="business-card" style="margin-bottom: 15px;">
-                                <div class="business-header">
-                                    <h4 class="business-name">${business.name}</h4>
-                                    <button onclick="deleteBusiness(${business.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Eliminar</button>
-                                </div>
-                                <div class="business-info">
-                                    📍 ${business.address} | 📞 ${business.phone}
-                                </div>
-                                <div class="business-description">${business.description}</div>
-                            </div>
-                        `).join('')
-                        : '<p style="text-align: center; color: #666; padding: 40px;">No hay negocios registrados.</p>'
-                    }
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function deleteBusiness(id) {
-            businesses = businesses.filter(b => b.id !== id);
-            saveBusinessesToStorage();
-            updateCategoryCounts();
-            renderCategories();
-            
-            // Si estamos en la página de administrador, actualizar la tabla
-            if (document.getElementById('adminPage').style.display !== 'none') {
-                updateAdminStats();
-                loadBusinessTable();
-            } else {
-                showManageBusinesses(); // Refresh the modal si estamos en la página principal
-            }
-            
-            showSuccessMessage('Negocio eliminado exitosamente');
-        }
-
-        function showAboutUs() {
-            document.getElementById('modalTitle').textContent = '¿Quiénes Somos?';
-            document.getElementById('modalBody').innerHTML = `
-                <div style="line-height: 1.6; color: #333;">
-                    <p>Somos una plataforma digital dedicada a conectar a los ciudadanos con los mejores negocios locales de su ciudad.</p>
-                    <p>Nuestra misión es promover el comercio local y facilitar que las personas descubran nuevos lugares y servicios en su comunidad.</p>
-                    <h4 style="color: #151a2b; margin-top: 25px;">Nuestros Valores:</h4>
-                    <ul>
-                        <li>🤝 Apoyo al comercio local</li>
-                        <li>🌟 Calidad en el servicio</li>
-                        <li>💡 Innovación tecnológica</li>
-                        <li>🏘️ Compromiso con la comunidad</li>
-                    </ul>
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function showServices() {
-            document.getElementById('modalTitle').textContent = 'Servicios que Prestamos';
-            document.getElementById('modalBody').innerHTML = `
-                <div style="line-height: 1.6; color: #333;">
-                    <h4 style="color: #151a2b;">Para Negocios:</h4>
-                    <ul>
-                        <li>📝 Registro y publicación de negocios</li>
-                        <li>📊 Gestión de información comercial</li>
-                        <li>🎯 Categorización por sectores</li>
-                        <li>📱 Visibilidad en plataforma digital</li>
-                    </ul>
-                    
-                    <h4 style="color: #151a2b; margin-top: 25px;">Para Usuarios:</h4>
-                    <ul>
-                        <li>🔍 Búsqueda avanzada de negocios</li>
-                        <li>🗂️ Navegación por categorías</li>
-                        <li>📍 Información de contacto y ubicación</li>
-                        <li>💼 Descubrimiento de servicios locales</li>
-                    </ul>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; text-align: center;">
-                        <strong style="color: #db3717;">¡Conectamos tu ciudad con sus mejores negocios!</strong>
-                    </div>
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function showSettings() {
-            document.getElementById('modalTitle').textContent = 'Configuración de la Plataforma';
-            document.getElementById('modalBody').innerHTML = `
-                <form onsubmit="saveSettings(event)">
-                    <div class="form-group">
-                        <label class="form-label">Nombre de la Empresa</label>
-                        <input type="text" class="form-input" name="companyName" value="${document.getElementById('companyName').textContent}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Nombre de la Ciudad</label>
-                        <input type="text" class="form-input" name="cityName" value="Mi Ciudad">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Texto del Buscador</label>
-                        <input type="text" class="form-input" name="searchPlaceholder" value="${document.getElementById('searchInput').placeholder}">
-                    </div>
-                    <button type="submit" class="submit-btn">Guardar Configuración</button>
-                </form>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function saveSettings(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            
-            document.getElementById('companyName').textContent = formData.get('companyName');
-            document.getElementById('searchInput').placeholder = formData.get('searchPlaceholder');
-            
-            closeModal();
-            showSuccessMessage('Configuración guardada exitosamente');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        function showSuccessMessage(message) {
-            const successDiv = document.createElement('div');
-            successDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #28a745;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 8px;
-                z-index: 1001;
-                font-weight: 600;
-                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-            `;
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
-            
-            setTimeout(() => {
-                document.body.removeChild(successDiv);
-            }, 3000);
-        }
-
-        // Funciones de navegación
-        function goToAdminPage() {
-            // Limpiar slideshow si está activo
-            if (galleryInterval) {
-                clearInterval(galleryInterval);
-            }
-
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('adminPage').style.display = 'block';
-            document.getElementById('businessProfile').style.display = 'none';
-            updateAdminStats();
-            loadBusinessTable();
-        }
-
-        function updateAdminStats() {
-            document.getElementById('totalBusinesses').textContent = businesses.length;
-            document.getElementById('activeBusinesses').textContent = businesses.length;
-        }
-
-        function loadBusinessTable() {
-            const tbody = document.getElementById('businessTableBody');
-            tbody.innerHTML = businesses.length > 0 
-                ? businesses.map(business => `
-                    <tr>
-                        <td><strong>${business.name}</strong></td>
-                        <td>
-                            <span style="background: #db3717; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">
-                                ${categories.find(c => c.id === business.category)?.name || business.category}
-                            </span>
-                        </td>
-                        <td>${business.address}</td>
-                        <td>${business.phone}</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="edit-btn" onclick="editBusiness(${business.id})">Editar</button>
-                                <button class="delete-btn" onclick="confirmDeleteBusiness(${business.id})">Eliminar</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('')
-                : '<tr><td colspan="5" style="text-align: center; color: #666; padding: 40px;">No hay negocios registrados</td></tr>';
-        }
-
-        function editBusiness(id) {
-            const business = businesses.find(b => b.id === id);
-            if (!business) return;
-
-            document.getElementById('modalTitle').textContent = 'Editar Negocio';
-            document.getElementById('modalBody').innerHTML = `
-                <form onsubmit="updateBusiness(event, ${id})">
-                    <div class="form-group">
-                        <label class="form-label">Nombre del Negocio</label>
-                        <input type="text" class="form-input" name="name" value="${business.name}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Categoría</label>
-                        <select class="form-select" name="category" required>
-                            ${categories.map(cat => `<option value="${cat.id}" ${cat.id === business.category ? 'selected' : ''}>${cat.name}</option>`).join('')}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Dirección</label>
-                        <input type="text" class="form-input" name="address" value="${business.address}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-input" name="phone" value="${business.phone}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Descripción</label>
-                        <textarea class="form-textarea" name="description" required>${business.description}</textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Actualizar Negocio</button>
-                </form>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function updateBusiness(event, id) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const businessIndex = businesses.findIndex(b => b.id === id);
-            
-            if (businessIndex !== -1) {
-                businesses[businessIndex] = {
-                    ...businesses[businessIndex],
-                    name: formData.get('name'),
-                    category: formData.get('category'),
-                    address: formData.get('address'),
-                    phone: formData.get('phone'),
-                    description: formData.get('description')
-                };
-
-                saveBusinessesToStorage();
-                updateCategoryCounts();
-                renderCategories();
-                updateAdminStats();
-                loadBusinessTable();
-                closeModal();
-                showSuccessMessage('¡Negocio actualizado exitosamente!');
-            }
-        }
-
-        function confirmDeleteBusiness(id) {
-            const business = businesses.find(b => b.id === id);
-            if (!business) return;
-
-            document.getElementById('modalTitle').textContent = 'Confirmar Eliminación';
-            document.getElementById('modalBody').innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <div style="font-size: 48px; color: #dc3545; margin-bottom: 20px;">⚠️</div>
-                    <h4 style="color: #151a2b; margin-bottom: 15px;">¿Estás seguro de que deseas eliminar este negocio?</h4>
-                    <p style="color: #666; margin-bottom: 25px;"><strong>${business.name}</strong></p>
-                    <p style="color: #dc3545; font-size: 14px; margin-bottom: 30px;">Esta acción no se puede deshacer.</p>
-                    <div style="display: flex; gap: 15px; justify-content: center;">
-                        <button onclick="closeModal()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">Cancelar</button>
-                        <button onclick="deleteBusiness(${id}); closeModal();" style="background: #dc3545; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">Eliminar</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function saveBusinessesToStorage() {
-            localStorage.setItem('localBusinesses', JSON.stringify(businesses));
-        }
-
-        function loadBusinessesFromStorage() {
-            const stored = localStorage.getItem('localBusinesses');
-            if (stored) {
-                businesses = JSON.parse(stored);
-                updateCategoryCounts();
-                renderCategories();
-            }
-        }
-
-        // Event listeners
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchBusinesses();
-            }
-        });
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        };
-
-        // SDK Integration
-        if (window.elementSdk) {
-            const element = {
-                defaultConfig: defaultConfig,
-                render: async function(config) {
-                    document.getElementById('companyName').textContent = config.company_name || defaultConfig.company_name;
-                    document.getElementById('searchInput').placeholder = config.search_placeholder || defaultConfig.search_placeholder;
-                },
-                mapToCapabilities: function(config) {
-                    return {
+        async function initializeApp() {
+            // Inicializar Element SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    render: async (config) => {
+                        document.getElementById('company-name').textContent = config.company_name || defaultConfig.company_name;
+                        document.getElementById('city-subtitle').textContent = config.city_name || defaultConfig.city_name;
+                        document.getElementById('about-text').textContent = config.about_text || defaultConfig.about_text;
+                        document.getElementById('services-text').textContent = config.services_text || defaultConfig.services_text;
+                    },
+                    mapToCapabilities: (config) => ({
                         recolorables: [],
                         borderables: [],
                         fontEditable: undefined,
                         fontSizeable: undefined
-                    };
-                },
-                mapToEditPanelValues: function(config) {
-                    return new Map([
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
                         ["company_name", config.company_name || defaultConfig.company_name],
                         ["city_name", config.city_name || defaultConfig.city_name],
-                        ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder]
-                    ]);
+                        ["about_text", config.about_text || defaultConfig.about_text],
+                        ["services_text", config.services_text || defaultConfig.services_text]
+                    ])
+                });
+            }
+
+            // Inicializar Data SDK
+            await initializeDataSdk();
+
+            renderCategories();
+            populateCategorySelect();
+            setupEventListeners();
+        }
+
+        // Inicializar Data SDK
+        async function initializeDataSdk() {
+            if (window.dataSdk) {
+                try {
+                    const result = await window.dataSdk.init(dataHandler);
+                    if (result.isOk) {
+                        isDataSdkConnected = true;
+                        showConnectionStatus('✅ Datos sincronizados conectados', 'success');
+                    } else {
+                        console.error('Error inicializando Data SDK:', result.error);
+                        loadBusinessesFromStorage();
+                        showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
+                    }
+                } catch (error) {
+                    console.error('Error con Data SDK:', error);
+                    loadBusinessesFromStorage();
+                    showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
                 }
-            };
-
-            window.elementSdk.init(element);
+            } else {
+                loadBusinessesFromStorage();
+                showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
+            }
         }
 
-        // Funciones para el perfil del negocio
-        let currentGalleryIndex = 0;
-        let galleryInterval;
-
-        function viewBusinessProfile(businessId) {
-            const business = businesses.find(b => b.id === businessId);
-            if (!business) return;
-
-            // Ocultar página principal y mostrar perfil
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('adminPage').style.display = 'none';
-            document.getElementById('businessProfile').style.display = 'block';
-
-            // Actualizar información del perfil
-            document.getElementById('profileCompanyName').textContent = document.getElementById('companyName').textContent;
-            document.getElementById('profileLogo').src = business.logo || `https://via.placeholder.com/150x150/db3717/ffffff?text=${business.name.charAt(0)}`;
-            document.getElementById('profileBusinessName').textContent = business.name;
-            document.getElementById('profileBusinessCategory').textContent = categories.find(c => c.id === business.category)?.name || business.category;
-            document.getElementById('profileBusinessDescription').textContent = business.description;
-            document.getElementById('profileBusinessAddress').textContent = business.address;
-
-            // Configurar enlaces de contacto
-            document.getElementById('instagramLink').href = business.instagram || '#';
-            document.getElementById('whatsappLink').href = business.whatsapp ? `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, '')}` : '#';
-            document.getElementById('phoneLink').href = `tel:${business.phone}`;
-            document.getElementById('locationLink').href = business.location || '#';
-
-            // Configurar galería
-            setupGallery(business.gallery || []);
-
-            // Scroll al inicio
-            window.scrollTo(0, 0);
+        // Mostrar estado de conexión
+        function showConnectionStatus(message, type) {
+            const statusElement = document.getElementById('connection-status');
+            statusElement.textContent = message;
+            statusElement.className = `mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+                type === 'success' ? 'bg-green-100 text-green-800' :
+                type === 'error' ? 'bg-red-100 text-red-800' :
+                'bg-blue-100 text-blue-800'
+            }`;
+            statusElement.classList.remove('hidden');
+            
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 5000);
         }
 
-        function setupGallery(images) {
-            const galleryContainer = document.getElementById('galleryImages');
-            const indicatorsContainer = document.getElementById('galleryIndicators');
+        // Funciones de almacenamiento local (fallback)
+        function saveBusinessesToStorage() {
+            localStorage.setItem('directoryBusinesses', JSON.stringify(allBusinesses));
+        }
 
-            if (!images || images.length === 0) {
-                galleryContainer.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No hay imágenes disponibles</p>';
-                indicatorsContainer.innerHTML = '';
+        function loadBusinessesFromStorage() {
+            const stored = localStorage.getItem('directoryBusinesses');
+            if (stored) {
+                allBusinesses = JSON.parse(stored);
+                applyFilters();
+                updateBusinessCount();
+            } else {
+                allBusinesses = [];
+                applyFilters();
+                updateBusinessCount();
+            }
+        }
+
+        // Renderizar categorías
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            grid.innerHTML = categories.map((category, index) => `
+                <div class="category-card bg-white rounded-2xl p-4 text-center shadow-md border-2 border-transparent hover:border-current" 
+                     style="color: ${category.color};" 
+                     onclick="filterByCategory('${category.name}')">
+                    <div class="text-3xl mb-2">${category.icon}</div>
+                    <h3 class="font-semibold text-sm">${category.name}</h3>
+                </div>
+            `).join('');
+        }
+
+        // Poblar select de categorías
+        function populateCategorySelect() {
+            const select = document.getElementById('business-category');
+            if (select) {
+                select.innerHTML = '<option value="">Seleccionar categoría</option>';
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.name;
+                    option.textContent = `${category.icon} ${category.name}`;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Menú móvil
+            document.getElementById('menu-btn').addEventListener('click', openMobileMenu);
+
+            // Botón scroll to top
+            document.getElementById('scroll-to-top').addEventListener('click', scrollToTop);
+
+            // Búsqueda
+            document.getElementById('search-input').addEventListener('input', handleSearch);
+            document.getElementById('search-btn').addEventListener('click', handleSearch);
+
+            // Botones de menú móvil
+            document.getElementById('about-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                showInfoModal('Quiénes Somos', 'Somos una empresa dedicada a conectar negocios locales con la comunidad. Nuestro objetivo es promover el comercio local y facilitar que las personas descubran los mejores servicios de su ciudad.');
+            });
+            document.getElementById('services-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                showInfoModal('Nuestros Servicios', 'Ofrecemos una plataforma completa para que los negocios locales puedan: • Publicar su información de contacto • Mostrar sus servicios y productos • Conectar con clientes potenciales • Aumentar su visibilidad en la comunidad');
+            });
+
+            // Botón contratar servicio
+            document.getElementById('contract-service-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                const message = encodeURIComponent('Hola! Me interesa contratar sus servicios para publicar mi negocio en el directorio.');
+                window.open(`https://wa.me/19752224?text=${message}`, '_blank', 'noopener,noreferrer');
+            });
+
+            // Modales
+            document.getElementById('empty-add-btn').addEventListener('click', openAddModal);
+            document.getElementById('close-modal').addEventListener('click', closeAddModal);
+            document.getElementById('cancel-btn').addEventListener('click', closeAddModal);
+            document.getElementById('close-info-modal').addEventListener('click', closeInfoModal);
+
+            // Formulario
+            document.getElementById('business-form').addEventListener('submit', handleFormSubmit);
+            document.getElementById('add-gallery-btn').addEventListener('click', addGalleryInput);
+
+            // Filtros
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+
+            // Perfil de negocio
+            document.getElementById('back-to-directory').addEventListener('click', closeBusinessProfile);
+
+            // Botones de redes sociales
+            document.getElementById('instagram-btn').addEventListener('click', () => openSocialMedia('instagram'));
+            document.getElementById('whatsapp-btn').addEventListener('click', () => openSocialMedia('whatsapp'));
+            document.getElementById('phone-btn').addEventListener('click', () => openSocialMedia('phone'));
+            document.getElementById('location-btn').addEventListener('click', () => openSocialMedia('location'));
+
+            // Panel de administrador
+            document.getElementById('admin-btn-mobile').addEventListener('click', () => {
+                closeMobileMenu();
+                openAdminLogin();
+            });
+            document.getElementById('close-admin-login').addEventListener('click', closeAdminLogin);
+            document.getElementById('cancel-admin-login').addEventListener('click', closeAdminLogin);
+            document.getElementById('admin-login-form').addEventListener('submit', handleAdminLogin);
+            document.getElementById('back-to-main').addEventListener('click', closeAdminPanel);
+            document.getElementById('logout-admin').addEventListener('click', closeAdminPanel);
+            document.getElementById('admin-add-business').addEventListener('click', () => {
+                closeAdminPanel();
+                openAddModal();
+            });
+            document.getElementById('manage-categories').addEventListener('click', () => {
+                showToast('🔧 Función de gestión de categorías disponible próximamente', 'info');
+            });
+            document.getElementById('manage-businesses').addEventListener('click', () => {
+                showToast('📊 Función de gestión de negocios disponible próximamente', 'info');
+            });
+
+            // Cerrar modales al hacer clic fuera
+            setupModalCloseHandlers();
+        }
+
+        function setupModalCloseHandlers() {
+            const modals = ['add-modal', 'info-modal', 'admin-login-modal'];
+            
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Funciones de menú móvil
+        function openMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('menu-panel');
+            menu.classList.remove('hidden');
+            setTimeout(() => {
+                panel.style.transform = 'translateX(0)';
+            }, 10);
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const panel = document.getElementById('menu-panel');
+            panel.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                menu.classList.add('hidden');
+            }, 300);
+        }
+
+        // Función scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Funciones de búsqueda y filtros
+        function handleSearch() {
+            activeFilters.search = document.getElementById('search-input').value.toLowerCase().trim();
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        function filterByCategory(categoryName) {
+            activeFilters.category = activeFilters.category === categoryName ? '' : categoryName;
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        function applyFilters() {
+            filteredBusinesses = allBusinesses.filter(business => {
+                const matchesSearch = !activeFilters.search || 
+                    business.nombre.toLowerCase().includes(activeFilters.search) ||
+                    business.descripcion.toLowerCase().includes(activeFilters.search) ||
+                    business.categoria.toLowerCase().includes(activeFilters.search);
+                
+                const matchesCategory = !activeFilters.category || business.categoria === activeFilters.category;
+                
+                return matchesSearch && matchesCategory;
+            });
+
+            renderBusinesses();
+        }
+
+        function updateActiveFilters() {
+            const activeFiltersDiv = document.getElementById('active-filters');
+            const filterTags = document.getElementById('filter-tags');
+            
+            const hasFilters = activeFilters.search || activeFilters.category;
+            
+            if (hasFilters) {
+                activeFiltersDiv.classList.remove('hidden');
+                let tags = [];
+                
+                if (activeFilters.search) {
+                    tags.push(`<span class="px-2 py-1 rounded-full text-xs text-white" style="background-color: #151a2b;">🔍 "${activeFilters.search}"</span>`);
+                }
+                
+                if (activeFilters.category) {
+                    const category = categories.find(c => c.name === activeFilters.category);
+                    tags.push(`<span class="px-2 py-1 rounded-full text-xs text-white" style="background-color: #db3717;">${category.icon} ${category.name}</span>`);
+                }
+                
+                filterTags.innerHTML = tags.join('');
+            } else {
+                activeFiltersDiv.classList.add('hidden');
+            }
+        }
+
+        function clearAllFilters() {
+            activeFilters.search = '';
+            activeFilters.category = '';
+            document.getElementById('search-input').value = '';
+            applyFilters();
+            updateActiveFilters();
+        }
+
+        // Renderizar negocios
+        function renderBusinesses() {
+            const grid = document.getElementById('business-grid');
+            const emptyState = document.getElementById('empty-state');
+            const noResultsState = document.getElementById('no-results-state');
+
+            if (allBusinesses.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                noResultsState.classList.add('hidden');
                 return;
             }
 
-            // Crear imágenes
-            galleryContainer.innerHTML = images.map((img, index) => `
-                <img src="${img}" 
-                     alt="Imagen ${index + 1}" 
-                     class="gallery-image ${index === 0 ? 'active' : ''}"
-                     onerror="this.src='https://via.placeholder.com/400x300/db3717/ffffff?text=Imagen+${index + 1}'; this.alt='Imagen no disponible';">
-            `).join('');
-
-            // Crear indicadores
-            indicatorsContainer.innerHTML = images.map((_, index) => `
-                <div class="gallery-dot ${index === 0 ? 'active' : ''}" onclick="showGalleryImage(${index})"></div>
-            `).join('');
-
-            // Inicializar slideshow automático
-            currentGalleryIndex = 0;
-            startGallerySlideshow(images.length);
-        }
-
-        function showGalleryImage(index) {
-            const images = document.querySelectorAll('.gallery-image');
-            const dots = document.querySelectorAll('.gallery-dot');
-
-            // Remover clase active de todos
-            images.forEach(img => img.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
-            // Agregar clase active al seleccionado
-            if (images[index]) images[index].classList.add('active');
-            if (dots[index]) dots[index].classList.add('active');
-
-            currentGalleryIndex = index;
-        }
-
-        function startGallerySlideshow(totalImages) {
-            // Limpiar intervalo anterior si existe
-            if (galleryInterval) {
-                clearInterval(galleryInterval);
+            if (filteredBusinesses.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.add('hidden');
+                noResultsState.classList.remove('hidden');
+                return;
             }
 
-            // Solo iniciar slideshow si hay más de una imagen
-            if (totalImages <= 1) return;
+            emptyState.classList.add('hidden');
+            noResultsState.classList.add('hidden');
 
+            grid.innerHTML = filteredBusinesses.map(business => {
+                const category = categories.find(c => c.name === business.categoria);
+                return `
+                    <div class="business-card bg-white rounded-2xl shadow-md p-4 border-l-4" style="border-color: ${category ? category.color : '#db3717'};">
+                        <div class="flex items-start space-x-3 mb-3">
+                            <div class="w-16 h-16 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center text-gray-400 text-xs text-center flex-shrink-0 overflow-hidden">
+                                ${business.logoUrl ? 
+                                    `<img src="${escapeHtml(business.logoUrl)}" alt="Logo ${escapeHtml(business.nombre)}" class="w-full h-full object-cover rounded-lg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                     <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs" style="display: none;">📷</div>` 
+                                    : '📷'
+                                }
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-lg font-bold truncate" style="color: #151a2b;">${escapeHtml(business.nombre)}</h3>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-lg">${category ? category.icon : '📋'}</span>
+                                    <span class="px-2 py-1 rounded-full text-xs text-white font-medium" style="background-color: ${category ? category.color : '#db3717'};">
+                                        ${escapeHtml(business.categoria)}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${business.descripcion ? `<p class="text-gray-600 text-sm mb-3 line-clamp-2">${escapeHtml(business.descripcion)}</p>` : ''}
+                        
+                        ${business.sitioWeb ? `
+                            <div class="mb-3">
+                                <a href="${escapeHtml(business.sitioWeb)}" target="_blank" rel="noopener noreferrer" 
+                                   class="flex items-center space-x-2 text-sm hover:underline" style="color: #db3717;">
+                                    <span class="text-lg">🌐</span>
+                                    <span>Visitar sitio web</span>
+                                </a>
+                            </div>
+                        ` : ''}
+                        
+                        <button onclick="viewBusinessProfile('${business.__backendId || business.id}')" 
+                                class="w-full py-3 px-4 rounded-xl font-medium text-white transition-all" 
+                                style="background-color: #db3717;">
+                            👁️ Ver Perfil Completo
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Funciones de modal
+        function openAddModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('business-form').reset();
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showInfoModal(title, content) {
+            document.getElementById('info-modal-title').textContent = title;
+            document.getElementById('info-modal-content').innerHTML = content.replace(/•/g, '<br>•');
+            const modal = document.getElementById('info-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeInfoModal() {
+            const modal = document.getElementById('info-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Manejo de formulario
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            if (allBusinesses.length >= 999) {
+                showToast('❌ Límite máximo de 999 negocios alcanzado', 'error');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            submitBtn.disabled = true;
+
+            // Recopilar URLs de galería
+            const galleryUrls = [];
+            document.querySelectorAll('.gallery-url').forEach(input => {
+                const url = input.value.trim();
+                if (url) {
+                    galleryUrls.push(url);
+                }
+            });
+
+            const businessData = {
+                id: generateId(),
+                nombre: document.getElementById('business-name').value.trim(),
+                categoria: document.getElementById('business-category').value,
+                descripcion: document.getElementById('business-description').value.trim(),
+                sitioWeb: document.getElementById('business-website').value.trim(),
+                logoUrl: document.getElementById('business-logo').value.trim(),
+                galleryImages: JSON.stringify(galleryUrls),
+                telefono: '',
+                fechaCreacion: new Date().toISOString()
+            };
+
+            try {
+                if (isDataSdkConnected && window.dataSdk) {
+                    // Usar Data SDK
+                    const result = await window.dataSdk.create(businessData);
+                    if (result.isOk) {
+                        showToast('✅ Negocio publicado y sincronizado', 'success');
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } else {
+                    // Fallback a localStorage
+                    allBusinesses.push(businessData);
+                    saveBusinessesToStorage();
+                    applyFilters();
+                    updateBusinessCount();
+                    showToast('✅ Negocio publicado (modo local)', 'success');
+                }
+            } catch (error) {
+                console.error('Error guardando negocio:', error);
+                showToast('❌ Error al publicar negocio', 'error');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                closeAddModal();
+            }
+        }
+
+        // Funciones auxiliares
+        function updateBusinessCount() {
+            const count = allBusinesses.length;
+            const countElement = document.getElementById('business-count');
+            if (count === 0) {
+                countElement.textContent = 'No hay negocios publicados';
+            } else if (count === 1) {
+                countElement.textContent = '1 negocio publicado';
+            } else {
+                countElement.textContent = `${count} negocios publicados`;
+            }
+            
+            // Actualizar estadísticas del admin
+            document.getElementById('total-businesses').textContent = count;
+        }
+
+        function generateId() {
+            return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            // Mostrar toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Ocultar y remover toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Funciones de perfil de negocio
+        function viewBusinessProfile(businessId) {
+            const business = allBusinesses.find(b => (b.__backendId || b.id) === businessId);
+            if (!business) return;
+
+            currentBusiness = business;
+            
+            document.getElementById('profile-business-name').textContent = business.nombre;
+            
+            // Actualizar logo del perfil
+            const logoContainer = document.getElementById('profile-logo-container');
+            if (business.logoUrl) {
+                logoContainer.innerHTML = `
+                    <img src="${escapeHtml(business.logoUrl)}" alt="Logo ${escapeHtml(business.nombre)}" 
+                         class="w-full h-full object-cover rounded-xl" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center" style="display: none;">
+                        📷<br>Logo<br>Empresa
+                    </div>
+                `;
+            } else {
+                logoContainer.innerHTML = '📷<br>Logo<br>Empresa';
+            }
+            
+            const category = categories.find(c => c.name === business.categoria);
+            const categoryElement = document.getElementById('profile-business-category');
+            categoryElement.textContent = `${category ? category.icon : '📋'} ${business.categoria}`;
+            categoryElement.style.backgroundColor = category ? category.color : '#db3717';
+            
+            document.getElementById('profile-description').textContent = business.descripcion || 'Sin descripción disponible.';
+            
+            // Mostrar página de perfil
+            document.getElementById('business-profile-page').classList.remove('hidden');
+            
+            // Iniciar galería de imágenes
+            startImageGallery();
+        }
+
+        function closeBusinessProfile() {
+            document.getElementById('business-profile-page').classList.add('hidden');
+            currentBusiness = null;
+            stopImageGallery();
+        }
+
+        function openSocialMedia(platform) {
+            if (!currentBusiness) return;
+            
+            switch (platform) {
+                case 'instagram':
+                    showToast('📷 Función de Instagram disponible próximamente', 'info');
+                    break;
+                case 'whatsapp':
+                    const message = encodeURIComponent(`Hola! Vi tu negocio "${currentBusiness.nombre}" en el directorio.`);
+                    window.open(`https://wa.me/19752224?text=${message}`, '_blank', 'noopener,noreferrer');
+                    break;
+                case 'phone':
+                    showToast('📞 Función de llamada disponible próximamente', 'info');
+                    break;
+                case 'location':
+                    showToast('📍 Función de ubicación disponible próximamente', 'info');
+                    break;
+            }
+        }
+
+        function startImageGallery() {
+            if (!currentBusiness) return;
+            
+            // Usar imágenes reales del negocio o imágenes por defecto
+            let galleryImages = [];
+            
+            try {
+                const parsedImages = JSON.parse(currentBusiness.galleryImages || '[]');
+                if (parsedImages && parsedImages.length > 0) {
+                    // Usar imágenes reales del negocio
+                    galleryImages = parsedImages.map((url, index) => ({
+                        type: 'image',
+                        url: url,
+                        text: `Imagen ${index + 1}`
+                    }));
+                }
+            } catch (e) {
+                // Si hay error parseando, usar imágenes por defecto
+            }
+            
+            if (galleryImages.length === 0) {
+                // Usar imágenes por defecto con emojis
+                galleryImages = [
+                    { type: 'emoji', emoji: '🏪', text: 'Fachada del Local' },
+                    { type: 'emoji', emoji: '🛍️', text: 'Productos y Servicios' },
+                    { type: 'emoji', emoji: '👥', text: 'Nuestro Equipo' },
+                    { type: 'emoji', emoji: '🎯', text: 'Ambiente Interior' },
+                    { type: 'emoji', emoji: '⭐', text: 'Experiencia Cliente' }
+                ];
+            }
+            
+            currentSlide = 0;
+            
+            // Crear dots para la galería
+            const dotsContainer = document.getElementById('gallery-dots');
+            dotsContainer.innerHTML = galleryImages.map((_, index) => 
+                `<div class="w-2 h-2 rounded-full cursor-pointer transition-all ${index === 0 ? 'bg-orange-500' : 'bg-gray-300'}" 
+                     onclick="goToSlide(${index})"></div>`
+            ).join('');
+            
+            // Función para cambiar slide
+            function updateSlide() {
+                const slideElement = document.getElementById('gallery-slide');
+                const currentImage = galleryImages[currentSlide];
+                
+                if (currentImage.type === 'image') {
+                    slideElement.innerHTML = `
+                        <img src="${escapeHtml(currentImage.url)}" alt="${escapeHtml(currentImage.text)}" 
+                             class="w-full h-full object-cover rounded-xl"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-full h-full flex items-center justify-center text-gray-400 text-center" style="display: none;">
+                            <div>
+                                <div class="text-4xl mb-2">🖼️</div>
+                                <p class="text-sm">Error al cargar imagen</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    slideElement.innerHTML = `
+                        <div class="text-center">
+                            <div class="text-6xl mb-3">${currentImage.emoji}</div>
+                            <p class="text-lg font-medium text-gray-600">${currentImage.text}</p>
+                        </div>
+                    `;
+                }
+                
+                // Actualizar dots
+                const dots = dotsContainer.children;
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = `w-2 h-2 rounded-full cursor-pointer transition-all ${
+                        i === currentSlide ? 'bg-orange-500' : 'bg-gray-300'
+                    }`;
+                }
+            }
+            
+            // Función global para cambiar slide manualmente
+            window.goToSlide = function(index) {
+                currentSlide = index;
+                updateSlide();
+            };
+            
+            updateSlide();
+            
+            // Auto-cambio cada 4 segundos
             galleryInterval = setInterval(() => {
-                currentGalleryIndex = (currentGalleryIndex + 1) % totalImages;
-                showGalleryImage(currentGalleryIndex);
-            }, 4000); // Cambiar cada 4 segundos
+                currentSlide = (currentSlide + 1) % galleryImages.length;
+                updateSlide();
+            }, 4000);
         }
 
-        function goToMainPage() {
-            // Limpiar slideshow
+        function stopImageGallery() {
             if (galleryInterval) {
                 clearInterval(galleryInterval);
+                galleryInterval = null;
             }
-
-            // Mostrar página principal y ocultar otras
-            document.getElementById('mainPage').style.display = 'block';
-            document.getElementById('adminPage').style.display = 'none';
-            document.getElementById('businessProfile').style.display = 'none';
-
-            // Scroll al inicio
-            window.scrollTo(0, 0);
         }
 
-        // Inicializar la aplicación
-        init();
+        // Funciones de administrador
+        function openAdminLogin() {
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('admin-password').focus();
+        }
+
+        function closeAdminLogin() {
+            const modal = document.getElementById('admin-login-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('admin-password').value = '';
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === '1351') {
+                isAdminLoggedIn = true;
+                closeAdminLogin();
+                openAdminPanel();
+                showToast('✅ Acceso concedido', 'success');
+            } else {
+                showToast('❌ Contraseña incorrecta', 'error');
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+        function openAdminPanel() {
+            document.getElementById('admin-page').classList.remove('hidden');
+            updateAdminStats();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-page').classList.add('hidden');
+            isAdminLoggedIn = false;
+        }
+
+        function updateAdminStats() {
+            document.getElementById('total-businesses').textContent = allBusinesses.length;
+            document.getElementById('total-categories').textContent = categories.length;
+            
+            // Negocios recientes (últimos 7 días)
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const recentCount = allBusinesses.filter(business => 
+                new Date(business.fechaCreacion) > weekAgo
+            ).length;
+            document.getElementById('recent-businesses').textContent = recentCount;
+        }
+
+        // Funciones para gestión de galería en el formulario
+        function addGalleryInput() {
+            const container = document.getElementById('gallery-inputs');
+            const inputCount = container.children.length;
+            
+            if (inputCount >= 10) {
+                showToast('⚠️ Máximo 10 imágenes permitidas', 'info');
+                return;
+            }
+            
+            const newInput = document.createElement('div');
+            newInput.className = 'flex items-center space-x-2';
+            newInput.innerHTML = `
+                <input type="url" class="gallery-url flex-1 px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2"
+                       style="border-color: #db3717; --tw-ring-color: #db3717;"
+                       placeholder="https://ejemplo.com/imagen${inputCount + 1}.jpg">
+                <button type="button" onclick="removeGalleryInput(this)" class="px-3 py-3 rounded-xl text-white" style="background-color: #ef4444;">
+                    🗑️
+                </button>
+            `;
+            
+            container.appendChild(newInput);
+        }
+
+        function removeGalleryInput(button) {
+            const container = document.getElementById('gallery-inputs');
+            if (container.children.length > 1) {
+                button.parentElement.remove();
+            } else {
+                showToast('⚠️ Debe mantener al menos un campo de imagen', 'info');
+            }
+        }
+
+        // Hacer funciones globales
+        window.viewBusinessProfile = viewBusinessProfile;
+        window.closeMobileMenu = closeMobileMenu;
+        window.filterByCategory = filterByCategory;
+        window.addGalleryInput = addGalleryInput;
+        window.removeGalleryInput = removeGalleryInput;
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'991afca6278e7425',t:'MTc2MDk4OTIyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992ab2e3522f3789',t:'MTc2MTE1Mzk3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
