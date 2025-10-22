@@ -7,7 +7,36 @@
   <title>Directorio de Negocios</title>
   <script src="/_sdk/element_sdk.js"></script>
   <script src="/_sdk/data_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com"></script><!-- Firebase SDK -->
+  <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
+        // 🔥 CONFIGURACIÓN FIREBASE - REEMPLAZA CON TU CONFIGURACIÓN
+        const firebaseConfig = {
+            apiKey: "AIzaSyDemo-Replace-With-Your-Key",
+            authDomain: "tu-proyecto.firebaseapp.com", 
+            projectId: "tu-proyecto-id",
+            storageBucket: "tu-proyecto.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+
+        // Inicializar Firebase
+        let app, db;
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            window.firebaseDB = db;
+            window.firebaseModules = { collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc };
+            window.isFirebaseConnected = true;
+            console.log('🔥 Firebase conectado exitosamente');
+        } catch (error) {
+            console.log('⚠️ Firebase no disponible, usando modo local');
+            window.isFirebaseConnected = false;
+        }
+    </script>
   <style>
         body {
             box-sizing: border-box;
@@ -98,10 +127,31 @@
         .toast.info {
             background-color: #3b82f6;
         }
+        .firebase-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .firebase-connected {
+            background-color: #10b981;
+            color: white;
+        }
+        .firebase-local {
+            background-color: #f59e0b;
+            color: white;
+        }
     </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
- <body class="bg-gray-50 min-h-full"><!-- Header Móvil -->
+ <body class="bg-gray-50 min-h-full"><!-- Indicador de Estado Firebase -->
+  <div id="firebase-status" class="firebase-status firebase-local">
+   🔄 Conectando...
+  </div><!-- Header Móvil -->
   <div class="mobile-header bg-white shadow-lg safe-area-top"><!-- Franja Naranja Superior -->
    <div class="orange-gradient h-2 w-full"></div><!-- Logo y Título -->
    <div class="px-4 py-3">
@@ -145,9 +195,7 @@
     </div>
    </div>
   </div>
-  <div class="px-4 py-4"><!-- Estado de Conexión -->
-   <div id="connection-status" class="mb-4 p-3 rounded-xl text-center text-sm font-medium hidden"><!-- Se mostrará dinámicamente -->
-   </div><!-- Categorías -->
+  <div class="px-4 py-4"><!-- Categorías -->
    <div class="mb-6">
     <h2 class="text-xl font-bold mb-4" style="color: #151a2b;">Categorías</h2>
     <div class="grid grid-cols-3 gap-3" id="categories-grid"><!-- Categorías se generarán dinámicamente -->
@@ -364,6 +412,30 @@
    </div>
   </div>
   <script>
+        // 🔥 CONFIGURACIÓN FIREBASE - INSTRUCCIONES PARA CONFIGURAR
+        /*
+        PASOS PARA CONFIGURAR FIREBASE:
+        
+        1. Ve a https://console.firebase.google.com/
+        2. Crea un nuevo proyecto o usa uno existente
+        3. Ve a "Project Settings" > "General" > "Your apps"
+        4. Haz clic en "Add app" y selecciona "Web"
+        5. Registra tu app y copia la configuración
+        6. Reemplaza la configuración de abajo con la tuya
+        7. Ve a "Firestore Database" y crea una base de datos
+        8. Configura las reglas de seguridad (ver abajo)
+        
+        REGLAS DE FIRESTORE (copia esto en Rules):
+        rules_version = '2';
+        service cloud.firestore {
+          match /databases/{database}/documents {
+            match /businesses/{document} {
+              allow read, write: if true;
+            }
+          }
+        }
+        */
+
         // Configuración
         const defaultConfig = {
             company_name: "Mi Empresa",
@@ -402,20 +474,103 @@
         let currentSlide = 0;
         let isAdminLoggedIn = false;
         let isDataSdkConnected = false;
+        let firebaseUnsubscribe = null;
 
-        // Data Handler para el SDK
+        // Data Handler para el SDK de Canva (fallback)
         const dataHandler = {
             onDataChanged(data) {
-                allBusinesses = data || [];
-                applyFilters();
-                updateBusinessCount();
-                updateAdminStats();
+                if (!window.isFirebaseConnected) {
+                    allBusinesses = data || [];
+                    applyFilters();
+                    updateBusinessCount();
+                    updateAdminStats();
+                }
             }
         };
 
+        // 🔥 FUNCIONES FIREBASE
+        async function initializeFirebase() {
+            // Esperar a que Firebase esté disponible
+            let attempts = 0;
+            while (!window.firebaseDB && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (window.isFirebaseConnected && window.firebaseDB) {
+                try {
+                    const { collection, onSnapshot, query, orderBy } = window.firebaseModules;
+                    
+                    // Escuchar cambios en tiempo real
+                    const businessesRef = collection(window.firebaseDB, 'businesses');
+                    const q = query(businessesRef, orderBy('fechaCreacion', 'desc'));
+                    
+                    firebaseUnsubscribe = onSnapshot(q, (snapshot) => {
+                        allBusinesses = [];
+                        snapshot.forEach((doc) => {
+                            allBusinesses.push({ id: doc.id, ...doc.data() });
+                        });
+                        
+                        applyFilters();
+                        updateBusinessCount();
+                        updateAdminStats();
+                        updateFirebaseStatus(true);
+                    }, (error) => {
+                        console.error('Error escuchando cambios:', error);
+                        loadBusinessesFromStorage();
+                        updateFirebaseStatus(false);
+                    });
+                    
+                    console.log('🔥 Firebase conectado y escuchando cambios');
+                    return true;
+                } catch (error) {
+                    console.error('Error configurando Firebase:', error);
+                    loadBusinessesFromStorage();
+                    updateFirebaseStatus(false);
+                    return false;
+                }
+            } else {
+                console.log('⚠️ Firebase no disponible, usando almacenamiento local');
+                loadBusinessesFromStorage();
+                updateFirebaseStatus(false);
+                return false;
+            }
+        }
+
+        async function saveBusinessToFirebase(businessData) {
+            if (!window.isFirebaseConnected) {
+                throw new Error('Firebase no disponible');
+            }
+
+            const { collection, addDoc } = window.firebaseModules;
+            const businessesRef = collection(window.firebaseDB, 'businesses');
+            
+            // Remover el ID local antes de guardar en Firebase
+            const { id, ...dataToSave } = businessData;
+            
+            const docRef = await addDoc(businessesRef, dataToSave);
+            return docRef.id;
+        }
+
+        function updateFirebaseStatus(connected) {
+            const statusElement = document.getElementById('firebase-status');
+            if (connected) {
+                statusElement.textContent = '🔥 Firebase Conectado';
+                statusElement.className = 'firebase-status firebase-connected';
+            } else {
+                statusElement.textContent = '💾 Modo Local';
+                statusElement.className = 'firebase-status firebase-local';
+            }
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                statusElement.style.opacity = '0.7';
+            }, 3000);
+        }
+
         // Inicialización
         async function initializeApp() {
-            // Inicializar Element SDK
+            // Inicializar Element SDK si está disponible
             if (window.elementSdk) {
                 window.elementSdk.init({
                     defaultConfig,
@@ -440,53 +595,28 @@
                 });
             }
 
-            // Inicializar Data SDK
-            await initializeDataSdk();
-
-            renderCategories();
-            populateCategorySelect();
-            setupEventListeners();
-        }
-
-        // Inicializar Data SDK
-        async function initializeDataSdk() {
-            if (window.dataSdk) {
+            // Inicializar Firebase primero
+            const firebaseConnected = await initializeFirebase();
+            
+            // Si Firebase no está disponible, intentar Data SDK de Canva
+            if (!firebaseConnected && window.dataSdk) {
                 try {
                     const result = await window.dataSdk.init(dataHandler);
                     if (result.isOk) {
                         isDataSdkConnected = true;
-                        showConnectionStatus('✅ Datos sincronizados conectados', 'success');
-                    } else {
-                        console.error('Error inicializando Data SDK:', result.error);
-                        loadBusinessesFromStorage();
-                        showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
+                        updateFirebaseStatus(false);
+                        showToast('📊 Usando Canva Sheet para datos', 'info');
                     }
                 } catch (error) {
                     console.error('Error con Data SDK:', error);
                     loadBusinessesFromStorage();
-                    showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
+                    updateFirebaseStatus(false);
                 }
-            } else {
-                loadBusinessesFromStorage();
-                showConnectionStatus('⚠️ Modo sin conexión - datos locales', 'info');
             }
-        }
 
-        // Mostrar estado de conexión
-        function showConnectionStatus(message, type) {
-            const statusElement = document.getElementById('connection-status');
-            statusElement.textContent = message;
-            statusElement.className = `mb-4 p-3 rounded-xl text-center text-sm font-medium ${
-                type === 'success' ? 'bg-green-100 text-green-800' :
-                type === 'error' ? 'bg-red-100 text-red-800' :
-                'bg-blue-100 text-blue-800'
-            }`;
-            statusElement.classList.remove('hidden');
-            
-            // Ocultar después de 5 segundos
-            setTimeout(() => {
-                statusElement.classList.add('hidden');
-            }, 5000);
+            renderCategories();
+            populateCategorySelect();
+            setupEventListeners();
         }
 
         // Funciones de almacenamiento local (fallback)
@@ -739,6 +869,7 @@
 
             grid.innerHTML = filteredBusinesses.map(business => {
                 const category = categories.find(c => c.name === business.categoria);
+                const businessId = business.id || business.__backendId || generateId();
                 return `
                     <div class="business-card bg-white rounded-2xl shadow-md p-4 border-l-4" style="border-color: ${category ? category.color : '#db3717'};">
                         <div class="flex items-start space-x-3 mb-3">
@@ -772,7 +903,7 @@
                             </div>
                         ` : ''}
                         
-                        <button onclick="viewBusinessProfile('${business.__backendId || business.id}')" 
+                        <button onclick="viewBusinessProfile('${businessId}')" 
                                 class="w-full py-3 px-4 rounded-xl font-medium text-white transition-all" 
                                 style="background-color: #db3717;">
                             👁️ Ver Perfil Completo
@@ -846,11 +977,15 @@
             };
 
             try {
-                if (isDataSdkConnected && window.dataSdk) {
-                    // Usar Data SDK
+                if (window.isFirebaseConnected) {
+                    // Usar Firebase
+                    await saveBusinessToFirebase(businessData);
+                    showToast('🔥 Negocio publicado y sincronizado con Firebase', 'success');
+                } else if (isDataSdkConnected && window.dataSdk) {
+                    // Usar Data SDK de Canva
                     const result = await window.dataSdk.create(businessData);
                     if (result.isOk) {
-                        showToast('✅ Negocio publicado y sincronizado', 'success');
+                        showToast('📊 Negocio publicado en Canva Sheet', 'success');
                     } else {
                         throw new Error(result.error);
                     }
@@ -860,7 +995,7 @@
                     saveBusinessesToStorage();
                     applyFilters();
                     updateBusinessCount();
-                    showToast('✅ Negocio publicado (modo local)', 'success');
+                    showToast('💾 Negocio guardado localmente', 'success');
                 }
             } catch (error) {
                 console.error('Error guardando negocio:', error);
@@ -923,7 +1058,7 @@
 
         // Funciones de perfil de negocio
         function viewBusinessProfile(businessId) {
-            const business = allBusinesses.find(b => (b.__backendId || b.id) === businessId);
+            const business = allBusinesses.find(b => (b.id || b.__backendId) === businessId);
             if (!business) return;
 
             currentBusiness = business;
@@ -1176,8 +1311,15 @@
         window.addGalleryInput = addGalleryInput;
         window.removeGalleryInput = removeGalleryInput;
 
+        // Limpiar al cerrar
+        window.addEventListener('beforeunload', () => {
+            if (firebaseUnsubscribe) {
+                firebaseUnsubscribe();
+            }
+        });
+
         // Inicializar aplicación
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992ab2e3522f3789',t:'MTc2MTE1Mzk3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'992b897fb0e8e855',t:'MTc2MTE2Mjc2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
