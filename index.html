@@ -273,34 +273,40 @@
    </div>
   </footer>
   <script>
-        // Sistema de almacenamiento personalizado usando archivos
+        // Sistema de almacenamiento permanente usando localStorage
         class DataLocalStorage {
             constructor() {
-                this.dataPath = './datalocalstorage/';
+                this.storageKey = 'business_directory_data';
                 this.businesses = [];
                 this.loadData();
             }
             
             async loadData() {
                 try {
-                    // Simular carga de datos desde archivo
-                    // En un entorno real, esto haría una petición al servidor
-                    const savedData = this.getFromMemory('businesses');
-                    this.businesses = savedData || [];
+                    // Cargar datos desde localStorage del navegador
+                    const savedData = localStorage.getItem(this.storageKey);
+                    if (savedData) {
+                        this.businesses = JSON.parse(savedData);
+                        console.log(`✅ Cargados ${this.businesses.length} negocios desde localStorage`);
+                    } else {
+                        // Si no hay datos, crear algunos de ejemplo para demostración
+                        this.businesses = this.getInitialData();
+                        await this.saveData();
+                        console.log('📝 Datos iniciales creados');
+                    }
                     this.notifyDataChange();
                 } catch (error) {
-                    console.log('Iniciando con datos vacíos');
-                    this.businesses = [];
+                    console.error('Error cargando datos:', error);
+                    this.businesses = this.getInitialData();
                     this.notifyDataChange();
                 }
             }
             
             async saveData() {
                 try {
-                    // Simular guardado en archivo
-                    // En un entorno real, esto haría una petición POST al servidor
-                    this.saveToMemory('businesses', this.businesses);
-                    console.log('Datos guardados en datalocalstorage/');
+                    // Guardar datos en localStorage del navegador (permanente)
+                    localStorage.setItem(this.storageKey, JSON.stringify(this.businesses));
+                    console.log(`💾 Guardados ${this.businesses.length} negocios en localStorage`);
                     return true;
                 } catch (error) {
                     console.error('Error guardando datos:', error);
@@ -308,14 +314,43 @@
                 }
             }
             
-            // Métodos auxiliares para simular el sistema de archivos
-            getFromMemory(key) {
-                const data = sessionStorage.getItem(`datalocalstorage_${key}`);
-                return data ? JSON.parse(data) : null;
-            }
-            
-            saveToMemory(key, data) {
-                sessionStorage.setItem(`datalocalstorage_${key}`, JSON.stringify(data));
+            // Datos iniciales de ejemplo (solo se crean la primera vez)
+            getInitialData() {
+                return [
+                    {
+                        id: "demo_1",
+                        name: "Restaurante El Buen Sabor",
+                        category: "Restaurantes",
+                        description: "Comida casera y tradicional con los mejores ingredientes frescos de la región",
+                        phone: "+1234567890",
+                        address: "Calle Principal 123, Centro",
+                        website: "https://www.elbuensabor.com",
+                        image: "restaurante-demo.jpg",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "demo_2",
+                        name: "Hotel Plaza Central",
+                        category: "Hoteles",
+                        description: "Hotel boutique en el corazón de la ciudad con todas las comodidades modernas",
+                        phone: "+1234567891",
+                        address: "Plaza Central 45, Zona Turística",
+                        website: "",
+                        image: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "demo_3",
+                        name: "Heladería Dulce Tentación",
+                        category: "Heladerías",
+                        description: "Los helados artesanales más deliciosos de la ciudad con sabores únicos",
+                        phone: "+1234567892",
+                        address: "Avenida Libertad 78",
+                        website: "",
+                        image: "",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
             }
             
             async addBusiness(business) {
@@ -785,5 +820,5 @@
             new BusinessDirectoryApp();
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99323e4fd2b323d7',t:'MTc2MTIzMzA4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993261fa75ce67e4',t:'MTc2MTIzNDU0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
