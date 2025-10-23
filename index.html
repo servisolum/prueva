@@ -93,21 +93,6 @@
             backdrop-filter: blur(4px);
         }
         
-        /* Loading spinner */
-        .loading-spinner {
-            border: 2px solid #f3f4f6;
-            border-top: 2px solid var(--primary-orange);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
         /* Toast notifications */
         .toast {
             position: fixed;
@@ -202,11 +187,9 @@
     <div class="flex flex-wrap items-center gap-2"><span class="text-sm font-medium text-gray-600">Filtros activos:</span>
      <div id="filter-tags" class="flex flex-wrap gap-2"></div><button id="clear-filters" class="text-sm px-3 py-1 rounded-full border hover:bg-gray-50" style="border-color: var(--primary-orange); color: var(--primary-orange);"> ✕ Limpiar </button>
     </div>
-   </section><!-- Contador y Botón Agregar -->
+   </section><!-- Contador de Negocios -->
    <section class="mb-6">
-    <div class="flex justify-between items-center">
-     <p id="business-count" class="text-lg font-medium" style="color: var(--primary-dark);">Cargando negocios...</p><button id="add-business-btn" class="btn-primary px-4 py-2 rounded-lg font-medium"> ➕ Publicar Negocio </button>
-    </div>
+    <p id="business-count" class="text-lg font-medium" style="color: var(--primary-dark);">Cargando negocios...</p>
    </section><!-- Lista de Negocios -->
    <section id="business-list" class="space-y-4"><!-- Los negocios se mostrarán aquí -->
    </section><!-- Estado Vacío -->
@@ -214,8 +197,8 @@
     <div class="text-6xl mb-4">
      🏪
     </div>
-    <h3 class="text-2xl font-bold mb-3" style="color: var(--primary-dark);">¡Sé el primero!</h3>
-    <p class="text-gray-600 mb-6">No hay negocios publicados aún. Publica el tuyo y comienza a crecer.</p><button id="empty-add-btn" class="btn-primary px-6 py-3 rounded-lg font-medium"> ➕ Publicar Primer Negocio </button>
+    <h3 class="text-2xl font-bold mb-3" style="color: var(--primary-dark);">Directorio en construcción</h3>
+    <p class="text-gray-600">Los negocios se están agregando al directorio.</p>
    </section><!-- Sin Resultados -->
    <section id="no-results" class="text-center py-12 hidden">
     <div class="text-6xl mb-4">
@@ -224,37 +207,7 @@
     <h3 class="text-2xl font-bold mb-3" style="color: var(--primary-dark);">Sin resultados</h3>
     <p class="text-gray-600">No encontramos negocios que coincidan con tu búsqueda.</p>
    </section>
-  </main><!-- Modal para Publicar Negocio -->
-  <div id="add-business-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
-   <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-    <div class="p-6">
-     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-bold" style="color: var(--primary-dark);">📝 Publicar Negocio</h2><button id="close-modal" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
-     </div>
-     <form id="business-form">
-      <div class="space-y-4">
-       <div><label for="business-name" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Nombre del Negocio * </label> <input type="text" id="business-name" required class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="Ej: Restaurante El Buen Sabor">
-       </div>
-       <div><label for="business-category" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Categoría * </label> <select id="business-category" required class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);"> <option value="">Seleccionar categoría</option> </select>
-       </div>
-       <div><label for="business-description" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Descripción </label> <textarea id="business-description" rows="4" class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="Describe tu negocio..."></textarea>
-       </div>
-       <div><label for="business-phone" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Teléfono </label> <input type="tel" id="business-phone" class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="Ej: +1234567890">
-       </div>
-       <div><label for="business-address" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Dirección </label> <input type="text" id="business-address" class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="Ej: Calle Principal 123">
-       </div>
-       <div><label for="business-website" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Sitio Web </label> <input type="url" id="business-website" class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="https://www.minegocio.com">
-       </div>
-       <div><label for="business-image" class="block text-sm font-medium mb-2" style="color: var(--primary-dark);"> Imagen del Negocio </label> <input type="text" id="business-image" class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2" style="border-color: var(--primary-orange); --tw-ring-color: var(--primary-orange);" placeholder="nombre-imagen.jpg (debe estar en carpeta images/)">
-        <p class="text-xs text-gray-500 mt-1">💡 Coloca la imagen en la carpeta images/ del proyecto</p>
-       </div>
-      </div>
-      <div class="flex gap-4 mt-8"><button type="button" id="cancel-btn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors"> Cancelar </button> <button type="submit" id="submit-btn" class="flex-1 btn-primary py-3 px-4 rounded-lg font-medium"> Publicar Negocio </button>
-      </div>
-     </form>
-    </div>
-   </div>
-  </div><!-- Modal de Información -->
+  </main><!-- Modal de Información -->
   <div id="info-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[80vh] overflow-y-auto">
     <div class="p-6">
@@ -273,132 +226,70 @@
    </div>
   </footer>
   <script>
-        // Sistema de almacenamiento permanente usando localStorage
-        class DataLocalStorage {
-            constructor() {
-                this.storageKey = 'business_directory_data';
-                this.businesses = [];
-                this.loadData();
+        // 📝 DATOS DE NEGOCIOS - EDITA AQUÍ PARA AGREGAR NUEVOS NEGOCIOS
+        const BUSINESS_DATA = [
+            {
+                id: "negocio_1",
+                name: "Restaurante El Buen Sabor",
+                category: "Restaurantes",
+                description: "Comida casera y tradicional con los mejores ingredientes frescos de la región",
+                phone: "+1234567890",
+                address: "Calle Principal 123, Centro",
+                website: "https://www.elbuensabor.com",
+                image: "restaurante-demo.jpg"
+            },
+            {
+                id: "negocio_2",
+                name: "Hotel Plaza Central",
+                category: "Hoteles",
+                description: "Hotel boutique en el corazón de la ciudad con todas las comodidades modernas",
+                phone: "+1234567891",
+                address: "Plaza Central 45, Zona Turística",
+                website: "",
+                image: ""
+            },
+            {
+                id: "negocio_3",
+                name: "Heladería Dulce Tentación",
+                category: "Heladerías",
+                description: "Los helados artesanales más deliciosos de la ciudad con sabores únicos",
+                phone: "+1234567892",
+                address: "Avenida Libertad 78",
+                website: "",
+                image: ""
+            },
+            {
+                id: "negocio_4",
+                name: "Farmacia San José",
+                category: "Salud",
+                description: "Farmacia con servicio 24 horas y amplio surtido de medicamentos",
+                phone: "+1234567893",
+                address: "Calle Comercio 45",
+                website: "",
+                image: ""
+            },
+            {
+                id: "negocio_5",
+                name: "Taller Mecánico López",
+                category: "Automotriz",
+                description: "Servicio completo de mecánica automotriz con más de 20 años de experiencia",
+                phone: "+1234567894",
+                address: "Carretera Norte Km 2",
+                website: "",
+                image: ""
             }
-            
-            async loadData() {
-                try {
-                    // Cargar datos desde localStorage del navegador
-                    const savedData = localStorage.getItem(this.storageKey);
-                    if (savedData) {
-                        this.businesses = JSON.parse(savedData);
-                        console.log(`✅ Cargados ${this.businesses.length} negocios desde localStorage`);
-                    } else {
-                        // Si no hay datos, crear algunos de ejemplo para demostración
-                        this.businesses = this.getInitialData();
-                        await this.saveData();
-                        console.log('📝 Datos iniciales creados');
-                    }
-                    this.notifyDataChange();
-                } catch (error) {
-                    console.error('Error cargando datos:', error);
-                    this.businesses = this.getInitialData();
-                    this.notifyDataChange();
-                }
-            }
-            
-            async saveData() {
-                try {
-                    // Guardar datos en localStorage del navegador (permanente)
-                    localStorage.setItem(this.storageKey, JSON.stringify(this.businesses));
-                    console.log(`💾 Guardados ${this.businesses.length} negocios en localStorage`);
-                    return true;
-                } catch (error) {
-                    console.error('Error guardando datos:', error);
-                    return false;
-                }
-            }
-            
-            // Datos iniciales de ejemplo (solo se crean la primera vez)
-            getInitialData() {
-                return [
-                    {
-                        id: "demo_1",
-                        name: "Restaurante El Buen Sabor",
-                        category: "Restaurantes",
-                        description: "Comida casera y tradicional con los mejores ingredientes frescos de la región",
-                        phone: "+1234567890",
-                        address: "Calle Principal 123, Centro",
-                        website: "https://www.elbuensabor.com",
-                        image: "restaurante-demo.jpg",
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: "demo_2",
-                        name: "Hotel Plaza Central",
-                        category: "Hoteles",
-                        description: "Hotel boutique en el corazón de la ciudad con todas las comodidades modernas",
-                        phone: "+1234567891",
-                        address: "Plaza Central 45, Zona Turística",
-                        website: "",
-                        image: "",
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: "demo_3",
-                        name: "Heladería Dulce Tentación",
-                        category: "Heladerías",
-                        description: "Los helados artesanales más deliciosos de la ciudad con sabores únicos",
-                        phone: "+1234567892",
-                        address: "Avenida Libertad 78",
-                        website: "",
-                        image: "",
-                        createdAt: new Date().toISOString()
-                    }
-                ];
-            }
-            
-            async addBusiness(business) {
-                business.id = this.generateId();
-                business.createdAt = new Date().toISOString();
-                this.businesses.unshift(business);
-                await this.saveData();
-                this.notifyDataChange();
-                return business.id;
-            }
-            
-            async updateBusiness(id, updates) {
-                const index = this.businesses.findIndex(b => b.id === id);
-                if (index !== -1) {
-                    this.businesses[index] = { ...this.businesses[index], ...updates };
-                    await this.saveData();
-                    this.notifyDataChange();
-                    return true;
-                }
-                return false;
-            }
-            
-            async deleteBusiness(id) {
-                const index = this.businesses.findIndex(b => b.id === id);
-                if (index !== -1) {
-                    this.businesses.splice(index, 1);
-                    await this.saveData();
-                    this.notifyDataChange();
-                    return true;
-                }
-                return false;
-            }
-            
-            getBusinesses() {
-                return [...this.businesses];
-            }
-            
-            generateId() {
-                return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-            }
-            
-            notifyDataChange() {
-                // Notificar a la aplicación que los datos han cambiado
-                if (window.app && window.app.onDataChange) {
-                    window.app.onDataChange(this.businesses);
-                }
-            }
-        }
+            // 👆 COPIA ESTE FORMATO PARA AGREGAR MÁS NEGOCIOS
+            // {
+            //     id: "negocio_6",
+            //     name: "Nombre del Negocio",
+            //     category: "Categoría", // Debe coincidir con las categorías disponibles
+            //     description: "Descripción del negocio",
+            //     phone: "+1234567890",
+            //     address: "Dirección completa",
+            //     website: "https://www.sitio.com", // Opcional, dejar "" si no tiene
+            //     image: "nombre-imagen.jpg" // Opcional, dejar "" si no tiene imagen
+            // },
+        ];
         
         // Categorías de negocios
         const categories = [
@@ -422,8 +313,7 @@
         // Aplicación principal
         class BusinessDirectoryApp {
             constructor() {
-                this.storage = new DataLocalStorage();
-                this.allBusinesses = [];
+                this.allBusinesses = BUSINESS_DATA;
                 this.filteredBusinesses = [];
                 this.activeFilters = {
                     search: '',
@@ -435,15 +325,7 @@
             
             init() {
                 this.renderCategories();
-                this.populateCategorySelect();
                 this.setupEventListeners();
-                
-                // Hacer disponible globalmente para el storage
-                window.app = this;
-            }
-            
-            onDataChange(businesses) {
-                this.allBusinesses = businesses;
                 this.applyFilters();
                 this.updateBusinessCount();
             }
@@ -460,17 +342,6 @@
                 `).join('');
             }
             
-            populateCategorySelect() {
-                const select = document.getElementById('business-category');
-                select.innerHTML = '<option value="">Seleccionar categoría</option>';
-                categories.forEach(category => {
-                    const option = document.createElement('option');
-                    option.value = category.name;
-                    option.textContent = `${category.icon} ${category.name}`;
-                    select.appendChild(option);
-                });
-            }
-            
             setupEventListeners() {
                 // Búsqueda
                 document.getElementById('search-input').addEventListener('input', () => this.handleSearch());
@@ -480,33 +351,23 @@
                 document.getElementById('about-btn').addEventListener('click', () => this.showAboutModal());
                 document.getElementById('services-btn').addEventListener('click', () => this.showServicesModal());
                 
-                // Modales
-                document.getElementById('add-business-btn').addEventListener('click', () => this.openAddModal());
-                document.getElementById('empty-add-btn').addEventListener('click', () => this.openAddModal());
-                document.getElementById('close-modal').addEventListener('click', () => this.closeAddModal());
-                document.getElementById('cancel-btn').addEventListener('click', () => this.closeAddModal());
+                // Modal de información
                 document.getElementById('close-info-modal').addEventListener('click', () => this.closeInfoModal());
-                
-                // Formulario
-                document.getElementById('business-form').addEventListener('submit', (e) => this.handleFormSubmit(e));
                 
                 // Filtros
                 document.getElementById('clear-filters').addEventListener('click', () => this.clearAllFilters());
                 
-                // Cerrar modales al hacer clic fuera
+                // Cerrar modal al hacer clic fuera
                 this.setupModalCloseHandlers();
             }
             
             setupModalCloseHandlers() {
-                const modals = ['add-business-modal', 'info-modal'];
-                modals.forEach(modalId => {
-                    const modal = document.getElementById(modalId);
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            modal.classList.add('hidden');
-                            modal.classList.remove('flex');
-                        }
-                    });
+                const modal = document.getElementById('info-modal');
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.add('hidden');
+                        modal.classList.remove('flex');
+                    }
                 });
             }
             
@@ -685,19 +546,6 @@
                 }
             }
             
-            openAddModal() {
-                const modal = document.getElementById('add-business-modal');
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                document.getElementById('business-form').reset();
-            }
-            
-            closeAddModal() {
-                const modal = document.getElementById('add-business-modal');
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-            
             showAboutModal() {
                 this.showInfoModal(
                     '👥 Quiénes Somos',
@@ -727,8 +575,8 @@
                             <li>Gestionar su presencia online</li>
                         </ul>
                         <div class="mt-6 p-4 rounded-lg" style="background-color: #f8f9fa;">
-                            <p class="text-sm font-medium">¿Quieres publicar tu negocio?</p>
-                            <p class="text-xs text-gray-600 mt-1">Es gratis y solo toma unos minutos.</p>
+                            <p class="text-sm font-medium">Directorio de negocios locales</p>
+                            <p class="text-xs text-gray-600 mt-1">Conectando la comunidad con los mejores servicios.</p>
                         </div>
                     </div>`
                 );
@@ -748,42 +596,10 @@
                 modal.classList.remove('flex');
             }
             
-            async handleFormSubmit(e) {
-                e.preventDefault();
-                
-                const submitBtn = document.getElementById('submit-btn');
-                const originalText = submitBtn.textContent;
-                submitBtn.innerHTML = '<div class="loading-spinner mx-auto"></div>';
-                submitBtn.disabled = true;
-                
-                const businessData = {
-                    name: document.getElementById('business-name').value.trim(),
-                    category: document.getElementById('business-category').value,
-                    description: document.getElementById('business-description').value.trim(),
-                    phone: document.getElementById('business-phone').value.trim(),
-                    address: document.getElementById('business-address').value.trim(),
-                    website: document.getElementById('business-website').value.trim(),
-                    image: document.getElementById('business-image').value.trim()
-                };
-                
-                try {
-                    await this.storage.addBusiness(businessData);
-                    this.showToast('✅ Negocio publicado exitosamente', 'success');
-                    this.closeAddModal();
-                } catch (error) {
-                    console.error('Error guardando negocio:', error);
-                    this.showToast('❌ Error al publicar negocio', 'error');
-                } finally {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
-            }
-            
             contactBusiness(businessId) {
                 const business = this.allBusinesses.find(b => b.id === businessId);
                 if (business) {
                     this.showToast(`📞 Contactando a ${business.name}...`, 'info');
-                    // Aquí podrías implementar lógica adicional de contacto
                 }
             }
             
@@ -817,8 +633,8 @@
         
         // Inicializar aplicación cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', () => {
-            new BusinessDirectoryApp();
+            window.app = new BusinessDirectoryApp();
         });
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993261fa75ce67e4',t:'MTc2MTIzNDU0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9932888c00df67e4',t:'MTc2MTIzNjEyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
