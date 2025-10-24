@@ -240,15 +240,15 @@
             background: linear-gradient(45deg, #db3717, #ff4520);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(219, 55, 23, 0.3);
             flex: 1;
-            min-width: 120px;
+            min-width: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -278,6 +278,33 @@
             max-width: 100%;
             margin: 0 auto;
             overflow: hidden;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(219, 55, 23, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 10;
+            animation: pulse 2s infinite;
+            pointer-events: none;
+        }
+
+        .scroll-indicator::after {
+            content: "→";
+            margin-left: 5px;
+            animation: slideRight 1.5s infinite;
+        }
+
+        @keyframes slideRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(3px); }
         }
 
         .categories-grid {
@@ -393,8 +420,8 @@
         .business-card {
             background: #ffffff;
             border: 2px solid #db3717;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             display: flex;
@@ -413,15 +440,15 @@
         }
 
         .business-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 12px;
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
             background: #f8f9fa;
             border: 2px solid #db3717;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 32px;
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -438,26 +465,13 @@
         }
 
         .business-name {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             color: #db3717;
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
         }
 
-        .business-category {
-            background: #db3717;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 15px;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
 
-        .category-icon-small {
-            font-size: 14px;
-        }
 
         .business-description {
             color: #666;
@@ -553,12 +567,49 @@
             background: #1a2038;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
+            border-top: 3px solid #db3717;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #db3717;
+            margin-bottom: 15px;
         }
 
         .footer-text {
             margin: 0;
             font-size: 14px;
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .footer-year {
+            color: #db3717;
+            font-weight: 600;
+        }
+
+        .registered-icon {
+            background: #db3717;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
         }
 
         /* Scroll to Top Button */
@@ -766,6 +817,9 @@
     <section class="categories-section">
      <h2 class="section-title">Categorías de Negocios</h2>
      <div class="categories-container">
+      <div class="scroll-indicator">
+       Desliza
+      </div>
       <div class="categories-grid" id="categoriesGrid">
        <div class="category-card" data-category="hoteles"><span class="category-icon">🏨</span>
         <h3 class="category-name">Hoteles</h3>
@@ -815,7 +869,7 @@
         <div class="business-logo"><img src="img/hotel-plaza-central.jpg" alt="Hotel Plaza Central" onerror="this.style.display='none'; this.parentElement.innerHTML='🏨';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Hotel Plaza Central</h3><span class="business-category"> <span class="category-icon-small">🏨</span> Hoteles </span>
+         <h3 class="business-name">Hotel Plaza Central</h3>
         </div>
        </div>
        <p class="business-description">Hotel de lujo en el centro de la ciudad con todas las comodidades modernas. Habitaciones elegantes y servicio de primera clase.</p>
@@ -827,7 +881,7 @@
         <div class="business-logo"><img src="img/restaurante-el-sabor.jpg" alt="Restaurante El Sabor" onerror="this.style.display='none'; this.parentElement.innerHTML='🍽️';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Restaurante El Sabor</h3><span class="business-category"> <span class="category-icon-small">🍽️</span> Restaurantes </span>
+         <h3 class="business-name">Restaurante El Sabor</h3>
         </div>
        </div>
        <p class="business-description">Auténtica comida local con ingredientes frescos. Especialidad en platos tradicionales y ambiente familiar acogedor.</p>
@@ -839,7 +893,7 @@
         <div class="business-logo"><img src="img/heladeria-dulce-frio.jpg" alt="Heladería Dulce Frío" onerror="this.style.display='none'; this.parentElement.innerHTML='🍦';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Heladería Dulce Frío</h3><span class="business-category"> <span class="category-icon-small">🍦</span> Heladerías </span>
+         <h3 class="business-name">Heladería Dulce Frío</h3>
         </div>
        </div>
        <p class="business-description">Los mejores helados artesanales de la ciudad. Más de 20 sabores únicos preparados diariamente con ingredientes naturales.</p>
@@ -851,7 +905,7 @@
         <div class="business-logo"><img src="img/boutique-moda-actual.jpg" alt="Boutique Moda Actual" onerror="this.style.display='none'; this.parentElement.innerHTML='🛍️';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Boutique Moda Actual</h3><span class="business-category"> <span class="category-icon-small">🛍️</span> Tiendas </span>
+         <h3 class="business-name">Boutique Moda Actual</h3>
         </div>
        </div>
        <p class="business-description">Ropa de moda para toda la familia. Las últimas tendencias en moda casual y formal a precios accesibles.</p>
@@ -863,7 +917,7 @@
         <div class="business-logo"><img src="img/taller-mecanico-express.jpg" alt="Taller Mecánico Express" onerror="this.style.display='none'; this.parentElement.innerHTML='🔧';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Taller Mecánico Express</h3><span class="business-category"> <span class="category-icon-small">🔧</span> Servicios </span>
+         <h3 class="business-name">Taller Mecánico Express</h3>
         </div>
        </div>
        <p class="business-description">Servicio mecánico profesional para todo tipo de vehículos. Reparaciones rápidas y garantizadas con personal especializado.</p>
@@ -875,7 +929,7 @@
         <div class="business-logo"><img src="img/cine-estrella.jpg" alt="Cine Estrella" onerror="this.style.display='none'; this.parentElement.innerHTML='🎭';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Cine Estrella</h3><span class="business-category"> <span class="category-icon-small">🎭</span> Entretenimiento </span>
+         <h3 class="business-name">Cine Estrella</h3>
         </div>
        </div>
        <p class="business-description">Complejo cinematográfico con las últimas películas en cartelera. Salas cómodas con tecnología de última generación.</p>
@@ -893,7 +947,12 @@
     </div>
    </section><!-- Footer -->
    <footer class="footer">
-    <p class="footer-text">Hecho por LocalizateMerida</p>
+    <div class="footer-content">
+     <div class="footer-logo">
+      LocalizateMerida
+     </div>
+     <p class="footer-text"><span class="registered-icon">®</span> <span class="footer-year">2025</span> Todos los derechos reservados</p>
+    </div>
    </footer><!-- Scroll to Top Button --> <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()"> ↑ </button>
   </div><!-- Modal -->
   <div class="modal" id="infoModal">
@@ -1025,6 +1084,21 @@
                     filterBusinesses(currentFilter);
                     updateSectionTitle(currentFilter);
                 });
+            });
+
+            // Hide scroll indicator when user scrolls categories
+            const categoriesGrid = document.getElementById('categoriesGrid');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            categoriesGrid.addEventListener('scroll', () => {
+                if (scrollIndicator) {
+                    scrollIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        if (scrollIndicator) {
+                            scrollIndicator.style.display = 'none';
+                        }
+                    }, 300);
+                }
             });
 
             // Show all button
@@ -1217,5 +1291,5 @@
         // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b380a108467d2',t:'MTc2MTMyNzIwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b59c4f0c0a557',t:'MTc2MTMyODU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
