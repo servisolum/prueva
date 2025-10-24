@@ -208,6 +208,28 @@
             box-shadow: 0 0 10px rgba(219, 55, 23, 0.3);
         }
 
+        .search-btn {
+            background: linear-gradient(45deg, #db3717, #ff4520);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(219, 55, 23, 0.3);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(219, 55, 23, 0.4);
+        }
+
         .nav-buttons {
             display: flex;
             gap: 10px;
@@ -227,6 +249,9 @@
             box-shadow: 0 4px 15px rgba(219, 55, 23, 0.3);
             flex: 1;
             min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-btn:hover {
@@ -248,39 +273,68 @@
             font-weight: bold;
         }
 
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            max-width: 800px;
+        .categories-container {
+            position: relative;
+            max-width: 100%;
             margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .categories-grid {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+            scrollbar-width: thin;
+            scrollbar-color: #db3717 #f8f9fa;
+        }
+
+        .categories-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .categories-grid::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .categories-grid::-webkit-scrollbar-thumb {
+            background: #db3717;
+            border-radius: 4px;
+        }
+
+        .categories-grid::-webkit-scrollbar-thumb:hover {
+            background: #ff4520;
         }
 
         .category-card {
             background: #ffffff;
             border: 2px solid #db3717;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 120px;
+            flex-shrink: 0;
         }
 
         .category-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             border-color: #ff4520;
-            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.3);
+            box-shadow: 0 6px 20px rgba(219, 55, 23, 0.3);
         }
 
         .category-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 36px;
+            margin-bottom: 8px;
             display: block;
         }
 
         .category-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: #db3717;
             margin: 0;
@@ -318,6 +372,14 @@
         .show-all-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(219, 55, 23, 0.4);
+        }
+
+        .no-results-message {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+            display: none;
         }
 
         .business-grid {
@@ -595,12 +657,20 @@
             }
             
             .categories-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                gap: 15px;
+                gap: 10px;
+            }
+            
+            .category-card {
+                min-width: 100px;
+                padding: 12px;
             }
             
             .category-icon {
-                font-size: 36px;
+                font-size: 30px;
+            }
+            
+            .category-name {
+                font-size: 12px;
             }
             
             .business-grid {
@@ -608,7 +678,7 @@
             }
             
             .search-bar {
-                flex-direction: column;
+                flex-direction: row;
             }
             
             .search-input {
@@ -644,10 +714,6 @@
             .logo-section {
                 padding: 15px;
             }
-            
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
 
             .business-header {
                 flex-direction: column;
@@ -672,7 +738,7 @@
  </head>
  <body><!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
-   <div class="loading-logo"><img src="img/logoprincipal.png" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
+   <div class="loading-logo"><img src="img/logo-carga.jpg" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
    </div>
    <div class="loading-subtitle">
     Cargando directorio...
@@ -686,52 +752,67 @@
     <header class="header" id="top">
     </header><!-- Logo -->
     <section class="logo-section">
-     <div class="logo"><img src="img/logoprincipal.png" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
+     <div class="logo"><img src="img/logo-principal.jpg" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
      </div>
     </section><!-- Navigation -->
     <nav class="nav-section">
-     <div class="search-bar"><input type="text" class="search-input" id="searchInput" placeholder="Buscar negocios...">
+     <div class="search-bar"><input type="text" class="search-input" id="searchInput" placeholder="Buscar negocios..."> <button class="search-btn" id="searchBtn">🔍</button>
      </div>
-     <div class="nav-buttons"><button class="nav-btn" id="aboutBtn">Quiénes Somos</button> <button class="nav-btn" id="servicesBtn">Servicios que Prestamos</button> <button class="nav-btn" id="publishBtn">Publicarme</button> <button class="nav-btn" id="instagramBtn">📷 Síguenos</button>
+     <div class="nav-buttons"><button class="nav-btn" id="aboutBtn">Quiénes Somos</button> <button class="nav-btn" id="servicesBtn">Servicios que Prestamos</button> <button class="nav-btn" id="publishBtn">Publicarme</button> <button class="nav-btn" id="instagramBtn">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+       </svg> Síguenos </button>
      </div>
     </nav><!-- Categories -->
     <section class="categories-section">
      <h2 class="section-title">Categorías de Negocios</h2>
-     <div class="categories-grid" id="categoriesGrid">
-      <div class="category-card" data-category="hoteles"><span class="category-icon">🏨</span>
-       <h3 class="category-name">Hoteles</h3>
-      </div>
-      <div class="category-card" data-category="restaurantes"><span class="category-icon">🍽️</span>
-       <h3 class="category-name">Restaurantes</h3>
-      </div>
-      <div class="category-card" data-category="heladerias"><span class="category-icon">🍦</span>
-       <h3 class="category-name">Heladerías</h3>
-      </div>
-      <div class="category-card" data-category="tiendas"><span class="category-icon">🛍️</span>
-       <h3 class="category-name">Tiendas</h3>
-      </div>
-      <div class="category-card" data-category="servicios"><span class="category-icon">🔧</span>
-       <h3 class="category-name">Servicios</h3>
-      </div>
-      <div class="category-card" data-category="entretenimiento"><span class="category-icon">🎭</span>
-       <h3 class="category-name">Entretenimiento</h3>
-      </div>
-      <div class="category-card" data-category="salud"><span class="category-icon">🏥</span>
-       <h3 class="category-name">Salud</h3>
-      </div>
-      <div class="category-card" data-category="educacion"><span class="category-icon">📚</span>
-       <h3 class="category-name">Educación</h3>
+     <div class="categories-container">
+      <div class="categories-grid" id="categoriesGrid">
+       <div class="category-card" data-category="hoteles"><span class="category-icon">🏨</span>
+        <h3 class="category-name">Hoteles</h3>
+       </div>
+       <div class="category-card" data-category="restaurantes"><span class="category-icon">🍽️</span>
+        <h3 class="category-name">Restaurantes</h3>
+       </div>
+       <div class="category-card" data-category="heladerias"><span class="category-icon">🍦</span>
+        <h3 class="category-name">Heladerías</h3>
+       </div>
+       <div class="category-card" data-category="tiendas"><span class="category-icon">🛍️</span>
+        <h3 class="category-name">Tiendas</h3>
+       </div>
+       <div class="category-card" data-category="servicios"><span class="category-icon">🔧</span>
+        <h3 class="category-name">Servicios</h3>
+       </div>
+       <div class="category-card" data-category="entretenimiento"><span class="category-icon">🎭</span>
+        <h3 class="category-name">Entretenimiento</h3>
+       </div>
+       <div class="category-card" data-category="salud"><span class="category-icon">🏥</span>
+        <h3 class="category-name">Salud</h3>
+       </div>
+       <div class="category-card" data-category="educacion"><span class="category-icon">📚</span>
+        <h3 class="category-name">Educación</h3>
+       </div>
       </div>
      </div>
     </section><!-- Business List -->
-    <section class="business-section">
+    <section class="business-section" id="businessSection">
      <div class="business-header-section">
       <h2 class="section-title" id="businessSectionTitle">Todos los Negocios</h2><button class="show-all-btn" id="showAllBtn">Mostrar Todos</button>
+     </div>
+     <div class="no-results-message" id="noResultsMessage">
+      <div style="font-size: 48px; margin-bottom: 20px;">
+       🔍
+      </div>
+      <div>
+       No se encontraron negocios que coincidan con tu búsqueda
+      </div>
+      <div style="font-size: 14px; margin-top: 10px;">
+       Intenta con otros términos o explora todas las categorías
+      </div>
      </div>
      <div class="business-grid" id="businessGrid"><!-- Hotel Example -->
       <div class="business-card" data-category="hoteles">
        <div class="business-header">
-        <div class="business-logo"><img src="img/logo19.png" alt="Hotel Plaza Central" onerror="this.style.display='none'; this.parentElement.innerHTML='🏨';">
+        <div class="business-logo"><img src="img/hotel-plaza-central.jpg" alt="Hotel Plaza Central" onerror="this.style.display='none'; this.parentElement.innerHTML='🏨';">
         </div>
         <div class="business-info">
          <h3 class="business-name">Hotel Plaza Central</h3><span class="business-category"> <span class="category-icon-small">🏨</span> Hoteles </span>
@@ -837,7 +918,7 @@
 
         // Partner logos for carousel - Cambia estas rutas por las de tu carpeta img
         const partnerLogos = [
-            { name: 'Banco Central', logo: 'img/logo1.png' },
+            { name: 'Banco Central', logo: 'img/banco-central.jpg' },
             { name: 'Farmacia Salud', logo: 'img/farmacia-salud.jpg' },
             { name: 'Supermercado Plus', logo: 'img/supermercado-plus.jpg' },
             { name: 'Café Express', logo: 'img/cafe-express.jpg' },
@@ -917,6 +998,17 @@
                 filterBusinesses(currentFilter, searchTerm);
             });
 
+            // Search button functionality
+            const searchBtn = document.getElementById('searchBtn');
+            searchBtn.addEventListener('click', performSearch);
+            
+            // Enter key on search input
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
             // Category filters
             const categoryCards = document.querySelectorAll('.category-card');
             categoryCards.forEach(card => {
@@ -987,6 +1079,18 @@
             });
         }
 
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (searchTerm) {
+                filterBusinesses(currentFilter, searchTerm);
+                // Scroll to business section
+                document.getElementById('businessSection').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
         function getAllBusinessCards() {
             allBusinessCards = Array.from(document.querySelectorAll('.business-card'));
         }
@@ -1021,6 +1125,8 @@
         }
 
         function filterBusinesses(categoryFilter = '', searchTerm = '') {
+            let visibleCount = 0;
+            
             allBusinessCards.forEach(card => {
                 const category = card.dataset.category;
                 const name = card.querySelector('.business-name').textContent.toLowerCase();
@@ -1039,7 +1145,20 @@
                 }
                 
                 card.style.display = showCard ? 'flex' : 'none';
+                if (showCard) visibleCount++;
             });
+
+            // Show/hide no results message
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            const businessGrid = document.getElementById('businessGrid');
+            
+            if (visibleCount === 0 && (categoryFilter || searchTerm)) {
+                noResultsMessage.style.display = 'block';
+                businessGrid.style.display = 'none';
+            } else {
+                noResultsMessage.style.display = 'none';
+                businessGrid.style.display = 'grid';
+            }
         }
 
         function getConfigValue(key) {
@@ -1083,23 +1202,9 @@
         }
 
         function showBusinessProfile(businessName) {
-            // Configuración de rutas personalizadas para cada negocio
-            const businessRoutes = {
-                'Hotel Plaza Central': 'https://servisolum.github.io/prueva/perfilpublisolum.html',
-                'Restaurante El Sabor': 'perfilpublisolum.html',
-                'Heladería Dulce Frío': 'https://tu-sitio.com/heladeria-dulce-frio',
-                'Boutique Moda Actual': 'https://tu-sitio.com/boutique-moda-actual',
-                'Taller Mecánico Express': 'https://tu-sitio.com/taller-mecanico-express',
-                'Cine Estrella': 'https://tu-sitio.com/cine-estrella'
-            };
-            
-            // Si existe una ruta personalizada, navegar en la misma pestaña
-            if (businessRoutes[businessName]) {
-                window.location.href = businessRoutes[businessName];
-            } else {
-                // Si no hay ruta personalizada, mostrar modal por defecto
-                showModal('Perfil del Negocio', `Información detallada de ${businessName}. Aquí podrás encontrar más detalles sobre este establecimiento, horarios de atención, servicios adicionales y formas de contacto.`);
-            }
+            // Enlazar directamente a perfil.html con el nombre del negocio como parámetro
+            const encodedBusinessName = encodeURIComponent(businessName);
+            window.location.href = `perfil.html?negocio=${encodedBusinessName}`;
         }
 
         function scrollToTop() {
@@ -1112,5 +1217,5 @@
         // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993a5c1b573d6c1b',t:'MTc2MTMxODE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b380a108467d2',t:'MTc2MTMyNzIwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
