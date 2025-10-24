@@ -175,78 +175,49 @@
 
         /* Navigation */
         .nav-section {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: #ffffff;
             padding: 15px 20px;
-            border-bottom: none;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
+            border-bottom: 2px solid #db3717;
         }
 
-        .nav-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #db3717, #ff4520, #db3717);
-            background-size: 200% 100%;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .nav-header {
+        .search-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            gap: 10px;
             margin-bottom: 15px;
-        }
-
-        .search-container {
-            flex: 1;
-            display: flex;
-            gap: 12px;
-            align-items: center;
+            flex-wrap: wrap;
         }
 
         .search-input {
             flex: 1;
-            padding: 14px 20px;
-            border: none;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 2px solid #db3717;
             border-radius: 25px;
-            background: #ffffff;
+            background: #f8f9fa;
             color: #333;
             font-size: 16px;
             outline: none;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
         }
 
         .search-input::placeholder {
-            color: #999;
-            font-weight: 400;
+            color: #888;
         }
 
         .search-input:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(219, 55, 23, 0.2);
+            border-color: #ff4520;
+            box-shadow: 0 0 10px rgba(219, 55, 23, 0.3);
         }
 
         .search-btn {
-            background: linear-gradient(135deg, #db3717 0%, #ff4520 100%);
+            background: linear-gradient(45deg, #db3717, #ff4520);
             color: white;
             border: none;
-            padding: 14px;
+            padding: 12px 16px;
             border-radius: 50%;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(219, 55, 23, 0.3);
+            box-shadow: 0 4px 15px rgba(219, 55, 23, 0.3);
             width: 48px;
             height: 48px;
             display: flex;
@@ -255,74 +226,37 @@
         }
 
         .search-btn:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(219, 55, 23, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(219, 55, 23, 0.4);
         }
 
-        /* Menu Toggle Button */
-        .menu-toggle {
-            background: #db3717;
-            color: white;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            min-width: 100px;
-        }
-
-        .menu-toggle:hover {
-            background: #ff4520;
-        }
-
-        /* Dropdown Menu - Ultra Simple */
-        .nav-dropdown {
-            background: #ffffff;
-            border: 2px solid #db3717;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-dropdown.hidden {
-            display: none;
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
-            background: #ffffff;
-            color: #db3717;
-            border: 2px solid #db3717;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 14px;
+            background: linear-gradient(45deg, #db3717, #ff4520);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            margin-bottom: 8px;
-            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(219, 55, 23, 0.3);
+            flex: 1;
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-btn:hover {
-            background: #db3717;
-            color: white;
-        }
-
-        /* Mobile Overlay */
-        .nav-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 999;
-        }
-
-        .nav-overlay.show {
-            display: block;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(219, 55, 23, 0.4);
         }
 
         /* Categories */
@@ -795,30 +729,19 @@
             }
             
             .search-bar {
-                flex-direction: column;
-                gap: 12px;
+                flex-direction: row;
             }
             
             .search-input {
                 min-width: auto;
-                padding: 14px 20px;
-            }
-
-            .search-btn {
-                width: 50px;
-                height: 50px;
-                align-self: center;
             }
             
             .nav-buttons {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                flex-direction: column;
             }
             
             .nav-btn {
                 min-width: auto;
-                padding: 12px 16px;
-                font-size: 12px;
             }
 
             .scroll-top-btn {
@@ -866,10 +789,9 @@
  </head>
  <body><!-- Loading Screen -->
   <div class="loading-screen" id="loadingScreen">
-   <div class="loading-logo"><img src="img/logo-carga.jpg" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
+   <div class="loading-logo"><img src="img/logoprincipal.png" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
    </div>
    <div class="loading-subtitle">
-    Cargando directorio...
    </div>
    <div class="loading-bar-container">
     <div class="loading-bar"></div>
@@ -880,18 +802,17 @@
     <header class="header" id="top">
     </header><!-- Logo -->
     <section class="logo-section">
-     <div class="logo"><img src="img/logo-principal.jpg" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
+     <div class="logo"><img src="img/logoprincipal.png" alt="Franja Naranja Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='FN';">
      </div>
     </section><!-- Navigation -->
     <nav class="nav-section">
-     <div class="nav-header">
-      <div class="search-container"><input type="text" class="search-input" id="searchInput" placeholder="Buscar negocios..."> 
-      </div><button class="menu-toggle" id="menuToggle"> <span>☰</span> <span>Menú</span> </button>
+     <div class="search-bar"><input type="text" class="search-input" id="searchInput" placeholder="Buscar negocios..."> 
      </div>
-     <div class="nav-dropdown hidden" id="navDropdown"><button class="nav-btn" id="aboutBtn"> ℹ️ Quiénes Somos </button> <button class="nav-btn" id="servicesBtn"> 🛠️ Servicios que Prestamos </button> <button class="nav-btn" id="publishBtn"> 📢 Publicar mi Negocio </button> <button class="nav-btn" id="instagramBtn"> 📱 Síguenos en Instagram </button>
+     <div class="nav-buttons"><button class="nav-btn" id="aboutBtn">Quiénes Somos</button> <button class="nav-btn" id="servicesBtn">Servicios que Prestamos</button> <button class="nav-btn" id="publishBtn">Publicarme</button> <button class="nav-btn" id="instagramBtn">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+       </svg> Síguenos </button>
      </div>
-    </nav><!-- Navigation Overlay -->
-    <div class="nav-overlay" id="navOverlay"></div><!-- Categories -->
+    </nav><!-- Categories -->
     <section class="categories-section">
      <h2 class="section-title">Categorías de Negocios</h2>
      <div class="categories-container">
@@ -941,79 +862,36 @@
        Intenta con otros términos o explora todas las categorías
       </div>
      </div>
-     <div class="business-grid" id="businessGrid"><!-- Hotel Example -->
-      <div class="business-card" data-category="hoteles">
+     <div class="business-grid" id="businessGrid">
+	 <!-- PUBLISOLUM -->
+      <div class="business-card" data-category="Servicios">
        <div class="business-header">
-        <div class="business-logo"><img src="img/hotel-plaza-central.jpg" alt="Hotel Plaza Central" onerror="this.style.display='none'; this.parentElement.innerHTML='🏨';">
+        <div class="business-logo"><img src="img/logo19.jpg" alt="publisolum" onerror="this.style.display='none'; this.parentElement.innerHTML='🔧';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Hotel Plaza Central</h3>
+         <h1 class="business-name">PUBLISOLUM</h1>
         </div>
        </div>
-       <p class="business-description">Hotel de lujo en el centro de la ciudad con todas las comodidades modernas. Habitaciones elegantes y servicio de primera clase.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Hotel Plaza Central')">Ver Perfil del Negocio</button>
+       <p class="business-description">SERVICIOS DE IMPRESIONES Y PERSONALIZACIONES GRAFICAS PARA EMPRESAS </p>
+       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('publisolum')">Ver Perfil del Negocio</button>
        </div>
-      </div><!-- Restaurant Example -->
+      </div><!-- servisolum -->
       <div class="business-card" data-category="restaurantes">
        <div class="business-header">
-        <div class="business-logo"><img src="img/restaurante-el-sabor.jpg" alt="Restaurante El Sabor" onerror="this.style.display='none'; this.parentElement.innerHTML='🍽️';">
+        <div class="business-logo"><img src="img/logo16.png" alt="servisolum" onerror="this.style.display='none'; this.parentElement.innerHTML='️🔧';">
         </div>
         <div class="business-info">
-         <h3 class="business-name">Restaurante El Sabor</h3>
+         <h1 class="business-name">SERVISOLUM</h1>
         </div>
        </div>
-       <p class="business-description">Auténtica comida local con ingredientes frescos. Especialidad en platos tradicionales y ambiente familiar acogedor.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Restaurante El Sabor')">Ver Perfil del Negocio</button>
+       <p class="business-description">servicio tecnico especializado en reparaciones de computadoras laptop tv consolas de video juegos ...</p>
+       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('servisolum')">Ver Perfil del Negocio</button>
        </div>
       </div><!-- Ice Cream Shop Example -->
-      <div class="business-card" data-category="heladerias">
-       <div class="business-header">
-        <div class="business-logo"><img src="img/heladeria-dulce-frio.jpg" alt="Heladería Dulce Frío" onerror="this.style.display='none'; this.parentElement.innerHTML='🍦';">
-        </div>
-        <div class="business-info">
-         <h3 class="business-name">Heladería Dulce Frío</h3>
-        </div>
-       </div>
-       <p class="business-description">Los mejores helados artesanales de la ciudad. Más de 20 sabores únicos preparados diariamente con ingredientes naturales.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Heladería Dulce Frío')">Ver Perfil del Negocio</button>
-       </div>
-      </div><!-- Store Example -->
-      <div class="business-card" data-category="tiendas">
-       <div class="business-header">
-        <div class="business-logo"><img src="img/boutique-moda-actual.jpg" alt="Boutique Moda Actual" onerror="this.style.display='none'; this.parentElement.innerHTML='🛍️';">
-        </div>
-        <div class="business-info">
-         <h3 class="business-name">Boutique Moda Actual</h3>
-        </div>
-       </div>
-       <p class="business-description">Ropa de moda para toda la familia. Las últimas tendencias en moda casual y formal a precios accesibles.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Boutique Moda Actual')">Ver Perfil del Negocio</button>
-       </div>
-      </div><!-- Service Example -->
-      <div class="business-card" data-category="servicios">
-       <div class="business-header">
-        <div class="business-logo"><img src="img/taller-mecanico-express.jpg" alt="Taller Mecánico Express" onerror="this.style.display='none'; this.parentElement.innerHTML='🔧';">
-        </div>
-        <div class="business-info">
-         <h3 class="business-name">Taller Mecánico Express</h3>
-        </div>
-       </div>
-       <p class="business-description">Servicio mecánico profesional para todo tipo de vehículos. Reparaciones rápidas y garantizadas con personal especializado.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Taller Mecánico Express')">Ver Perfil del Negocio</button>
-       </div>
-      </div><!-- Entertainment Example -->
-      <div class="business-card" data-category="entretenimiento">
-       <div class="business-header">
-        <div class="business-logo"><img src="img/cine-estrella.jpg" alt="Cine Estrella" onerror="this.style.display='none'; this.parentElement.innerHTML='🎭';">
-        </div>
-        <div class="business-info">
-         <h3 class="business-name">Cine Estrella</h3>
-        </div>
-       </div>
-       <p class="business-description">Complejo cinematográfico con las últimas películas en cartelera. Salas cómodas con tecnología de última generación.</p>
-       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfile('Cine Estrella')">Ver Perfil del Negocio</button>
-       </div>
-      </div>
+      <!-- Store Example -->
+      <!-- Service Example -->
+      <!-- Entertainment Example -->
+      
      </div>
     </section>
    </div><!-- Partners Carousel -->
@@ -1055,46 +933,23 @@
 
         // Partner logos for carousel - Cambia estas rutas por las de tu carpeta img
         const partnerLogos = [
-            { name: 'Banco Central', logo: 'img/banco-central.jpg' },
-            { name: 'Farmacia Salud', logo: 'img/farmacia-salud.jpg' },
-            { name: 'Supermercado Plus', logo: 'img/supermercado-plus.jpg' },
-            { name: 'Café Express', logo: 'img/cafe-express.jpg' },
-            { name: 'Gimnasio Fit', logo: 'img/gimnasio-fit.jpg' },
-            { name: 'Librería Saber', logo: 'img/libreria-saber.jpg' },
-            { name: 'Panadería Dorada', logo: 'img/panaderia-dorada.jpg' },
-            { name: 'Clínica Vida', logo: 'img/clinica-vida.jpg' },
-            { name: 'Ferretería El Martillo', logo: 'img/ferreteria-martillo.jpg' },
-            { name: 'Peluquería Estilo', logo: 'img/peluqueria-estilo.jpg' },
-            { name: 'Pizzería Napoli', logo: 'img/pizzeria-napoli.jpg' },
-            { name: 'Lavandería Express', logo: 'img/lavanderia-express.jpg' },
-            { name: 'Óptica Visión', logo: 'img/optica-vision.jpg' },
-            { name: 'Floristería Jardín', logo: 'img/floristeria-jardin.jpg' },
-            { name: 'Veterinaria Mascota', logo: 'img/veterinaria-mascota.jpg' },
-            { name: 'Tintorería Limpio', logo: 'img/tintoreria-limpio.jpg' },
-            { name: 'Joyería Brillante', logo: 'img/joyeria-brillante.jpg' },
-            { name: 'Zapatería Paso', logo: 'img/zapateria-paso.jpg' },
-            { name: 'Carnicería Don Juan', logo: 'img/carniceria-don-juan.jpg' },
-            { name: 'Pastelería Dulce', logo: 'img/pasteleria-dulce.jpg' },
-            { name: 'Electrónica Tech', logo: 'img/electronica-tech.jpg' },
-            { name: 'Mueblería Hogar', logo: 'img/muebleria-hogar.jpg' },
-            { name: 'Agencia Viajes', logo: 'img/agencia-viajes.jpg' },
-            { name: 'Seguros Protección', logo: 'img/seguros-proteccion.jpg' },
-            { name: 'Inmobiliaria Casa', logo: 'img/inmobiliaria-casa.jpg' },
-            { name: 'Dentista Sonrisa', logo: 'img/dentista-sonrisa.jpg' },
-            { name: 'Abogados Justicia', logo: 'img/abogados-justicia.jpg' },
-            { name: 'Contadores Número', logo: 'img/contadores-numero.jpg' },
-            { name: 'Arquitectos Diseño', logo: 'img/arquitectos-diseno.jpg' },
-            { name: 'Constructora Obra', logo: 'img/constructora-obra.jpg' },
-            { name: 'Plomería Agua', logo: 'img/plomeria-agua.jpg' },
-            { name: 'Electricista Luz', logo: 'img/electricista-luz.jpg' },
-            { name: 'Jardinería Verde', logo: 'img/jardineria-verde.jpg' },
-            { name: 'Pintura Color', logo: 'img/pintura-color.jpg' },
-            { name: 'Cerrajería Llave', logo: 'img/cerrajeria-llave.jpg' },
-            { name: 'Tapicería Sofá', logo: 'img/tapiceria-sofa.jpg' },
-            { name: 'Vidriería Cristal', logo: 'img/vidrieria-cristal.jpg' },
-            { name: 'Carpintería Madera', logo: 'img/carpinteria-madera.jpg' },
-            { name: 'Academia Inglés', logo: 'img/academia-ingles.jpg' },
-            { name: 'Guardería Niños', logo: 'img/guarderia-ninos.jpg' }
+            { name: 'Banco Central', logo: 'img/logo1.png' },
+            { name: 'Farmacia Salud', logo: 'img/logo2.png' },
+            { name: 'Supermercado Plus', logo: 'logo3.png' },
+            { name: 'Café Express', logo: 'img/logo4.png' },
+            { name: 'Gimnasio Fit', logo: 'img/logo5.png' },
+            { name: 'Librería Saber', logo: 'img/logo6.png' },
+            { name: 'Panadería Dorada', logo: 'img/logo7.png' },
+            { name: 'Clínica Vida', logo: 'img/logo8.png' },
+            { name: 'Ferretería El Martillo', logo: 'img/logo9.png' },
+            { name: 'Peluquería Estilo', logo: 'img/logo10.png' },
+            { name: 'Pizzería Napoli', logo: 'img/logo11.png' },
+            { name: 'Lavandería Express', logo: 'img/logo12.png' },
+            { name: 'Óptica Visión', logo: 'img/logo13.png' },
+            { name: 'Floristería Jardín', logo: 'img/logo17.png' },
+            
+       
+            { name: 'Guardería Niños', logo: 'img/logo18.png' }
         ];
 
         // Initialize app
@@ -1128,21 +983,6 @@
         }
 
         function setupEventListeners() {
-            // Menu toggle functionality - ULTRA SIMPLE
-            const menuToggle = document.getElementById('menuToggle');
-            const navDropdown = document.getElementById('navDropdown');
-            
-            menuToggle.addEventListener('click', function() {
-                console.log('Menu clicked!'); // Debug
-                if (navDropdown.classList.contains('hidden')) {
-                    navDropdown.classList.remove('hidden');
-                    console.log('Menu opened'); // Debug
-                } else {
-                    navDropdown.classList.add('hidden');
-                    console.log('Menu closed'); // Debug
-                }
-            });
-
             // Search functionality
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', (e) => {
@@ -1151,8 +991,7 @@
             });
 
             // Search button functionality
-            const searchBtn = document.getElementById('searchBtn');
-            searchBtn.addEventListener('click', performSearch);
+           
             
             // Enter key on search input
             searchInput.addEventListener('keypress', (e) => {
@@ -1208,29 +1047,25 @@
             });
 
             // Navigation buttons
-            document.getElementById('aboutBtn').addEventListener('click', function() {
+            document.getElementById('aboutBtn').addEventListener('click', () => {
                 showModal('Quiénes Somos', getConfigValue('about_text'));
-                navDropdown.classList.add('hidden');
             });
 
-            document.getElementById('servicesBtn').addEventListener('click', function() {
+            document.getElementById('servicesBtn').addEventListener('click', () => {
                 showModal('Servicios que Prestamos', getConfigValue('services_text'));
-                navDropdown.classList.add('hidden');
             });
 
             // WhatsApp button
-            document.getElementById('publishBtn').addEventListener('click', function() {
+            document.getElementById('publishBtn').addEventListener('click', () => {
                 const message = encodeURIComponent('Estoy interesado en publicar mi negocio en LocalizateMerida');
                 const whatsappUrl = `https://wa.me/?text=${message}`;
                 window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-                navDropdown.classList.add('hidden');
             });
 
             // Instagram button
-            document.getElementById('instagramBtn').addEventListener('click', function() {
+            document.getElementById('instagramBtn').addEventListener('click', () => {
                 const instagramUrl = 'https://www.instagram.com/localizate_merida';
                 window.open(instagramUrl, '_blank', 'noopener,noreferrer');
-                navDropdown.classList.add('hidden');
             });
 
             // Modal close
@@ -1378,8 +1213,6 @@
             window.location.href = `perfil.html?negocio=${encodedBusinessName}`;
         }
 
-        // Funciones de menú simplificadas eliminadas - ahora todo está en setupEventListeners
-
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -1390,5 +1223,5 @@
         // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b925584d1a38f',t:'MTc2MTMzMDkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b59c4f0c0a557',t:'MTc2MTMyODU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
