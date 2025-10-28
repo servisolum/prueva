@@ -1,13 +1,1823 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Título de la página</title>
-</head>
-<body>
-  <h1>perfil piublisolum </h1>
-  <p>perfil del publisolum</p>
+<!doctype html>
+<html lang="es">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impresiones Digitales Pro</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        /* Colores corporativos */
+        :root {
+            --primary-cyan: #93faee;
+            --primary-pink: #fecbd8;
+            --dark-text: #1f2937;
+            --light-text: #6b7280;
+        }
+        
+        /* Configuración responsive automática */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        /* Gradientes corporativos */
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Animaciones suaves */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Tarjetas de servicios */
+        .service-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Botones personalizados */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
+            color: var(--dark-text);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(147, 250, 238, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark-text);
+            border: 2px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-cyan);
+            transform: translateY(-2px);
+        }
+        
+        /* Navegación flotante */
+        .floating-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 10px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        /* Modal personalizado */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+        }
+        
+        /* Iconos SVG personalizados */
+        .icon-print {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .container {
+                padding: 0 12px;
+            }
+            
+            .floating-nav {
+                bottom: 10px;
+                padding: 8px 16px;
+            }
+        }
+        
+        /* Safe areas para dispositivos móviles */
+        .safe-area-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        /* Efectos de glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-</body>
+        /* Animación de vibración para clave incorrecta */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
 
+        /* Carrusel de logos animado */
+        .animate-scroll {
+            animation: scroll 60s linear infinite;
+            width: max-content;
+        }
+        
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .partner-logo {
+            width: 140px;
+            height: 90px;
+            margin: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            padding: 8px;
+            overflow: hidden;
+        }
+        
+        .partner-logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Estilos para el panel de administración */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: none;
+            overflow-y: auto;
+        }
+
+        .admin-content {
+            background: white;
+            margin: 20px;
+            border-radius: 15px;
+            min-height: calc(100vh - 40px);
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px 10px 0;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-pink) 100%);
+            color: var(--dark-text);
+        }
+
+        .tab-button.inactive {
+            background: #6b7280;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+        }
+
+        .data-item {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-card {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stats-green { background: #dcfce7; color: #166534; }
+        .stats-blue { background: #dbeafe; color: #1e40af; }
+        .stats-purple { background: #f3e8ff; color: #7c3aed; }
+        .stats-yellow { background: #fef3c7; color: #d97706; }
+        .stats-red { background: #fee2e2; color: #dc2626; }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Estilos específicos para catálogo vertical */
+        .catalog-item {
+            width: 300px;
+            height: 400px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .catalog-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .catalog-image-container {
+            flex: 1;
+            background: #f9fafb;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .catalog-content {
+            padding: 16px;
+            background: white;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .catalog-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .catalog-content p {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-screen" style="background: linear-gradient(135deg, #f0fdfc 0%, #fdf2f8 100%);"><!-- Header con logo -->
+  <header class="gradient-bg safe-area-top">
+   <div class="container py-6">
+    <div class="text-center fade-in">
+     <div class="mx-auto mb-4 flex items-center justify-center"><img src="img/logopublisolum.png" alt="Logo del negocio" class="max-h-40 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="max-h-40 flex items-center justify-center text-8xl text-gray-600" style="display: none;">
+       🏪
+      </div>
+     </div>
+    </div>
+   </div>
+  </header><!-- Botones de contacto rápido -->
+  <section class="container py-6">
+   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"><button onclick="contactWhatsApp()" class="btn-primary py-4 px-6 rounded-xl flex flex-col items-center justify-center gap-3 min-h-[100px]">
+     <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+     </svg><span class="text-base font-medium">WhatsApp</span> </button> <button onclick="openInstagram()" class="btn-secondary py-4 px-6 rounded-xl flex flex-col items-center justify-center gap-3 min-h-[100px]">
+     <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+     </svg><span class="text-base font-medium">Instagram</span> </button> <button onclick="openLocation()" class="btn-primary py-4 px-6 rounded-xl flex flex-col items-center justify-center gap-3 min-h-[100px]">
+     <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z" />
+     </svg><span class="text-base font-medium">Ubicación</span> </button> <button onclick="contactPhone()" class="btn-secondary py-4 px-6 rounded-xl flex flex-col items-center justify-center gap-3 min-h-[100px]">
+     <svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+     </svg><span class="text-base font-medium">Llamar</span> </button>
+   </div>
+  </section><!-- Sección de servicios principales -->
+  <section class="container py-8">
+   <h2 class="text-3xl font-bold text-center mb-8 text-gray-800 slide-up">Nuestros Servicios</h2>
+   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Impresiones Digitales -->
+    <div class="service-card rounded-2xl p-6 slide-up">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🖨️</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Impresiones Digitales</h3>
+     <p class="text-sm text-gray-600 mb-4">Bond, cartulina, opalina, sulfato, glasse, autoadhesivo, fotográfico, vinil, lona, banner, pergamino y más.</p><button onclick="showServiceDetails('impresiones')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div><!-- Corte y Diseño -->
+    <div class="service-card rounded-2xl p-6 slide-up" style="animation-delay: 0.1s;">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">✂️</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Corte y Diseño</h3>
+     <p class="text-sm text-gray-600 mb-4">Corte de vinil, stickers, cajas personalizadas y diseño gráfico profesional.</p><button onclick="showServiceDetails('corte')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div><!-- Sublimación -->
+    <div class="service-card rounded-2xl p-6 slide-up" style="animation-delay: 0.2s;">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🎨</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Sublimación</h3>
+     <p class="text-sm text-gray-600 mb-4">Personalización en DTF, vinil textil y sublimación para todo tipo de productos.</p><button onclick="showServiceDetails('sublimacion')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div><!-- Impresión 3D -->
+    <div class="service-card rounded-2xl p-6 slide-up" style="animation-delay: 0.3s;">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">🔧</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Impresión 3D</h3>
+     <p class="text-sm text-gray-600 mb-4">Prototipos, llaveros personalizados y objetos únicos en impresión 3D.</p><button onclick="showServiceDetails('impresion3d')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div><!-- Productos Corporativos -->
+    <div class="service-card rounded-2xl p-6 slide-up" style="animation-delay: 0.4s;">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">💼</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Productos Corporativos</h3>
+     <p class="text-sm text-gray-600 mb-4">Tarjetas de presentación, agendas, carpetas, carnets y habladores personalizados.</p><button onclick="showServiceDetails('corporativos')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div><!-- Servicios Adicionales -->
+    <div class="service-card rounded-2xl p-6 slide-up" style="animation-delay: 0.5s;">
+     <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center mb-4"><span class="text-2xl">⚙️</span>
+     </div>
+     <h3 class="text-lg font-bold mb-3 text-gray-800">Servicios Adicionales</h3>
+     <p class="text-sm text-gray-600 mb-4">Encuadernado, anillado, laminado, plastificado, avisos corpóreos y pendones.</p><button onclick="showServiceDetails('adicionales')" class="btn-primary w-full py-2 px-4 rounded-lg text-sm"> Ver Detalles </button>
+    </div>
+   </div>
+  </section><!-- Carrusel de imágenes del local -->
+  <section class="container py-8">
+   <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">Conoce Nuestro Local</h3>
+   <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div id="carousel-container" class="relative h-80 md:h-96 overflow-hidden">
+     <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out h-full">
+      <div class="w-full flex-shrink-0 relative"><img src="img/entradacc.jpeg" alt="Entrada del local" class="w-full h-full object-contain bg-gray-50" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="w-full h-full bg-gradient-to-r from-cyan-100 to-pink-100 flex items-center justify-center text-gray-500" style="display: none;">
+        <div class="text-center"><span class="text-4xl block mb-2">🏪</span> <span class="text-sm">Entrada del Local</span>
+        </div>
+       </div>
+      </div>
+      <div class="w-full flex-shrink-0 relative"><img src="img/entradalocal.jpeg" alt="Interior del local" class="w-full h-full object-contain bg-gray-50" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="w-full h-full bg-gradient-to-r from-pink-100 to-cyan-100 flex items-center justify-center text-gray-500" style="display: none;">
+        <div class="text-center"><span class="text-4xl block mb-2">🖨️</span> <span class="text-sm">Interior del Local</span>
+        </div>
+       </div>
+      </div>
+      <div class="w-full flex-shrink-0 relative"><img src="img/entradalocal2.jpeg" alt="Equipos de impresión" class="w-full h-full object-contain bg-gray-50" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+       <div class="w-full h-full bg-gradient-to-r from-cyan-100 to-pink-100 flex items-center justify-center text-gray-500" style="display: none;">
+        <div class="text-center"><span class="text-4xl block mb-2">⚙️</span> <span class="text-sm">Nuestros Equipos</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Controles del carrusel --> <button onclick="previousSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-lg transition-all"> <span class="text-xl">‹</span> </button> <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-lg transition-all"> <span class="text-xl">›</span> </button> <!-- Indicadores -->
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"><button onclick="goToSlide(0)" class="carousel-dot w-3 h-3 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all"></button> <button onclick="goToSlide(1)" class="carousel-dot w-3 h-3 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all"></button> <button onclick="goToSlide(2)" class="carousel-dot w-3 h-3 rounded-full bg-white bg-opacity-60 hover:bg-opacity-100 transition-all"></button>
+    </div>
+   </div>
+  </section><!-- Catálogo de productos con formato vertical -->
+  <section class="container py-8">
+   <h3 class="text-2xl font-bold mb-6 text-center text-gray-800">Catálogo de Productos</h3>
+   <div id="catalog-container" class="flex flex-wrap justify-center gap-6"><!-- Los productos se cargan dinámicamente aquí con formato vertical 300x400px -->
+   </div>
+  </section><!-- Carrusel de logos de aliados comerciales -->
+  <section class="container py-12">
+   <h3 class="text-3xl font-bold mb-8 text-center text-gray-800">Nuestros Aliados Comerciales</h3>
+   <div class="relative overflow-hidden bg-white rounded-2xl shadow-lg py-8"><!-- Carrusel infinito -->
+    <div id="partners-carousel" class="flex animate-scroll"><!-- Los logos se cargan dinámicamente aquí -->
+    </div><!-- Gradientes para efecto de desvanecimiento -->
+    <div class="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+    <div class="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+   </div>
+  </section><!-- Modal de detalles de servicio -->
+  <div id="service-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
+   <div class="modal-content rounded-2xl shadow-xl w-full max-w-md max-h-[80vh] overflow-y-auto">
+    <div class="p-6">
+     <div class="flex justify-between items-center mb-4">
+      <h2 id="modal-title" class="text-xl font-bold text-gray-800"></h2><button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+     </div>
+     <div id="modal-content" class="text-gray-600"><!-- Contenido dinámico -->
+     </div>
+     <div class="mt-6 flex gap-3"><button onclick="contactWhatsApp()" class="btn-primary flex-1 py-2 px-4 rounded-lg text-sm"> Cotizar por WhatsApp </button> <button onclick="closeModal()" class="btn-secondary flex-1 py-2 px-4 rounded-lg text-sm"> Cerrar </button>
+     </div>
+    </div>
+   </div>
+  </div><!-- Panel de Administración -->
+  <div id="admin-panel" class="admin-panel">
+   <div class="admin-content"><!-- Header del panel -->
+    <div class="gradient-bg p-6">
+     <div class="flex justify-between items-center">
+      <div>
+       <h1 class="text-3xl font-bold text-gray-800">Panel de Administración</h1>
+       <p class="text-gray-700 mt-2">Sistema de gestión interno</p>
+      </div><button onclick="closeAdminPanel()" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all">
+       <svg class="w-6 h-6 text-gray-700" fill="currentColor" viewbox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+       </svg></button>
+     </div>
+    </div><!-- Navegación de pestañas -->
+    <div class="p-6 border-b">
+     <div class="flex flex-wrap gap-2"><button onclick="showAdminTab('sales')" id="admin-tab-sales" class="tab-button active"> 💰 Ventas </button> <button onclick="showAdminTab('inventory')" id="admin-tab-inventory" class="tab-button inactive"> 📦 Inventario </button> <button onclick="showAdminTab('reports')" id="admin-tab-reports" class="tab-button inactive"> 📊 Reportes </button> <button onclick="showAdminTab('prices')" id="admin-tab-prices" class="tab-button inactive"> 💲 Precios </button> <button onclick="showAdminTab('backup')" id="admin-tab-backup" class="tab-button inactive"> 💾 Respaldo </button>
+     </div>
+    </div><!-- Contenido de las pestañas -->
+    <div class="p-6"><!-- Pestaña de Ventas -->
+     <div id="admin-content-sales" class="tab-content active">
+      <div class="admin-card">
+       <h2 class="text-2xl font-bold mb-6">Registro de Movimientos</h2>
+       <div class="grid md:grid-cols-2 gap-8"><!-- Registro de Entradas -->
+        <div>
+         <h3 class="text-lg font-semibold mb-4 text-green-600">💰 Registrar Entrada</h3>
+         <form id="income-form" onsubmit="addIncome(event)"><input type="text" id="income-detail" placeholder="Detalle del servicio/producto" class="form-input" required> <input type="number" id="income-amount" placeholder="Monto de entrada" class="form-input" required> <button type="submit" class="bg-green-600 hover:bg-green-700 text-white w-full py-3 rounded-lg transition-colors"> Registrar Entrada </button>
+         </form>
+         <h3 class="text-lg font-semibold mb-4 mt-8 text-red-600">💸 Registrar Salida</h3>
+         <form id="expense-form" onsubmit="addExpense(event)"><input type="text" id="expense-detail" placeholder="Detalle del gasto" class="form-input" required> <input type="number" id="expense-amount" placeholder="Monto de salida" class="form-input" required> <button type="submit" class="bg-red-600 hover:bg-red-700 text-white w-full py-3 rounded-lg transition-colors"> Registrar Salida </button>
+         </form>
+        </div><!-- Lista de movimientos del día -->
+        <div>
+         <h3 class="text-lg font-semibold mb-4">Movimientos del Día</h3>
+         <div id="movements-list" class="max-h-80 overflow-y-auto"><!-- Lista de movimientos se carga aquí -->
+         </div><!-- Resumen del día -->
+         <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h4 class="font-semibold mb-2">Resumen del Día</h4>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+           <div class="text-green-600"><span class="block font-medium">Total Entradas:</span> <span id="daily-income" class="text-lg font-bold">$0</span>
+           </div>
+           <div class="text-red-600"><span class="block font-medium">Total Salidas:</span> <span id="daily-expenses" class="text-lg font-bold">$0</span>
+           </div>
+           <div class="col-span-2 text-blue-600 border-t pt-2"><span class="block font-medium">Balance del Día:</span> <span id="daily-balance" class="text-xl font-bold">$0</span>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Pestaña de Inventario -->
+     <div id="admin-content-inventory" class="tab-content">
+      <div class="admin-card">
+       <h2 class="text-2xl font-bold mb-6">Gestión de Inventario</h2>
+       <div class="grid md:grid-cols-2 gap-8">
+        <div>
+         <h3 class="text-lg font-semibold mb-4">Agregar Producto</h3>
+         <form id="inventory-form" onsubmit="addInventoryItem(event)"><input type="text" id="product-name" placeholder="Nombre del producto" class="form-input" required> <input type="number" id="product-quantity" placeholder="Cantidad" class="form-input" required> <input type="number" id="product-price" placeholder="Precio unitario" class="form-input" required> <button type="submit" class="btn-primary w-full py-3 rounded-lg"> Agregar Producto </button>
+         </form>
+        </div>
+        <div>
+         <h3 class="text-lg font-semibold mb-4">Inventario Actual</h3>
+         <div id="inventory-list" class="max-h-80 overflow-y-auto"><!-- Lista de inventario se carga aquí -->
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Pestaña de Reportes -->
+     <div id="admin-content-reports" class="tab-content">
+      <div class="admin-card">
+       <h2 class="text-2xl font-bold mb-6">Reportes Financieros</h2><!-- Estadísticas principales -->
+       <div class="grid md:grid-cols-3 gap-4 mb-8">
+        <div class="stats-card stats-green">
+         <h3 class="font-semibold text-lg">Ventas Hoy</h3>
+         <p id="today-sales" class="text-3xl font-bold">$0</p>
+        </div>
+        <div class="stats-card stats-blue">
+         <h3 class="font-semibold text-lg">Ventas Semana</h3>
+         <p id="week-sales" class="text-3xl font-bold">$0</p>
+        </div>
+        <div class="stats-card stats-purple">
+         <h3 class="font-semibold text-lg">Ventas Mes</h3>
+         <p id="month-sales" class="text-3xl font-bold">$0</p>
+        </div>
+       </div><!-- Gastos y ganancias -->
+       <div class="grid md:grid-cols-2 gap-4 mb-8">
+        <div class="stats-card stats-yellow">
+         <h3 class="font-semibold text-lg">Gastos del Mes</h3>
+         <p id="month-expenses" class="text-3xl font-bold">$0</p><button onclick="showAdminTab('sales')" class="btn-secondary mt-3 px-4 py-2 rounded-lg text-sm"> Agregar Gasto </button>
+        </div>
+        <div class="stats-card stats-red">
+         <h3 class="font-semibold text-lg">Ganancia Neta</h3>
+         <p id="net-profit" class="text-3xl font-bold">$0</p>
+        </div>
+       </div><!-- Reportes por días -->
+       <div class="admin-card mb-6">
+        <h3 class="text-lg font-semibold mb-4">Resumen por Días</h3>
+        <div id="daily-reports" class="max-h-80 overflow-y-auto"><!-- Lista de reportes diarios se carga aquí -->
+        </div>
+       </div><!-- Productos más vendidos -->
+       <div class="admin-card">
+        <h3 class="text-lg font-semibold mb-4">Productos Más Vendidos</h3>
+        <div id="top-products" class="space-y-2"><!-- Lista de productos más vendidos -->
+        </div>
+       </div>
+      </div>
+     </div><!-- Pestaña de Precios -->
+     <div id="admin-content-prices" class="tab-content">
+      <div class="admin-card">
+       <h2 class="text-2xl font-bold mb-6">Configuración de Precios</h2>
+       <div class="grid md:grid-cols-2 gap-8">
+        <div>
+         <h3 class="text-lg font-semibold mb-4">Servicios y Precios</h3>
+         <div id="services-list" class="space-y-3 max-h-80 overflow-y-auto"><!-- Lista de servicios se carga aquí -->
+         </div>
+        </div>
+        <div>
+         <h3 class="text-lg font-semibold mb-4">Actualizar Precio</h3>
+         <form id="price-form" onsubmit="updatePrice(event)"><select id="service-select" class="form-input" required> <option value="">Seleccionar servicio</option> </select> <input type="number" id="new-price" placeholder="Nuevo precio" class="form-input" required> <button type="submit" class="btn-primary w-full py-3 rounded-lg"> Actualizar Precio </button>
+         </form>
+         <div class="mt-6">
+          <h4 class="font-semibold mb-3">Agregar Nuevo Servicio</h4>
+          <form id="new-service-form" onsubmit="addNewService(event)"><input type="text" id="new-service-name" placeholder="Nombre del servicio" class="form-input" required> <input type="number" id="new-service-price" placeholder="Precio del servicio" class="form-input" required> <button type="submit" class="btn-secondary w-full py-3 rounded-lg"> Agregar Servicio </button>
+          </form>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Pestaña de Respaldo -->
+     <div id="admin-content-backup" class="tab-content">
+      <div class="admin-card">
+       <h2 class="text-2xl font-bold mb-6">Respaldo de Datos</h2>
+       <div class="grid md:grid-cols-2 gap-8">
+        <div class="stats-card stats-blue">
+         <h3 class="font-semibold text-xl mb-3">Crear Respaldo</h3>
+         <p class="text-sm mb-4">Guarda una copia de seguridad de todos los datos del sistema</p><button onclick="createBackup()" class="btn-primary px-6 py-3 rounded-lg"> 📥 Descargar Respaldo </button>
+        </div>
+        <div class="stats-card stats-green">
+         <h3 class="font-semibold text-xl mb-3">Restaurar Datos</h3>
+         <p class="text-sm mb-4">Restaura los datos desde un archivo de respaldo</p><input type="file" id="backup-file" accept=".json" class="form-input"> <button onclick="restoreBackup()" class="btn-secondary px-6 py-3 rounded-lg"> 📤 Restaurar Respaldo </button>
+        </div>
+       </div>
+       <div class="mt-8 stats-card stats-yellow">
+        <h3 class="font-semibold text-xl mb-3">Información del Sistema</h3>
+        <div class="grid md:grid-cols-3 gap-4 text-sm">
+         <div><strong>Productos en inventario:</strong> <span id="total-products">0</span>
+         </div>
+         <div><strong>Ventas registradas:</strong> <span id="total-sales">0</span>
+         </div>
+         <div><strong>Último respaldo:</strong> <span id="last-backup">Nunca</span>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Pie de página profesional -->
+  <footer class="bg-gray-900 text-white py-12 mt-16 relative">
+   <div class="container"><!-- Línea divisoria -->
+    <div class="border-t border-gray-700 pt-6">
+     <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center gap-2 mb-4 md:mb-0"><span class="text-sm text-gray-400">© 2025 Todos los derechos reservados</span> <span class="text-gray-600">®</span>
+      </div>
+      <div class="flex items-center gap-2"><span class="text-sm text-gray-400">Desarrollado por</span> <a href="#" onclick="openLocalizateMerida()" class="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"> LocalizateMérida </a> <span class="text-cyan-400">🌐</span>
+      </div>
+     </div>
+    </div>
+   </div><!-- Botón de administrador fijo en el footer -->
+   <div class="absolute bottom-6 left-6"><button onclick="openAdminPanel()" class="bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110">
+     <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+     </svg></button>
+   </div>
+  </footer><!-- Botón subir al inicio - aparece solo cuando se ve el footer -->
+  <div id="scroll-to-top-btn" class="fixed bottom-6 right-6 z-50 opacity-0 transform translate-y-4 transition-all duration-300 pointer-events-none"><button onclick="scrollToTop()" class="bg-cyan-500 hover:bg-cyan-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110">
+    <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+    </svg></button>
+  </div>
+  <script>
+        // Configuración por defecto
+        const defaultConfig = {
+            company_name: "PUBLISOLUM",
+            company_tagline: "Tu imaginación, nuestra realidad",
+            phone_number: "+584165029869",
+            whatsapp_number: "+584165029869",
+            email_address: "info@impresionesdigitales.com",
+            address: "Calle 123 #45-67, Ciudad",
+            instagram_user: "PUBLISOLUM",
+            maps_link: "https://maps.app.goo.gl/JAeetJ1VxisDwv416"
+        };
+
+        // Productos del catálogo con formato vertical optimizado
+        const catalogProducts = [
+            {
+                name: "Tarjetas de Presentación",
+                image: "img/prod5.jpeg",
+                alt: "Tarjetas de presentación",
+                price: "Desde $8",
+                emoji: "💳",
+                gradient: "from-cyan-100 to-pink-100"
+            },
+            {
+                name: "Carpetas corporativas",
+                image: "img/prod4.jpeg",
+                alt: "Carrpetas corporativa",
+                price: "Desde $5 c/u",
+                emoji: "📄",
+                gradient: "from-pink-100 to-cyan-100"
+            },
+            {
+                name: "Habladores",
+                image: "img/prod6.jpeg",
+                alt: "habladores",
+                price: "Desde $18",
+                emoji: "🏷️",
+                gradient: "from-cyan-100 to-pink-100"
+            },
+            {
+                name: "Reglas de encuadernacion",
+                image: "img/prod1.jpeg",
+                alt: "Regras de Encuadernacion ",
+                price: "Desde $18",
+                emoji: "👕",
+                gradient: "from-pink-100 to-cyan-100"
+            },
+            {
+                name: "Pendones",
+                image: "img/prod2.jpeg",
+                alt: "Stickers",
+                price: "Desde $18 ",
+                emoji: "🏷️",
+                gradient: "from-cyan-100 to-pink-100"
+            },
+            {
+                name: "Avisos luminosos",
+                image: "img/prod8.jpeg",
+                alt: "Impresión 3D",
+                price: "Desde $40",
+                emoji: "🔧",
+                gradient: "from-pink-100 to-cyan-100"
+            }
+        ];
+
+        // Variables globales para el sistema de administración
+        let inventory = JSON.parse(localStorage.getItem('admin_inventory') || '[]');
+        let incomes = JSON.parse(localStorage.getItem('admin_incomes') || '[]');
+        let expenses = JSON.parse(localStorage.getItem('admin_expenses') || '[]');
+        let services = JSON.parse(localStorage.getItem('admin_services') || '[]');
+
+        // Logos de aliados comerciales (20 logos)
+        const partnerLogos = [
+            { name: 'Empresa Ejemplo 1', logo: 'img/logo1.png' },
+            { name: 'Empresa Ejemplo 2', logo: 'img/logo2.png' },
+            { name: 'Empresa Ejemplo 3', logo: 'img/logo3.png' },
+            { name: 'Empresa Ejemplo 4', logo: 'img/logo4.png' },
+            { name: 'Empresa Ejemplo 5', logo: 'img/logo5.png' },
+            { name: 'Empresa Ejemplo 6', logo: 'img/logo6.png' },
+            { name: 'Empresa Ejemplo 7', logo: 'img/logo7.png' },
+            { name: 'Empresa Ejemplo 8', logo: 'img/logo8.png' },
+            { name: 'Empresa Ejemplo 9', logo: 'img/logo9.png' },
+            { name: 'Empresa Ejemplo 10', logo: 'img/logo10.png' },
+            { name: 'Empresa Ejemplo 11', logo: 'img/logo11.png' },
+            { name: 'Empresa Ejemplo 12', logo: 'img/logo12.png' },
+            { name: 'Empresa Ejemplo 13', logo: 'img/logo13.png' },
+            { name: 'Empresa Ejemplo 14', logo: 'img/logo16.png' },
+			{ name: 'Empresa Ejemplo 14', logo: 'img/logo18.png' },
+            { name: 'Empresa Ejemplo 20', logo: 'img/logo17.jpg' }
+        ];
+
+        // Inicializar servicios por defecto si no existen
+        if (services.length === 0) {
+            services = [
+                { name: 'Tarjetas de Presentación', price: 15000 },
+                { name: 'Volantes', price: 200 },
+                { name: 'Banners', price: 25000 },
+                { name: 'Sublimación', price: 18000 },
+                { name: 'Stickers', price: 500 },
+                { name: 'Impresión 3D', price: 8000 },
+                { name: 'Laminado', price: 2000 },
+                { name: 'Encuadernado', price: 5000 }
+            ];
+            localStorage.setItem('admin_services', JSON.stringify(services));
+        }
+
+        // Datos de servicios para el modal
+        const serviceDetails = {
+            impresiones: {
+                title: "Impresiones Digitales",
+                icon: "🖨️",
+                description: "Ofrecemos impresión de alta calidad en diversos materiales:",
+                items: [
+                    "Bond - Para documentos y textos",
+                    "Cartulina - Ideal para tarjetas y folletos",
+                    "Opalina - Acabado elegante y profesional",
+                    "Sulfato - Resistente y duradero",
+                    "Glasse - Acabado brillante premium",
+                    "Autoadhesivo - Stickers y etiquetas",
+                    "Fotográfico - Calidad profesional para fotos",
+                    "Vinil - Para exteriores e interiores",
+                    "Lona - Gran formato y resistencia",
+                    "Banner - Publicidad de gran impacto",
+                    "Pergamino - Acabado vintage y elegante"
+                ]
+            },
+            corte: {
+                title: "Corte y Diseño",
+                icon: "✂️",
+                description: "Servicios especializados de corte y diseño:",
+                items: [
+                    "Corte de vinil adhesivo",
+                    "Stickers personalizados",
+                    "Cajas troqueladas",
+                    "Diseño gráfico profesional",
+                    "Ploteo de precisión",
+                    "Formas personalizadas"
+                ]
+            },
+            sublimacion: {
+                title: "Sublimación y Personalización",
+                icon: "🎨",
+                description: "Técnicas avanzadas de personalización:",
+                items: [
+                    "Sublimación en textiles",
+                    "DTF (Direct to Film)",
+                    "Vinil textil",
+                    "Mugs y tazas",
+                    "Camisetas y uniformes",
+                    "Objetos promocionales"
+                ]
+            },
+            impresion3d: {
+                title: "Impresión 3D",
+                icon: "🔧",
+                description: "Tecnología 3D para proyectos únicos:",
+                items: [
+                    "Prototipos funcionales",
+                    "Llaveros personalizados",
+                    "Figuras y miniaturas",
+                    "Piezas de repuesto",
+                    "Objetos decorativos",
+                    "Modelos arquitectónicos"
+                ]
+            },
+            corporativos: {
+                title: "Productos Corporativos",
+                icon: "💼",
+                description: "Imagen corporativa profesional:",
+                items: [
+                    "Tarjetas de presentación",
+                    "Agendas personalizadas",
+                    "Carpetas corporativas",
+                    "Carnets de identificación",
+                    "Habladores de mesa",
+                    "Papelería empresarial"
+                ]
+            },
+            adicionales: {
+                title: "Servicios Adicionales",
+                icon: "⚙️",
+                description: "Servicios complementarios:",
+                items: [
+                    "Encuadernado profesional",
+                    "Anillado en espiral",
+                    "Laminado protector",
+                    "Plastificado",
+                    "Avisos corpóreos",
+                    "Pendones publicitarios",
+                    "Menús digitales e impresos"
+                ]
+            }
+        };
+
+        // Función para mezclar array aleatoriamente (Fisher-Yates)
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Función para inicializar el catálogo de productos con formato vertical 300x400px
+        function initializeProductsCatalog() {
+            const catalogContainer = document.getElementById('catalog-container');
+            if (!catalogContainer) return;
+
+            // Mezclar productos aleatoriamente
+            const shuffledProducts = shuffleArray(catalogProducts);
+
+            // Generar HTML de productos con formato vertical optimizado
+            const productsHTML = shuffledProducts.map(product => `
+                <div class="catalog-item">
+                    <div class="catalog-image-container">
+                        <img src="${product.image}" alt="${product.alt}" class="max-w-full max-h-full object-contain"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-full h-full bg-gradient-to-br ${product.gradient} flex items-center justify-center rounded-lg" style="display: none;">
+                            <span class="text-5xl">${product.emoji}</span>
+                        </div>
+                    </div>
+                    <div class="catalog-content">
+                        <h4>${product.name}</h4>
+                        <p>${product.price}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            catalogContainer.innerHTML = productsHTML;
+        }
+
+        // Funciones principales del sitio web
+        function showServiceDetails(serviceKey) {
+            const service = serviceDetails[serviceKey];
+            if (!service) return;
+
+            document.getElementById('modal-title').textContent = service.title;
+            
+            const content = `
+                <div class="text-center mb-4">
+                    <span class="text-4xl">${service.icon}</span>
+                </div>
+                <p class="mb-4">${service.description}</p>
+                <ul class="space-y-2">
+                    ${service.items.map(item => `
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-sm">${item}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+            
+            document.getElementById('modal-content').innerHTML = content;
+            showModal();
+        }
+
+        function showAllServices() {
+            document.getElementById('modal-title').textContent = "Todos Nuestros Servicios";
+            
+            const content = `
+                <div class="space-y-4">
+                    ${Object.entries(serviceDetails).map(([key, service]) => `
+                        <div class="border-l-4 border-cyan-300 pl-4">
+                            <h4 class="font-semibold flex items-center gap-2">
+                                <span>${service.icon}</span>
+                                ${service.title}
+                            </h4>
+                            <p class="text-sm text-gray-600 mt-1">${service.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('modal-content').innerHTML = content;
+            showModal();
+        }
+
+        function showModal() {
+            const modal = document.getElementById('service-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('service-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function contactWhatsApp() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const phone = config.whatsapp_number || defaultConfig.whatsapp_number;
+            const message = encodeURIComponent("Hola! Me interesa conocer más sobre sus servicios de impresión.");
+            const cleanPhone = phone.replace(/[^\d]/g, '');
+            window.open(`https://wa.me/${cleanPhone}?text=${message}`, '_blank', 'noopener,noreferrer');
+        }
+
+        function contactPhone() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const phone = config.phone_number || defaultConfig.phone_number;
+            window.open(`tel:${phone}`, '_self');
+        }
+
+        function openInstagram() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const username = config.instagram_user || defaultConfig.instagram_user;
+            window.open(`https://www.instagram.com/${username}/`, '_blank', 'noopener,noreferrer');
+        }
+
+        function openLocation() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const mapsLink = config.maps_link || defaultConfig.maps_link;
+            window.open(mapsLink, '_blank', 'noopener,noreferrer');
+        }
+
+        function openLocalizateMerida() {
+            // Aquí se puede vincular a la subpágina del proyecto LocalizateMérida
+            window.open('#localizate-merida', '_blank', 'noopener,noreferrer');
+            showNotification('Próximamente: Página de LocalizateMérida', 'info');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Funciones del carrusel
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function previousSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('carousel-track');
+            const dots = document.querySelectorAll('.carousel-dot');
+            
+            if (track) {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.style.backgroundColor = 'rgba(255, 255, 255, 1)';
+                } else {
+                    dot.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+                }
+            });
+        }
+
+        function startCarouselAutoplay() {
+            setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+
+        // Función para inicializar el carrusel de logos de aliados
+        function initializePartnersCarousel() {
+            const carousel = document.getElementById('partners-carousel');
+            if (!carousel) return;
+            
+            // Mezclar logos aleatoriamente
+            const shuffledLogos = [...partnerLogos].sort(() => Math.random() - 0.5);
+            
+            // Crear el contenido del carrusel (duplicar para efecto infinito)
+            const logosHTML = shuffledLogos.map(partner => `
+                <div class="partner-logo">
+                    <img src="${partner.logo}" alt="${partner.name}" class="max-w-full max-h-full object-contain"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-gray-500" style="display: none;">
+                        <span class="text-2xl">🏢</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Duplicar el contenido para crear el efecto infinito
+            carousel.innerHTML = logosHTML + logosHTML;
+        }
+
+        // Funciones del panel de administración
+        function openAdminPanel() {
+            // Crear modal de autenticación
+            const authModal = document.createElement('div');
+            authModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            authModal.innerHTML = `
+                <div class="bg-white rounded-lg p-8 max-w-sm mx-4 shadow-2xl">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Acceso Restringido</h3>
+                        <p class="text-gray-600 text-sm">Ingresa la clave de administrador</p>
+                    </div>
+                    <form id="auth-form" onsubmit="validateAdminAccess(event)">
+                        <input type="password" id="admin-password" placeholder="Clave de acceso" 
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-center text-lg font-mono tracking-widest focus:border-cyan-500 focus:outline-none mb-4" 
+                               maxlength="4" required>
+                        <div class="flex gap-3">
+                            <button type="submit" class="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg flex-1 font-semibold transition-colors">
+                                🔓 Acceder
+                            </button>
+                            <button type="button" onclick="cancelAdminAccess()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg flex-1 font-semibold transition-colors">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                    <div class="mt-4 text-center">
+                        <p class="text-xs text-gray-500">⚠️ Solo personal autorizado</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(authModal);
+            window.currentAuthModal = authModal;
+            
+            // Enfocar el campo de contraseña
+            setTimeout(() => {
+                document.getElementById('admin-password').focus();
+            }, 100);
+        }
+
+        function validateAdminAccess(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('admin-password').value;
+            const correctPassword = '1235';
+            
+            if (password === correctPassword) {
+                // Acceso correcto
+                cancelAdminAccess();
+                document.getElementById('admin-panel').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                
+                // Mostrar pestaña de ventas por defecto
+                showAdminTab('sales');
+                
+                // Mostrar notificación de acceso exitoso
+                showNotification('✅ Acceso autorizado - Bienvenido al panel', 'success');
+            } else {
+                // Acceso incorrecto
+                const passwordField = document.getElementById('admin-password');
+                passwordField.value = '';
+                passwordField.style.borderColor = '#ef4444';
+                passwordField.style.backgroundColor = '#fef2f2';
+                
+                // Efecto de vibración
+                passwordField.style.animation = 'shake 0.5s ease-in-out';
+                
+                setTimeout(() => {
+                    passwordField.style.borderColor = '#d1d5db';
+                    passwordField.style.backgroundColor = 'white';
+                    passwordField.style.animation = '';
+                }, 1000);
+                
+                showNotification('❌ Clave incorrecta - Acceso denegado', 'error');
+            }
+        }
+
+        function cancelAdminAccess() {
+            if (window.currentAuthModal) {
+                document.body.removeChild(window.currentAuthModal);
+                window.currentAuthModal = null;
+            }
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showAdminTab(tabName) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Desactivar todos los botones
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                if (!btn.onclick || btn.onclick.toString().includes('openCalculator')) return;
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            });
+            
+            // Mostrar pestaña seleccionada
+            document.getElementById(`admin-content-${tabName}`).classList.add('active');
+            document.getElementById(`admin-tab-${tabName}`).classList.add('active');
+            document.getElementById(`admin-tab-${tabName}`).classList.remove('inactive');
+            
+            // Cargar datos específicos de la pestaña
+            switch(tabName) {
+                case 'inventory':
+                    loadInventoryData();
+                    break;
+                case 'sales':
+                    loadSalesData();
+                    break;
+                case 'reports':
+                    loadReportsData();
+                    break;
+                case 'prices':
+                    loadPricesData();
+                    break;
+                case 'backup':
+                    updateSystemInfo();
+                    break;
+            }
+        }
+
+        // Funciones de inventario
+        function addInventoryItem(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('product-name').value;
+            const quantity = parseInt(document.getElementById('product-quantity').value);
+            const price = parseFloat(document.getElementById('product-price').value);
+            
+            if (name && quantity && price) {
+                const newItem = {
+                    id: Date.now(),
+                    name: name,
+                    quantity: quantity,
+                    price: price,
+                    dateAdded: new Date().toISOString()
+                };
+                
+                inventory.push(newItem);
+                localStorage.setItem('admin_inventory', JSON.stringify(inventory));
+                loadInventoryData();
+                document.getElementById('inventory-form').reset();
+                
+                showNotification('Producto agregado correctamente', 'success');
+            }
+        }
+
+        function loadInventoryData() {
+            const list = document.getElementById('inventory-list');
+            if (!list) return;
+            
+            if (inventory.length === 0) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-4">No hay productos en inventario</p>';
+                return;
+            }
+            
+            list.innerHTML = inventory.map(item => `
+                <div class="data-item">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small class="text-gray-600">Cantidad: ${item.quantity} | Precio: $${item.price.toLocaleString()}</small>
+                    </div>
+                    <button onclick="deleteInventoryItem(${item.id})" class="delete-btn">
+                        Eliminar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function deleteInventoryItem(id) {
+            if (confirm('¿Estás seguro de eliminar este producto?')) {
+                inventory = inventory.filter(item => item.id !== id);
+                localStorage.setItem('admin_inventory', JSON.stringify(inventory));
+                loadInventoryData();
+                showNotification('Producto eliminado', 'success');
+            }
+        }
+
+        // Funciones de movimientos (entradas y salidas)
+        function addIncome(event) {
+            event.preventDefault();
+            
+            const detail = document.getElementById('income-detail').value;
+            const amount = parseFloat(document.getElementById('income-amount').value);
+            
+            if (detail && amount) {
+                const newIncome = {
+                    id: Date.now(),
+                    detail: detail,
+                    amount: amount,
+                    type: 'income',
+                    date: new Date().toISOString()
+                };
+                
+                incomes.push(newIncome);
+                localStorage.setItem('admin_incomes', JSON.stringify(incomes));
+                loadSalesData();
+                loadReportsData();
+                document.getElementById('income-form').reset();
+                
+                showNotification('Entrada registrada correctamente', 'success');
+            }
+        }
+
+        function addExpense(event) {
+            event.preventDefault();
+            
+            const detail = document.getElementById('expense-detail').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            
+            if (detail && amount) {
+                const newExpense = {
+                    id: Date.now(),
+                    detail: detail,
+                    amount: amount,
+                    type: 'expense',
+                    date: new Date().toISOString()
+                };
+                
+                expenses.push(newExpense);
+                localStorage.setItem('admin_expenses', JSON.stringify(expenses));
+                loadSalesData();
+                loadReportsData();
+                document.getElementById('expense-form').reset();
+                
+                showNotification('Salida registrada correctamente', 'success');
+            }
+        }
+
+        function loadSalesData() {
+            const list = document.getElementById('movements-list');
+            
+            if (!list) return;
+            
+            // Obtener movimientos del día
+            const today = new Date().toDateString();
+            const todayIncomes = incomes.filter(income => new Date(income.date).toDateString() === today);
+            const todayExpenses = expenses.filter(expense => new Date(expense.date).toDateString() === today);
+            
+            // Combinar y ordenar por fecha
+            const allMovements = [
+                ...todayIncomes.map(item => ({...item, type: 'income'})),
+                ...todayExpenses.map(item => ({...item, type: 'expense'}))
+            ].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            if (allMovements.length === 0) {
+                list.innerHTML = '<p class="text-gray-500 text-center py-4">No hay movimientos registrados hoy</p>';
+            } else {
+                list.innerHTML = allMovements.map(movement => `
+                    <div class="data-item ${movement.type === 'income' ? 'border-l-4 border-green-500' : 'border-l-4 border-red-500'}">
+                        <div>
+                            <strong>${movement.detail}</strong><br>
+                            <small class="text-gray-600">
+                                ${new Date(movement.date).toLocaleTimeString()} - 
+                                <span class="${movement.type === 'income' ? 'text-green-600' : 'text-red-600'}">
+                                    ${movement.type === 'income' ? '+' : '-'}$${movement.amount.toLocaleString()}
+                                </span>
+                            </small>
+                        </div>
+                        <button onclick="deleteMovement('${movement.type}', ${movement.id})" class="delete-btn">
+                            Eliminar
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            // Actualizar resumen del día
+            updateDailySummary();
+        }
+
+        function updateDailySummary() {
+            const today = new Date().toDateString();
+            const todayIncomes = incomes.filter(income => new Date(income.date).toDateString() === today);
+            const todayExpenses = expenses.filter(expense => new Date(expense.date).toDateString() === today);
+            
+            const totalIncome = todayIncomes.reduce((sum, income) => sum + income.amount, 0);
+            const totalExpenses = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const balance = totalIncome - totalExpenses;
+            
+            const dailyIncomeElement = document.getElementById('daily-income');
+            const dailyExpensesElement = document.getElementById('daily-expenses');
+            const dailyBalanceElement = document.getElementById('daily-balance');
+            
+            if (dailyIncomeElement) dailyIncomeElement.textContent = `$${totalIncome.toLocaleString()}`;
+            if (dailyExpensesElement) dailyExpensesElement.textContent = `$${totalExpenses.toLocaleString()}`;
+            if (dailyBalanceElement) {
+                dailyBalanceElement.textContent = `$${balance.toLocaleString()}`;
+                dailyBalanceElement.className = `text-xl font-bold ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`;
+            }
+        }
+
+        function deleteMovement(type, id) {
+            // Crear confirmación personalizada inline
+            const confirmDiv = document.createElement('div');
+            confirmDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            confirmDiv.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-sm mx-4 shadow-2xl">
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Confirmar Eliminación</h3>
+                        <p class="text-gray-600">¿Estás seguro de eliminar este ${type === 'income' ? 'ingreso' : 'gasto'}?</p>
+                        <p class="text-sm text-gray-500 mt-2">Esta acción no se puede deshacer</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="confirmDeleteMovement('${type}', ${id})" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg flex-1 font-semibold transition-colors">
+                            🗑️ Eliminar
+                        </button>
+                        <button onclick="cancelDeleteMovement()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg flex-1 font-semibold transition-colors">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDiv);
+            window.currentConfirmDiv = confirmDiv;
+        }
+
+        function confirmDeleteMovement(type, id) {
+            if (type === 'income') {
+                incomes = incomes.filter(income => income.id !== id);
+                localStorage.setItem('admin_incomes', JSON.stringify(incomes));
+                showNotification('✅ Entrada eliminada correctamente', 'success');
+            } else if (type === 'expense') {
+                expenses = expenses.filter(expense => expense.id !== id);
+                localStorage.setItem('admin_expenses', JSON.stringify(expenses));
+                showNotification('✅ Salida eliminada correctamente', 'success');
+            }
+            
+            // Recargar datos y cerrar modal
+            loadSalesData();
+            loadReportsData();
+            cancelDeleteMovement();
+        }
+
+        function cancelDeleteMovement() {
+            if (window.currentConfirmDiv) {
+                document.body.removeChild(window.currentConfirmDiv);
+                window.currentConfirmDiv = null;
+            }
+        }
+
+
+
+        // Funciones de reportes
+        function loadReportsData() {
+            const today = new Date();
+            const todayStr = today.toDateString();
+            
+            // Calcular inicio de semana (domingo)
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay());
+            
+            // Calcular inicio de mes
+            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            
+            // Calcular ingresos
+            const todayIncomes = incomes.filter(income => new Date(income.date).toDateString() === todayStr)
+                .reduce((sum, income) => sum + income.amount, 0);
+            
+            const weekIncomes = incomes.filter(income => new Date(income.date) >= weekStart)
+                .reduce((sum, income) => sum + income.amount, 0);
+            
+            const monthIncomes = incomes.filter(income => new Date(income.date) >= monthStart)
+                .reduce((sum, income) => sum + income.amount, 0);
+            
+            // Calcular gastos del mes
+            const monthExpenses = expenses.filter(expense => new Date(expense.date) >= monthStart)
+                .reduce((sum, expense) => sum + expense.amount, 0);
+            
+            // Actualizar elementos
+            const todayElement = document.getElementById('today-sales');
+            const weekElement = document.getElementById('week-sales');
+            const monthElement = document.getElementById('month-sales');
+            const expensesElement = document.getElementById('month-expenses');
+            const profitElement = document.getElementById('net-profit');
+            
+            if (todayElement) todayElement.textContent = `$${todayIncomes.toLocaleString()}`;
+            if (weekElement) weekElement.textContent = `$${weekIncomes.toLocaleString()}`;
+            if (monthElement) monthElement.textContent = `$${monthIncomes.toLocaleString()}`;
+            if (expensesElement) expensesElement.textContent = `$${monthExpenses.toLocaleString()}`;
+            if (profitElement) profitElement.textContent = `$${(monthIncomes - monthExpenses).toLocaleString()}`;
+            
+            // Cargar servicios más vendidos
+            loadTopServices();
+            
+            // Cargar reportes diarios
+            loadDailyReports();
+        }
+
+        function loadDailyReports() {
+            const dailyReportsElement = document.getElementById('daily-reports');
+            if (!dailyReportsElement) return;
+            
+            // Agrupar movimientos por día
+            const dailyData = {};
+            
+            // Procesar ingresos
+            incomes.forEach(income => {
+                const dateKey = new Date(income.date).toDateString();
+                if (!dailyData[dateKey]) {
+                    dailyData[dateKey] = { income: 0, expenses: 0, date: new Date(income.date) };
+                }
+                dailyData[dateKey].income += income.amount;
+            });
+            
+            // Procesar gastos
+            expenses.forEach(expense => {
+                const dateKey = new Date(expense.date).toDateString();
+                if (!dailyData[dateKey]) {
+                    dailyData[dateKey] = { income: 0, expenses: 0, date: new Date(expense.date) };
+                }
+                dailyData[dateKey].expenses += expense.amount;
+            });
+            
+            // Convertir a array y ordenar por fecha (más reciente primero)
+            const sortedDays = Object.values(dailyData)
+                .sort((a, b) => b.date - a.date)
+                .slice(0, 30); // Mostrar últimos 30 días
+            
+            if (sortedDays.length === 0) {
+                dailyReportsElement.innerHTML = '<p class="text-gray-500 text-center py-4">No hay movimientos registrados</p>';
+                return;
+            }
+            
+            dailyReportsElement.innerHTML = sortedDays.map(day => {
+                const balance = day.income - day.expenses;
+                const dateStr = day.date.toLocaleDateString('es-ES', { 
+                    day: 'numeric', 
+                    month: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                return `
+                    <div class="data-item border-l-4 ${balance >= 0 ? 'border-green-500' : 'border-red-500'}">
+                        <div>
+                            <strong>${dateStr}</strong><br>
+                            <div class="grid grid-cols-3 gap-2 text-sm mt-1">
+                                <span class="text-green-600">Entradas: $${day.income.toLocaleString()}</span>
+                                <span class="text-red-600">Salidas: $${day.expenses.toLocaleString()}</span>
+                                <span class="${balance >= 0 ? 'text-green-600' : 'text-red-600'} font-semibold">
+                                    Balance: $${balance.toLocaleString()}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadTopServices() {
+            const topProductsElement = document.getElementById('top-products');
+            if (!topProductsElement) return;
+            
+            // Contar ingresos por servicio/producto
+            const serviceSales = {};
+            incomes.forEach(income => {
+                if (serviceSales[income.detail]) {
+                    serviceSales[income.detail] += income.amount;
+                } else {
+                    serviceSales[income.detail] = income.amount;
+                }
+            });
+            
+            // Ordenar por monto total
+            const sortedServices = Object.entries(serviceSales)
+                .sort(([,a], [,b]) => b - a)
+                .slice(0, 5);
+            
+            if (sortedServices.length === 0) {
+                topProductsElement.innerHTML = '<p class="text-gray-500 text-center py-4">No hay datos de ingresos</p>';
+                return;
+            }
+            
+            topProductsElement.innerHTML = sortedServices.map(([service, amount]) => `
+                <div class="data-item">
+                    <span><strong>${service}</strong></span>
+                    <span class="text-green-600 font-semibold">$${amount.toLocaleString()}</span>
+                </div>
+            `).join('');
+        }
+
+
+
+        // Funciones de precios
+        function loadPricesData() {
+            const list = document.getElementById('services-list');
+            const select = document.getElementById('service-select');
+            
+            if (!list || !select) return;
+            
+            // Cargar lista de servicios
+            list.innerHTML = services.map(service => `
+                <div class="data-item">
+                    <span><strong>${service.name}</strong></span>
+                    <span class="text-green-600 font-semibold">$${service.price.toLocaleString()}</span>
+                </div>
+            `).join('');
+            
+            // Cargar select de servicios
+            select.innerHTML = '<option value="">Seleccionar servicio</option>' +
+                services.map((service, index) => `<option value="${index}">${service.name}</option>`).join('');
+        }
+
+        function updatePrice(event) {
+            event.preventDefault();
+            
+            const serviceIndex = document.getElementById('service-select').value;
+            const newPrice = parseFloat(document.getElementById('new-price').value);
+            
+            if (serviceIndex !== '' && newPrice) {
+                services[serviceIndex].price = newPrice;
+                localStorage.setItem('admin_services', JSON.stringify(services));
+                loadPricesData();
+                document.getElementById('price-form').reset();
+                showNotification('Precio actualizado correctamente', 'success');
+            }
+        }
+
+        function addNewService(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('new-service-name').value;
+            const price = parseFloat(document.getElementById('new-service-price').value);
+            
+            if (name && price) {
+                const newService = {
+                    name: name,
+                    price: price
+                };
+                
+                services.push(newService);
+                localStorage.setItem('admin_services', JSON.stringify(services));
+                loadPricesData();
+                document.getElementById('new-service-form').reset();
+                showNotification('Servicio agregado correctamente', 'success');
+            }
+        }
+
+        // Funciones de respaldo
+        function createBackup() {
+            const backupData = {
+                inventory: inventory,
+                incomes: incomes,
+                expenses: expenses,
+                services: services,
+                backupDate: new Date().toISOString(),
+                version: '2.0'
+            };
+            
+            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup-impresiones-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Guardar fecha del último respaldo
+            localStorage.setItem('last_backup', new Date().toISOString());
+            updateSystemInfo();
+            showNotification('Respaldo creado correctamente', 'success');
+        }
+
+        function restoreBackup() {
+            const fileInput = document.getElementById('backup-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showNotification('Por favor selecciona un archivo de respaldo', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // Validar estructura del respaldo
+                    if (!backupData.inventory || (!backupData.incomes && !backupData.sales) || !backupData.services) {
+                        throw new Error('Archivo de respaldo inválido');
+                    }
+                    
+                    // Confirmar restauración
+                    if (confirm('¿Estás seguro de restaurar los datos? Esto sobrescribirá toda la información actual.')) {
+                        inventory = backupData.inventory || [];
+                        incomes = backupData.incomes || backupData.sales || []; // Compatibilidad con versión anterior
+                        expenses = backupData.expenses || [];
+                        services = backupData.services || [];
+                        
+                        // Guardar en localStorage
+                        localStorage.setItem('admin_inventory', JSON.stringify(inventory));
+                        localStorage.setItem('admin_incomes', JSON.stringify(incomes));
+                        localStorage.setItem('admin_expenses', JSON.stringify(expenses));
+                        localStorage.setItem('admin_services', JSON.stringify(services));
+                        
+                        // Recargar datos
+                        loadInventoryData();
+                        loadSalesData();
+                        loadReportsData();
+                        loadPricesData();
+                        updateSystemInfo();
+                        
+                        showNotification('Datos restaurados correctamente', 'success');
+                        fileInput.value = '';
+                    }
+                } catch (error) {
+                    showNotification('Error al restaurar el archivo: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function updateSystemInfo() {
+            const totalProductsElement = document.getElementById('total-products');
+            const totalSalesElement = document.getElementById('total-sales');
+            const lastBackupElement = document.getElementById('last-backup');
+            
+            if (totalProductsElement) totalProductsElement.textContent = inventory.length;
+            if (totalSalesElement) totalSalesElement.textContent = incomes.length + expenses.length;
+            
+            if (lastBackupElement) {
+                const lastBackup = localStorage.getItem('last_backup');
+                if (lastBackup) {
+                    const date = new Date(lastBackup);
+                    lastBackupElement.textContent = date.toLocaleDateString();
+                } else {
+                    lastBackupElement.textContent = 'Nunca';
+                }
+            }
+        }
+
+
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 transition-all duration-300';
+            
+            switch(type) {
+                case 'success':
+                    notification.style.background = '#10b981';
+                    break;
+                case 'error':
+                    notification.style.background = '#ef4444';
+                    break;
+                default:
+                    notification.style.background = '#3b82f6';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('service-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'service-modal') {
+                closeModal();
+            }
+        });
+
+        // Cerrar panel de admin al hacer clic fuera
+        document.getElementById('admin-panel').addEventListener('click', (e) => {
+            if (e.target.id === 'admin-panel') {
+                closeAdminPanel();
+            }
+        });
+
+        // Configuración del Element SDK
+        async function onConfigChange(config) {
+            const companyName = document.getElementById('company-name');
+            if (companyName) {
+                companyName.textContent = config.company_name || defaultConfig.company_name;
+            }
+
+            const companyTagline = document.getElementById('company-tagline');
+            if (companyTagline) {
+                companyTagline.textContent = config.company_tagline || defaultConfig.company_tagline;
+            }
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["company_name", config.company_name || defaultConfig.company_name],
+                ["company_tagline", config.company_tagline || defaultConfig.company_tagline],
+                ["phone_number", config.phone_number || defaultConfig.phone_number],
+                ["whatsapp_number", config.whatsapp_number || defaultConfig.whatsapp_number],
+                ["email_address", config.email_address || defaultConfig.email_address],
+                ["address", config.address || defaultConfig.address],
+                ["instagram_user", config.instagram_user || defaultConfig.instagram_user],
+                ["maps_link", config.maps_link || defaultConfig.maps_link]
+            ]);
+        }
+
+        // Inicializar Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Función para controlar la visibilidad del botón de scroll
+        function handleScrollButton() {
+            const scrollBtn = document.getElementById('scroll-to-top-btn');
+            const footer = document.querySelector('footer');
+            
+            if (!scrollBtn || !footer) return;
+            
+            const footerRect = footer.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Mostrar botón cuando el footer esté visible
+            if (footerRect.top < windowHeight) {
+                scrollBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                scrollBtn.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            } else {
+                scrollBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                scrollBtn.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            onConfigChange(defaultConfig);
+            startCarouselAutoplay();
+            updateCarousel();
+            initializePartnersCarousel();
+            initializeProductsCatalog();
+            
+            // Agregar listener para el scroll
+            window.addEventListener('scroll', handleScrollButton);
+            
+            // Verificar posición inicial
+            handleScrollButton();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995cc47883ef287c',t:'MTc2MTY3ODk4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
